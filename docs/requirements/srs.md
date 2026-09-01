@@ -6,7 +6,7 @@ Ingeniería de Software 2026 · FIUNER · TP1 — Instancia 1
 | | |
 |---|---|
 | **Proyecto** | PrimerCraft Pro |
-| **Integrantes** | [Integrante 1], [Integrante 2], [Integrante 3] |
+| **Integrantes** | Sara Barbará, Emilia Vergara, Matias Rios |
 | **Versión del documento** | 1.0.0 (línea base TP1) |
 | **Estado** | En revisión para presentación 01/09 |
 

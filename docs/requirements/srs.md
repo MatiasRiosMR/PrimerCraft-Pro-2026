@@ -114,6 +114,7 @@ Si el sistema funciona:
 - Queda un registro **trazable y reproducible** de qué criterios se usaron para elegir cada par de primers — útil tanto para una publicación como para una auditoría interna del laboratorio.
 - El investigador puede diseñar **paneles completos en lote** en vez de repetir el proceso target por target.
 
+
 ### 2.6 Alcance realista
 
 **Lo mínimo que ya demuestra el valor central (MVP del cuatrimestre):**

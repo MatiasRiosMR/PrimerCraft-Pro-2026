@@ -103,3 +103,62 @@ Datos biológicos **públicos**, sin información de pacientes:
 | **Cátedra de Ingeniería de Software (FIUNER)** | Stakeholder del contexto académico | El proyecto se construye como trabajo de la materia; evalúa el proceso, no solo el producto. |
 
 > No hay "perfiles" de usuario distintos por tipo de PCR: el sistema es el mismo para cualquier investigador, y el tipo de ensayo (PCR simple, qPCR, panel) es un **parámetro de la corrida**, no un rol de usuario distinto.
+
+### 2.5 Valor
+
+Si el sistema funciona:
+
+- Bajan los **fallos experimentales** en PCR/qPCR causados por un mal diseño de primer.
+- Se ahorran **reactivos**: menos oligonucleótidos sintetizados que terminan sin usarse porque fallan.
+- El diseño pasa de **horas de cálculo manual** a **segundos de sugerencia automática**.
+- Queda un registro **trazable y reproducible** de qué criterios se usaron para elegir cada par de primers — útil tanto para una publicación como para una auditoría interna del laboratorio.
+- El investigador puede diseñar **paneles completos en lote** en vez de repetir el proceso target por target.
+
+### 2.6 Alcance realista
+
+**Lo mínimo que ya demuestra el valor central (MVP del cuatrimestre):**
+
+- Cargar / ingresar un target (identificador de gen/región o secuencia FASTA propia, con validación de caracteres IUPAC).
+- Traer la secuencia de referencia por API (NCBI Entrez).
+- Calcular propiedades termodinámicas reales: Tm por Nearest-Neighbor, %GC, GC clamp en el extremo 3', penalización por repeticiones.
+- Chequear estructuras secundarias básicas (horquillas y dímeros) calculando su ΔG.
+- Verificar especificidad contra el genoma (NCBI BLAST), respetando los límites de uso públicos mediante cola y aviso de espera.
+- Cruzar la región de anclaje contra variantes poblacionales conocidas (dbSNP/Ensembl) — **este cruce es el diferencial frente al resto del mercado, así que se prioriza dentro del MVP**.
+- Puntuar y sugerir automáticamente los mejores pares Forward/Reverse, con **scoring desglosado y configurable**.
+- Simular el amplicón in silico de forma básica (secuencia teórica y tamaño esperado en pb).
+- Diseñar primers **en lote** para una lista de targets (panel), vía la API propia de PrimerCraft Pro.
+- Validar un primer ya diseñado (ingresado manualmente) y devolver sus métricas, especificidad y exposición a variantes.
+- Registrar de forma versionada los parámetros, umbrales y versión de datos de variantes usados en cada corrida.
+
+**Lo que queda deliberadamente afuera:**
+
+| Fuera de alcance | Motivo |
+|---|---|
+| Integración *en vivo* con la API de NCBI BLAST | Manejar bien sus límites de uso lleva tiempo; en el MVP se usa una simulación local (mock) documentada. La integración real llega en TP3. |
+| Módulo de diseño de Multiplex PCR | Complejidad alta; candidato para el Trabajo Integrador. |
+| Diseño de sondas fluorescentes TaqMan para qPCR | Fuera del núcleo de valor de la primera iteración. |
+| Diseño en lote de paneles grandes con retroalimentación de laboratorio real (CU-04) | Requiere modelar el historial de corridas y un circuito de aprendizaje; candidato para TP3 en adelante. |
+| Perfiles de scoring pre-armados (exploratorio / qPCR / diagnóstico) | Extensión posterior; el MVP fija un único perfil por defecto con pesos ajustables. |
+| Explicación del resultado en lenguaje natural | Extensión posterior. |
+| Aviso de superposición entre primers de distintos ensayos del mismo laboratorio | Extensión posterior. |
+| Modo "para aprender" (mostrar el cálculo intermedio de Tm/ΔG paso a paso) | Extensión posterior; diferencial académico, no de valor central. |
+
+### 2.7 Riesgos de fracaso y mitigación
+
+De los problemas típicos de requerimientos (visión poco clara de los stakeholders, incertidumbre al inicio, cambio de requerimientos, negociación entre stakeholders con intereses distintos), el más probable en este proyecto es:
+
+**Negociación de requerimientos entre stakeholders con intereses distintos.** El investigador quiere rapidez y automatización; el director/a de laboratorio quiere rigurosidad y trazabilidad auditable. Esa tensión tira del diseño del scoring: ¿cuánto se automatiza vs. cuánto queda a criterio manual del director?
+
+**Mitigación:** el MVP fija el scoring por defecto con **pesos documentados y ajustables** (no fijos en el código), y valida el criterio de variantes con un caso de uso concreto y acotado (una sola fuente —dbSNP *o* Ensembl, no ambas desde el inicio) antes de sumar más complejidad.
+
+**Riesgo secundario — incertidumbre al inicio:** no está claro cuánto valor real agrega el cruce con variantes poblacionales frente al costo de implementarlo bien (un falso positivo en la alerta de riesgo podría generar desconfianza en la herramienta). Se mitiga acotando ese cruce a una sola fuente y un caso de uso puntual en la primera iteración.
+
+**Riesgo técnico — dependencia de servicio externo:** la API pública de NCBI BLAST es un punto de falla que el grupo no controla. Se mantiene un mock local documentado como respaldo, y la integración real recién se hace en TP3.
+
+### 2.8 Datos sensibles y ética profesional
+
+El sistema, en su alcance actual, maneja **únicamente datos biológicos públicos** (secuencias de referencia y variantes poblacionales agregadas): **no hay datos personales identificables ni vinculables a pacientes**.
+
+No obstante, el Código de Ética IEEE/ACM exige proteger la privacidad de los usuarios como parte del interés público. Si en algún momento el sistema llegara a manejar datos vinculables a personas (por ejemplo, en un contexto de diagnóstico clínico), habría que revisar esta sección antes de sumar esa funcionalidad: minimización de datos, consentimiento, control de acceso y confidencialidad del almacenamiento pasan a ser requerimientos de primera clase. Se deja escrito desde ahora, aunque el sistema no se implemente todavía.
+
+---

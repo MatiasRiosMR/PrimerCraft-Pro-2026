@@ -17,25 +17,23 @@
 - Rios Matias
 
 **Carrera:** Licenciatura en Bioinformática
+
 **Institución:** Facultad de Ingeniería, Universidad Nacional de Entre Ríos (FIUNER)
 
 ---
-
-## Índice
-
-aun no realizado 
----
-
 ## Sobre el proyecto
 
-**PrimerCraft Pro** es una herramienta que diseña y puntúa automáticamente pares de primers para PCR/qPCR a partir de una secuencia blanco, integrando en un solo flujo:
+**PrimerCraft Pro** es una herramienta que diseña y puntúa automáticamente pares de primers para PCR/qPCR a partir de una secuencia blanco, garantizando la trazabilidad e integrando en un solo flujo:
 
-- **Cálculo termodinámico** mediante el modelo Nearest-Neighbor
-- **Detección de estructuras secundarias** (hairpins, dímeros)
+- **Cálculo termodinámico** (Tm, %GC)
+- **Detección de estructuras secundarias** (hairpins, dímeros) y **variantes**
 - **Simulación del amplicón**
 - **Verificación de especificidad**
 
-Está pensada para investigadores/as de biología molecular que hoy alternan entre múltiples herramientas dispersas (NCBI, Primer3/Primer-BLAST, verificadores de estructura) para llegar al mismo resultado, y para quienes necesitan diseñar primers en lote sin repetir el proceso manual target por target.
+Está pensada para investigadores/as de biología molecular que hoy alternan entre múltiples herramientas dispersas (NCBI, Primer3/Primer-BLAST, verificadores de estructura) para llegar al mismo resultado.
+
+Para profundizar mas sobre esto, ir a: [`docs/requirements/srs.md`](docs/requirements/srs.md)
+
 
 ---
 
@@ -49,13 +47,6 @@ Esta elección responde a atributos propios del proyecto:
 2. **Valor evaluable temprano** — cada instancia de presentación exige mostrar avances funcionales de forma temprana.
 3. **Gestión de riesgo externo** — el riesgo más relevante del proyecto, la integración con APIs de terceros (NCBI), se gestiona mejor incorporándola de a poco y con mocks documentados antes de depender de un servicio real con límites de uso estrictos.
 
----
-
-## Documentación
-
-| Documento | Descripción |
-|---|---|
-| [`docs/requirements/srs.md`](docs/requirements/srs.md) | Especificación de Requerimientos de Software (visión y alcance) |
 
 ---
 

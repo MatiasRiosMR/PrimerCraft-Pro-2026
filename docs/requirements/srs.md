@@ -8,7 +8,7 @@ Ingeniería de Software 2026 · FIUNER · TP1 — Instancia 1
 | **Proyecto** | PrimerCraft Pro |
 | **Integrantes** | Sara Barbará, Emilia Vergara, Matias Rios |
 | **Versión del documento** | 1.0.0 (línea base TP1) |
-| **Estado** | En revisión para presentación 01/09 |
+
 
 ---
 
@@ -18,9 +18,9 @@ Ingeniería de Software 2026 · FIUNER · TP1 — Instancia 1
 
 Este documento especifica los requerimientos de PrimerCraft Pro para la primera iteración del proyecto (TP1). Consolida la visión y el alcance surgidos de la actividad de descubrimiento, el contexto del sistema, el modelo de dominio conceptual, los requerimientos funcionales, los casos de uso e historias de usuario de los procesos elegidos para desarrollar en profundidad, y los atributos de calidad según ISO/IEC 25010.
 
-### 1.2 Alcance del producto
+### 1.2 Propuesta
 
-PrimerCraft Pro diseña, puntúa y valida primers para PCR/qPCR en un flujo único e integrado, conectándose por API a las bases y motores que ya usa la comunidad (NCBI Entrez, NCBI BLAST, dbSNP/Ensembl). No reemplaza la termodinámica de diseño existente (Primer3, Nearest-Neighbor / SantaLucia 1998), sino que **cierra los huecos de las herramientas actuales**: la fragmentación entre pestañas, la falta de automatización en lote, la opacidad del criterio de puntaje y la falta de trazabilidad de las decisiones de diseño.
+PrimerCraft Pro diseña, puntúa y valida primers para PCR/qPCR en un flujo único e integrado, teniendo enc uenta información que se encuentra presente en bases y motores que ya usa la comunidad (NCBI Entrez, NCBI BLAST, dbSNP/Ensembl). No reemplaza la termodinámica ni la lógica del diseño existente, sino que **cierra los huecos de las herramientas actuales**: la fragmentación entre pestañas, la falta de claridad en como se descompone el scoring (funciona como caja engra en al que solo se expone la métrica) y la falta de trazabilidad de las decisiones de diseño.
 
 ### 1.3 Definiciones, acrónimos y abreviaturas
 
@@ -28,11 +28,11 @@ PrimerCraft Pro diseña, puntúa y valida primers para PCR/qPCR en un flujo úni
 |---|---|
 | **Primer** | Oligonucleótido corto que sirve de punto de inicio para la síntesis de ADN en una PCR. |
 | **Par de primers** | Primer forward + primer reverse que delimitan la región a amplificar. |
-| **Tm** | Temperatura de fusión (melting temperature) del primer. |
+| **Tm** | Temperatura de melting del primer. |
 | **%GC** | Proporción de bases G y C en la secuencia. |
 | **GC clamp** | Presencia de G o C en el extremo 3' del primer, que favorece un anclaje estable. |
 | **Estructura secundaria** | Plegamiento no deseado: horquilla (hairpin) intramolecular, homodímero o heterodímero entre primers. |
-| **ΔG** | Energía libre de Gibbs asociada a una estructura secundaria; más negativa = estructura más estable = más problemática. |
+| **ΔG** | Energía libre de Gibbs asociada a una estructura secundaria; más negativa = estructura más estable = más probable que los primers hibriden entre sí = más problemática. |
 | **Amplicón** | Fragmento de ADN resultante de la amplificación por PCR. |
 | **Especificidad** | Grado en que el primer se une únicamente a la región blanco y no a otras regiones del genoma. |
 | **SNP** | Polimorfismo de un solo nucleótido (variante puntual en la población). |
@@ -49,21 +49,12 @@ PrimerCraft Pro diseña, puntúa y valida primers para PCR/qPCR en un flujo úni
 | **GWT** | Given-When-Then; formato de criterios de aceptación. |
 | **SRS** | Software Requirements Specification. |
 
-### 1.4 Referencias
-
-- Guía de TP1 — Ingeniería de Software 2026, FIUNER.
-- Instructivo de cátedra: Diagrama de Flujo de Datos (DFD) — Contexto y Niveles.
-- Cockburn, A. *Writing Effective Use Cases* (2000), cap. 1–3.
-- Jacobson, I. et al. *Use Case 2.0* (2011) — marco de slices.
-- SantaLucia, J. (1998) — parámetros termodinámicos Nearest-Neighbor.
-- ISO/IEC 25010 — modelo de calidad del producto de software.
-- NCBI — política de uso de las E-utilities y de la Common URL API de BLAST.
 
 ---
 
 ## 2. Visión y alcance
 
-*(Esta sección proviene del canvas de descubrimiento — Semana 2 — y es la instancia formal de selección y validación del proyecto para todo el cuatrimestre.)*
+
 
 ### 2.1 Área de dolencia u oportunidad
 
@@ -73,7 +64,7 @@ La propia NCBI advierte en su documentación que su BLAST público es un recurso
 
 ### 2.2 Dominio y problema
 
-**Problema real:** el diseño de primers está fragmentado entre herramientas, no se puede automatizar en lote de forma gratuita y respetuosa de los límites de uso, y el criterio de puntaje de las herramientas existentes es una **caja negra** que además no queda registrada de forma versionada.
+**Problema real:** el diseño de primers está fragmentado entre herramientas, no se puede automatizar en lote de forma gratuita y respetando los límites de uso, y el criterio de puntaje de las herramientas existentes es una **caja negra** que además no queda registrada de forma versionada.
 
 **Quién lo sufre hoy:** laboratorios chicos y grupos de investigación sin presupuesto para suites pagas integradas (Benchling, Geneious), y en general cualquier investigador que deba diseñar primers para varios targets.
 
@@ -97,10 +88,8 @@ Datos biológicos **públicos**, sin información de pacientes:
 | Rol | Tipo | Por qué le importa el sistema |
 |---|---|---|
 | **Investigador/a de biología molecular** | Usuario principal / actor primario | Diseña primers para sus propios experimentos. Quiere pasar de horas de cálculo manual y copia-pega a una sugerencia automática en segundos, con la seguridad de un diseño robusto. |
-| **Docente / director/a de laboratorio** | Stakeholder indirecto | Tiene que confiar en que el criterio de diseño usado fue riguroso y poder auditarlo; el diseño lo aprueba él/ella antes de comprar la síntesis. |
-| **Bioinformático/a de soporte** | Stakeholder indirecto | Necesita que el resultado se pueda exportar e integrar a un análisis o pipeline más grande (formatos estándar: FASTA, CSV, VCF). |
-| **Laboratorio de síntesis de oligonucleótidos** | Stakeholder indirecto | Recibe la secuencia final y necesita que no tenga ambigüedades ni errores de transcripción. |
-| **Cátedra de Ingeniería de Software (FIUNER)** | Stakeholder del contexto académico | El proyecto se construye como trabajo de la materia; evalúa el proceso, no solo el producto. |
+| **Bioinformático/a** | Stakeholder directo | Necesita poder integrar esta herramienta en su pipeline de análisis, puede actuar como investigador tambien pero ademas necesita poder utilizar el sistema como ingresa secuencia target y sale primers. |
+
 
 > No hay "perfiles" de usuario distintos por tipo de PCR: el sistema es el mismo para cualquier investigador, y el tipo de ensayo (PCR simple, qPCR, panel) es un **parámetro de la corrida**, no un rol de usuario distinto.
 
@@ -115,17 +104,17 @@ Si el sistema funciona:
 - El investigador puede diseñar **paneles completos en lote** en vez de repetir el proceso target por target.
 
 
-### 2.6 Alcance realista
+### 2.6 Alcance realista en el marco de la materia
 
 **Lo mínimo que ya demuestra el valor central (MVP del cuatrimestre):**
 
-- Cargar / ingresar un target (identificador de gen/región o secuencia FASTA propia, con validación de caracteres IUPAC).
+- Cargar / ingresar un target o lista de ellos (identificador de gen/región o secuencia FASTA propia, con validación de caracteres IUPAC).
 - Traer la secuencia de referencia por API (NCBI Entrez).
 - Calcular propiedades termodinámicas reales: Tm por Nearest-Neighbor, %GC, GC clamp en el extremo 3', penalización por repeticiones.
 - Chequear estructuras secundarias básicas (horquillas y dímeros) calculando su ΔG.
 - Verificar especificidad contra el genoma (NCBI BLAST), respetando los límites de uso públicos mediante cola y aviso de espera.
 - Cruzar la región de anclaje contra variantes poblacionales conocidas (dbSNP/Ensembl) — **este cruce es el diferencial frente al resto del mercado, así que se prioriza dentro del MVP**.
-- Puntuar y sugerir automáticamente los mejores pares Forward/Reverse, con **scoring desglosado y configurable**.
+- Puntuar y sugerir automáticamente los mejores pares Forward/Reverse, con **scoring desglosado**.
 - Simular el amplicón in silico de forma básica (secuencia teórica y tamaño esperado en pb).
 - Diseñar primers **en lote** para una lista de targets (panel), vía la API propia de PrimerCraft Pro.
 - Validar un primer ya diseñado (ingresado manualmente) y devolver sus métricas, especificidad y exposición a variantes.
@@ -136,30 +125,69 @@ Si el sistema funciona:
 | Fuera de alcance | Motivo |
 |---|---|
 | Integración *en vivo* con la API de NCBI BLAST | Manejar bien sus límites de uso lleva tiempo; en el MVP se usa una simulación local (mock) documentada. La integración real llega en TP3. |
-| Módulo de diseño de Multiplex PCR | Complejidad alta; candidato para el Trabajo Integrador. |
+| Módulo de aprendizaje | definir una funcion de scoring que involucre aprendizaje llevaria un trabajo extra que podria hacer que no se cumplan los tiempos actuales. |
 | Diseño de sondas fluorescentes TaqMan para qPCR | Fuera del núcleo de valor de la primera iteración. |
-| Diseño en lote de paneles grandes con retroalimentación de laboratorio real (CU-04) | Requiere modelar el historial de corridas y un circuito de aprendizaje; candidato para TP3 en adelante. |
+| Diseño en lote de paneles grandes con retroalimentación de laboratorio real (CU-04) | Requiere modelar el historial de corridas y un circuito de aprendizaje. |
 | Perfiles de scoring pre-armados (exploratorio / qPCR / diagnóstico) | Extensión posterior; el MVP fija un único perfil por defecto con pesos ajustables. |
 | Explicación del resultado en lenguaje natural | Extensión posterior. |
 | Aviso de superposición entre primers de distintos ensayos del mismo laboratorio | Extensión posterior. |
-| Modo "para aprender" (mostrar el cálculo intermedio de Tm/ΔG paso a paso) | Extensión posterior; diferencial académico, no de valor central. |
+
 
 ### 2.7 Riesgos de fracaso y mitigación
 
-De los problemas típicos de requerimientos (visión poco clara de los stakeholders, incertidumbre al inicio, cambio de requerimientos, negociación entre stakeholders con intereses distintos), el más probable en este proyecto es:
-
-**Negociación de requerimientos entre stakeholders con intereses distintos.** El investigador quiere rapidez y automatización; el director/a de laboratorio quiere rigurosidad y trazabilidad auditable. Esa tensión tira del diseño del scoring: ¿cuánto se automatiza vs. cuánto queda a criterio manual del director?
 
 **Mitigación:** el MVP fija el scoring por defecto con **pesos documentados y ajustables** (no fijos en el código), y valida el criterio de variantes con un caso de uso concreto y acotado (una sola fuente —dbSNP *o* Ensembl, no ambas desde el inicio) antes de sumar más complejidad.
 
 **Riesgo secundario — incertidumbre al inicio:** no está claro cuánto valor real agrega el cruce con variantes poblacionales frente al costo de implementarlo bien (un falso positivo en la alerta de riesgo podría generar desconfianza en la herramienta). Se mitiga acotando ese cruce a una sola fuente y un caso de uso puntual en la primera iteración.
 
-**Riesgo técnico — dependencia de servicio externo:** la API pública de NCBI BLAST es un punto de falla que el grupo no controla. Se mantiene un mock local documentado como respaldo, y la integración real recién se hace en TP3.
+**Riesgo técnico — dependencia de servicio externo:** la API pública de NCBI BLAST es un punto de falla que el grupo no controla. Se mantiene documentación local como respaldo, y la integración real recién se hace en TP3.
 
 ### 2.8 Datos sensibles y ética profesional
 
 El sistema, en su alcance actual, maneja **únicamente datos biológicos públicos** (secuencias de referencia y variantes poblacionales agregadas): **no hay datos personales identificables ni vinculables a pacientes**.
 
-No obstante, el Código de Ética IEEE/ACM exige proteger la privacidad de los usuarios como parte del interés público. Si en algún momento el sistema llegara a manejar datos vinculables a personas (por ejemplo, en un contexto de diagnóstico clínico), habría que revisar esta sección antes de sumar esa funcionalidad: minimización de datos, consentimiento, control de acceso y confidencialidad del almacenamiento pasan a ser requerimientos de primera clase. Se deja escrito desde ahora, aunque el sistema no se implemente todavía.
-
 ---
+
+## 3. Requerimientos funcionales
+
+####  RF-01 — Ingresar un target individual
+El sistema debe permitir al investigador ingresar un identificador de gen/región o una secuencia propia, junto con parámetros de diseño (Tm objetivo, %GC, tamaño de amplicón), con valores por defecto sugeridos.
+
+#### RF-02 — Ingresar de lista de targets
+El sistema debe permitir al investigador ingresar una lista de identificador de gen/región o una secuencia propia, junto con parámetros de diseño (Tm objetivo, %GC, tamaño de amplicón), con valores por defecto sugeridos.
+
+#### RF-03 — Obtener automáticamente la secuencia de referencia
+El sistema debe consultar la API de NCBI Entrez y obtener la secuencia FASTA correspondiente al target ingresado, sin intervención manual del usuario.
+
+#### RF-04 — Generar candidatos de primers
+El sistema debe generar candidatos de primers forward/reverse y calcular su termodinámica (Tm, %GC).
+
+#### RF-05 — Detectar estructuras secundarias
+El sistema debe evaluar cada candidato en busca de horquillas (hairpins) y dímeros, tanto internos como entre el par forward/reverse.
+
+#### RF-06 — Verificar la especificidad vía BLAST
+El sistema debe consultar NCBI BLAST para cada candidato y determinar su especificidad contra el genoma completo.
+
+#### RF-07 — Cruzar contra variantes poblacionales
+El sistema debe consultar bases de variantes poblacionales  y detectar SNPs conocidos dentro de la región de anclaje de cada candidato, con foco especial en el extremo 3'.
+
+#### RF-08 — Brindar un Scoring desglosado y configurable
+El sistema debe calcular un puntaje por candidato, desglosado por criterio (Tm, %GC, estructuras secundarias, especificidad, variantes), con pesos documentados y ajustables por el usuario u operador.
+
+#### RF-09 — Penalizar y sugerir ante variante de alto riesgo
+El sistema debe penalizar el puntaje del candidato y ofrecer un desplazamiento de posición alternativo ante una variante de alta frecuencia poblacional en el extremo 3'
+
+#### RF-10 — Simular el amplicón
+El sistema debe generar una simulación del amplicón resultante para cada par de primers sugerido.
+
+#### RF-11 — Generar trazabilidad de la corrida
+El sistema debe registrar de forma versionada los parámetros, umbrales y versión de datos de variantes usados en cada corrida, asociados a los primers sugeridos.
+
+#### RF-12 — Validar el primer ingresado manualmente
+El sistema debe permitir al usuario ingresar una secuencia de primer ya existente y devolver sus métricas, especificidad y exposición a variantes, sin necesidad de haber sido diseñado por el sistema.
+
+#### RF-13 — Manejar errores de identificación
+El sistema debe informar el error y solicitar al investigador que lo verifique ante un identificador de gen/región inexistente en NCBI.
+
+#### RF-14 — Informar que se obtuvieron los resultados
+El sistema debe informarle al usuario que su analisis ya terminó y que ya puede consultar sus resultados

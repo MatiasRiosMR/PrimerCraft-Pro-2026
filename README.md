@@ -39,13 +39,7 @@ Para profundizar mas sobre esto, ir a: [`docs/requirements/srs.md`](docs/require
 
 ## Modelo de ciclo de vida
 
-El proyecto adopta un modelo **incremental, con iteraciones cortas alineadas al cronograma de la materia** (una iteración por TP: requerimientos, UX, arquitectura, diseño, pruebas).
-
-Esta elección responde a atributos propios del proyecto:
-
-1. **Disponibilidad del equipo** — el equipo (2-3 personas) está condicionado al calendario semanal de la cursada, lo que hace inviable un modelo secuencial de una sola entrega final.
-2. **Valor evaluable temprano** — cada instancia de presentación exige mostrar avances funcionales de forma temprana.
-3. **Gestión de riesgo externo** — el riesgo más relevante del proyecto, la integración con APIs de terceros (NCBI), se gestiona mejor incorporándola de a poco y con mocks documentados antes de depender de un servicio real con límites de uso estrictos.
+Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir la herramienta por etapas, entregando primero el núcleo útil del sistema y agregando valor funcional en cada entrega. De forma **incremental**, se puede poner a punto el cálculo básico de primers antes de sumar capacidades más avanzadas como la alerta por variantes poblacionales (SNPs) o el procesamiento automático de listas en lote. De forma **iterativa**, permite ajustar progresivamente aspectos complejos como la conexión con servicios externos (NCBI BLAST), probando primero con una versión simulada antes de implementar la integración definitiva.s.
 
 
 ---

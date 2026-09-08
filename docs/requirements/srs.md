@@ -163,3 +163,14 @@ El sistema, en su alcance actual, maneja **únicamente datos biológicos públic
 | **RF-08** | El sistema debe permitir al usuario ingresar una secuencia de primer ya existente y devolver sus métricas, especificidad y exposición a variantes, sin necesidad de haber sido diseñado por el sistema. |
 | **RF-09** | Ante un identificador de gen/región inexistente en NCBI, el sistema debe informar el error y solicitar al investigador que lo verifique. |
 | **RF-10** | Ante un gen target de interés, el sistema debe localizar información específica desde la anotación del genoma de referencia (coordenadas de inicio y fin, hebra, etc.). |
+---
+
+## 6. Elección del modelo de procesos
+
+Para el desarrollo prioritario en lo que resta del cuatrimestre se seleccionaron el **Proceso 1 (Preparar target y secuencia de referencia)** y el **Proceso 2 (Generar y caracterizar candidatos de primers)**.
+
+Esta elección se fundamenta en que el Proceso 1 establece la puerta de entrada indispensable del sistema, resolviendo la validación de los datos ingresados y la obtención de la secuencia mediante la API de NCBI Entrez. Por su parte, el Proceso 2 representa el verdadero motor algorítmico del proyecto, ya que ejecuta de manera completamente local la lógica de diseño por ventana deslizante, el cálculo de propiedades termodinámicas como la Tm por Nearest-Neighbor y la evaluación de estructuras secundarias mediante ΔG, garantizando un alto valor del dominio y desarrollo técnico sin depender de limitaciones externas.
+
+En contraste, se decidió no priorizar el **Proceso 3** debido a su fuerte dependencia de servicios de terceros como NCBI BLAST y bases de variantes poblacionales, sujetos a restricciones de cuota y tiempos de respuesta que es preferible gestionar mediante simulaciones (mocks) en las primeras entregas. La profundización del **Proceso 4** se postergó para una etapa posterior, ya que su función principal es aplicar el esquema de scoring y orquestar el ciclo de reintentos basándose en los resultados de especificidad y variantes que genera el Proceso 3, lo que hace indispensable tener consolidadas las etapas previas antes de abordar su lógica completa.
+
+---

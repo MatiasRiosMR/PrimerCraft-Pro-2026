@@ -151,44 +151,15 @@ El sistema, en su alcance actual, maneja **únicamente datos biológicos públic
 
 ## 3. Requerimientos funcionales
 
-####  RF-01 — Ingresar un target individual
-El sistema debe permitir al investigador ingresar un identificador de gen/región o una secuencia propia, junto con parámetros de diseño (Tm objetivo, %GC, tamaño de amplicón), con valores por defecto sugeridos.
-
-#### RF-02 — Ingresar de lista de targets
-El sistema debe permitir al investigador ingresar una lista de identificador de gen/región o una secuencia propia, junto con parámetros de diseño (Tm objetivo, %GC, tamaño de amplicón), con valores por defecto sugeridos.
-
-#### RF-03 — Obtener automáticamente la secuencia de referencia
-El sistema debe consultar la API de NCBI Entrez y obtener la secuencia FASTA correspondiente al target ingresado, sin intervención manual del usuario.
-
-#### RF-04 — Generar candidatos de primers
-El sistema debe generar candidatos de primers forward/reverse y calcular su termodinámica (Tm, %GC).
-
-#### RF-05 — Detectar estructuras secundarias
-El sistema debe evaluar cada candidato en busca de horquillas (hairpins) y dímeros, tanto internos como entre el par forward/reverse.
-
-#### RF-06 — Verificar la especificidad vía BLAST
-El sistema debe consultar NCBI BLAST para cada candidato y determinar su especificidad contra el genoma completo.
-
-#### RF-07 — Cruzar contra variantes poblacionales
-El sistema debe consultar bases de variantes poblacionales  y detectar SNPs conocidos dentro de la región de anclaje de cada candidato, con foco especial en el extremo 3'.
-
-#### RF-08 — Brindar un Scoring desglosado y configurable
-El sistema debe calcular un puntaje por candidato, desglosado por criterio (Tm, %GC, estructuras secundarias, especificidad, variantes), con pesos documentados y ajustables por el usuario u operador.
-
-#### RF-09 — Penalizar y sugerir ante variante de alto riesgo
-El sistema debe penalizar el puntaje del candidato y ofrecer un desplazamiento de posición alternativo ante una variante de alta frecuencia poblacional en el extremo 3'
-
-#### RF-10 — Simular el amplicón
-El sistema debe generar una simulación del amplicón resultante para cada par de primers sugerido.
-
-#### RF-11 — Generar trazabilidad de la corrida
-El sistema debe registrar de forma versionada los parámetros, umbrales y versión de datos de variantes usados en cada corrida, asociados a los primers sugeridos.
-
-#### RF-12 — Validar el primer ingresado manualmente
-El sistema debe permitir al usuario ingresar una secuencia de primer ya existente y devolver sus métricas, especificidad y exposición a variantes, sin necesidad de haber sido diseñado por el sistema.
-
-#### RF-13 — Manejar errores de identificación
-El sistema debe informar el error y solicitar al investigador que lo verifique ante un identificador de gen/región inexistente en NCBI.
-
-#### RF-14 — Informar que se obtuvieron los resultados
-El sistema debe informarle al usuario que su analisis ya terminó y que ya puede consultar sus resultados
+| RF | Descripción |
+|---|---|
+| **RF-01** | El sistema debe permitir al investigador ingresar un identificador de gen/región o una secuencia propia, junto con parámetros de diseño (Tm objetivo, %GC, tamaño de primers), con valores por defecto sugeridos. |
+| **RF-02** | El sistema debe permitir al investigador ingresar una lista de identificadores de gen/región o secuencias propias, junto con parámetros de diseño, con valores por defecto sugeridos. |
+| **RF-03** | El sistema debe consultar la API de NCBI Entrez y obtener la secuencia FASTA correspondiente al target ingresado, sin intervención manual del usuario. |
+| **RF-04** | El sistema debe generar candidatos de primers forward/reverse y calcular su termodinámica (Tm, %GC) según el modelo Nearest-Neighbor (SantaLucia 1998). |
+| **RF-05** | El sistema debe evaluar cada candidato en busca de horquillas (hairpins) y dímeros, tanto internos como entre el par forward/reverse. |
+| **RF-06** | El sistema debe consultar NCBI BLAST para cada candidato y determinar su especificidad contra el genoma completo, respetando el límite de uso público (100 corridas/24hs) mediante cola y aviso de espera al usuario. |
+| **RF-07** | El sistema debe generar una simulación del amplicón resultante para cada par de primers sugerido. |
+| **RF-08** | El sistema debe permitir al usuario ingresar una secuencia de primer ya existente y devolver sus métricas, especificidad y exposición a variantes, sin necesidad de haber sido diseñado por el sistema. |
+| **RF-09** | Ante un identificador de gen/región inexistente en NCBI, el sistema debe informar el error y solicitar al investigador que lo verifique. |
+| **RF-10** | Ante un gen target de interés, el sistema debe localizar información específica desde la anotación del genoma de referencia (coordenadas de inicio y fin, hebra, etc.). |

@@ -283,3 +283,100 @@ Escenario: Determinación de la hebra
 ```
 
 ---
+### CU-03 · Validar un primer ingresado manualmente
+
+- **Actor:** Investigador/a
+- **Objetivo:** Verificar que un par de primers ya diseñado por otro medio hibride correctamente en el target de interés y obtener sus métricas, sin pasar por la generación automática de candidatos.
+- **RF que realiza:** RF-08
+- **Precondición:** El investigador/a cuenta con una secuencia de primer (o par forward/reverse) ya diseñada, y el sistema está disponible para generar una corrida de validación.
+- **Relaciones con otros casos de uso:**
+  - `<<include>>` CU-01 — para validar el identificador de target/organismo y obtener la secuencia de referencia y anotación.
+  - `<<include>>` CU-04 — para localizar el gen dentro de la secuencia de referencia.
+
+**Flujo principal:**
+
+**Slice 1 — Ingreso y validación del primer:**
+1. El investigador/a selecciona la opción de validar un primer existente.
+2. El investigador/a ingresa las secuencias forward/reverse, el organismo y el identificador del target.
+3. El sistema valida que los datos de entrada cumplan con el formato requerido.
+
+**Slice 2 — Localización del gen:**
+1. `<<include>>` CU-04 — el sistema valida el target y obtiene la secuencia de referencia y su anotación.
+2. El sistema localiza el gen objetivo y obtiene sus coordenadas y hebra.
+
+**Slice 3 — Verificación de hibridación y caracterización:**
+1. El sistema ubica las secuencias de los primers dentro de la región del gen.
+2. El sistema verifica que hibriden en las posiciones y orientaciones esperadas.
+3. `<<include>>` CU-05 — el sistema caracteriza el par de primers.
+
+**Postcondición:** Existe un primer validado, con sus métricas termodinámicas y estructurales calculadas, disponible para su revisión por el investigador/a.
+
+**Slices secundarios nombrados:**
+- **A1:** El par ingresado no hibrida en la región esperada del gen indicado.
+- **E1:** La secuencia ingresada contiene caracteres fuera del alfabeto IUPAC válido.
+
+#### HU-03.1 · Ingreso y validación del primer
+
+*Deriva de: CU-03, Slice 1.*
+
+> **Como** investigador/a, **quiero** ingresar las secuencias de los primers que diseñé externamente junto con el organismo y el identificador del target, **para** que el sistema valide que los datos tienen un formato correcto antes de realizar su verificación.
+
+```gherkin
+Escenario: Ingreso de datos
+  Given que el investigador/a desea validar un par de primers diseñado externamente
+  When ingresa las secuencias forward y reverse, el organismo y el identificador del target
+  Then el sistema recibe correctamente los datos ingresados
+
+Escenario: Validación del formato
+  Given que el investigador/a ingresó las secuencias y los datos del target
+  When el sistema valida los datos de entrada
+  Then verifica que las secuencias de los primers y los demás campos cumplan con el formato requerido y permite continuar con la validación
+```
+
+#### HU-03.2 · Localización del gen
+
+*Deriva de: CU-03, Slice 2.*
+
+> **Como** investigador/a, **quiero** que el sistema obtenga la secuencia de referencia y localice automáticamente el gen objetivo, **para** asegurar que la validación de los primers se realice sobre la región correcta.
+
+```gherkin
+Escenario: Obtención de la referencia
+  Given que los datos del target ingresados son válidos
+  When el sistema ejecuta <<include>> CU-04
+  Then obtiene la secuencia de referencia y la anotación correspondientes al target
+
+Escenario: Localización del gen
+  Given que la secuencia de referencia y su anotación están disponibles
+  When el sistema localiza el gen objetivo
+  Then identifica correctamente la región del gen dentro de la secuencia de referencia
+
+Escenario: Coordenadas y hebra
+  Given que el gen objetivo fue localizado correctamente
+  When el sistema analiza su información genómica
+  Then obtiene las coordenadas de inicio y fin y determina la hebra en la que se encuentra codificado
+```
+
+#### HU-03.3 · Verificación de hibridación y caracterización
+
+*Deriva de: CU-03, Slice 3.*
+
+> **Como** investigador/a, **quiero** que el sistema verifique que mi par de primers hibrida correctamente en la región objetivo y lo caracterice, **para** conocer si es adecuado para amplificar el target de interés.
+
+```gherkin
+Escenario: Localización de los primers
+  Given que el gen objetivo fue localizado y se dispone de sus coordenadas y hebra
+  When el sistema busca las secuencias de los primers dentro de la región del gen
+  Then identifica las posiciones correspondientes de los primers forward y reverse
+
+Escenario: Verificación de posición y orientación
+  Given que las secuencias de los primers fueron localizadas en la región objetivo
+  When el sistema analiza sus posiciones y orientaciones
+  Then confirma que ambos primers hibridan en las posiciones y orientaciones esperadas para la amplificación del gen
+
+Escenario: Caracterización del par
+  Given que el par de primers hibrida correctamente en la región objetivo
+  When el sistema ejecuta <<include>> CU-05
+  Then obtiene la caracterización del par, incluyendo sus métricas termodinámicas, estructuras secundarias, valores de ΔG y el amplicón esperado
+```
+
+---

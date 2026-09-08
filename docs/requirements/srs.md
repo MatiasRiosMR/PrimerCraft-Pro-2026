@@ -380,3 +380,47 @@ Escenario: Caracterización del par
 ```
 
 ---
+### CU-04 · Obtener secuencia de referencia del target
+
+- **Actor:** Investigador/a
+- **Actor secundario:** API NCBI
+- **Objetivo:** Obtener la secuencia de referencia y anotación para habilitar el diseño de primers.
+- **RF que realiza:** RF-03, RF-09
+- **Precondición:** El sistema cuenta con acceso y conectividad a la API pública de NCBI Entrez.
+
+**Flujo principal:**
+1. El sistema consulta internamente la API de NCBI Entrez enviando el identificador y el organismo.
+2. El sistema obtiene la secuencia FASTA y la anotación del genoma de referencia desde NCBI Entrez.
+3. El sistema notifica al Investigador/a si el target fue validado correctamente o no.
+
+**Postcondición:** La secuencia FASTA y la anotación del genoma de referencia correspondientes al identificador NCBI y organismo ingresados quedan obtenidas y disponibles internamente para que los casos de uso de diseño y validación de primers puedan utilizarlas.
+
+#### HU-04 · Obtener la secuencia de referencia del target
+
+*Deriva de: CU-04.*
+
+> **Como** investigador/a, **quiero** que el sistema consulte automáticamente NCBI Entrez utilizando el identificador NCBI y el organismo ingresados, **para** obtener la secuencia FASTA y la anotación de referencia necesarias para continuar con el diseño de primers.
+
+```gherkin
+Escenario: Consulta exitosa a NCBI Entrez
+  Given que los datos de entrada fueron validados correctamente
+  When el sistema consulta NCBI Entrez utilizando el identificador NCBI y el organismo ingresados
+  Then el sistema obtiene la secuencia FASTA y la anotación correspondientes al target
+
+Escenario: Datos disponibles internamente
+  Given que NCBI Entrez devuelve correctamente la secuencia FASTA y la anotación
+  When el sistema finaliza la consulta
+  Then almacena o deja disponibles internamente estos datos para el proceso de diseño de primers
+
+Escenario: Confirmación al investigador
+  Given que la secuencia y la anotación fueron obtenidas correctamente
+  When finaliza la preparación del target
+  Then el sistema informa al investigador/a que el target fue validado correctamente y que la secuencia de referencia quedó disponible para el diseño
+
+Escenario: No requiere intervención manual
+  Given que NCBI Entrez proporcionó correctamente la referencia
+  When el sistema finaliza la consulta
+  Then el investigador/a no necesita descargar ni cargar manualmente el archivo FASTA para continuar con el diseño
+```
+
+---

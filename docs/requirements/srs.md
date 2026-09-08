@@ -106,31 +106,32 @@ Si el sistema funciona:
 
 ### 2.6 Alcance realista en el marco de la materia
 
-**Lo mínimo que ya demuestra el valor central (MVP del cuatrimestre):**
+**Incluido:**
 
 - Cargar / ingresar un target o lista de ellos (identificador de gen/región o secuencia FASTA propia, con validación de caracteres IUPAC).
 - Traer la secuencia de referencia por API (NCBI Entrez).
 - Calcular propiedades termodinámicas reales: Tm por Nearest-Neighbor, %GC, GC clamp en el extremo 3', penalización por repeticiones.
 - Chequear estructuras secundarias básicas (horquillas y dímeros) calculando su ΔG.
 - Verificar especificidad contra el genoma (NCBI BLAST), respetando los límites de uso públicos mediante cola y aviso de espera.
-- Cruzar la región de anclaje contra variantes poblacionales conocidas (dbSNP/Ensembl) — **este cruce es el diferencial frente al resto del mercado, así que se prioriza dentro del MVP**.
-- Puntuar y sugerir automáticamente los mejores pares Forward/Reverse, con **scoring desglosado**.
 - Simular el amplicón in silico de forma básica (secuencia teórica y tamaño esperado en pb).
 - Diseñar primers **en lote** para una lista de targets (panel), vía la API propia de PrimerCraft Pro.
 - Validar un primer ya diseñado (ingresado manualmente) y devolver sus métricas, especificidad y exposición a variantes.
-- Registrar de forma versionada los parámetros, umbrales y versión de datos de variantes usados en cada corrida.
 
-**Lo que queda deliberadamente afuera:**
+**Fuera de alcance:**
 
 | Fuera de alcance | Motivo |
 |---|---|
-| Integración *en vivo* con la API de NCBI BLAST | Manejar bien sus límites de uso lleva tiempo; en el MVP se usa una simulación local (mock) documentada. La integración real llega en TP3. |
-| Módulo de aprendizaje | definir una funcion de scoring que involucre aprendizaje llevaria un trabajo extra que podria hacer que no se cumplan los tiempos actuales. |
+| Integración *en vivo* con la API de NCBI BLAST | Manejar bien sus límites de uso lleva tiempo; en el MVP se usa una simulación local (mock) documentada. |
+| Módulo de aprendizaje | Definir una función de scoring que involucre aprendizaje llevaría un trabajo extra que podría comprometer los tiempos actuales. |
 | Diseño de sondas fluorescentes TaqMan para qPCR | Fuera del núcleo de valor de la primera iteración. |
-| Diseño en lote de paneles grandes con retroalimentación de laboratorio real (CU-04) | Requiere modelar el historial de corridas y un circuito de aprendizaje. |
-| Perfiles de scoring pre-armados (exploratorio / qPCR / diagnóstico) | Extensión posterior; el MVP fija un único perfil por defecto con pesos ajustables. |
+| Diseño en lote de paneles grandes con retroalimentación de laboratorio real | Requiere modelar el historial de corridas y un circuito de aprendizaje. |
+| Perfiles de scoring pre-armados (exploratorio / qPCR / diagnóstico) | El MVP fija un único perfil por defecto con pesos ajustables. |
 | Explicación del resultado en lenguaje natural | Extensión posterior. |
 | Aviso de superposición entre primers de distintos ensayos del mismo laboratorio | Extensión posterior. |
+| Registro versionado de parámetros, umbrales y versión de datos de variantes por corrida | Extensión posterior. |
+| Scoring desglosado y configurable (puntuación y sugerencia automática de mejores pares) | Extensión posterior. |
+| Cruce de la región de anclaje contra variantes poblacionales (dbSNP/Ensembl) | *(Nota: el canvas original lo marca como "se prioriza dentro del MVP" — pendiente de que el equipo lo reconcilie contra esta tabla, que lo lista como fuera de alcance).* |
+
 
 
 ### 2.7 Riesgos de fracaso y mitigación

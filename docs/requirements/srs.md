@@ -174,3 +174,65 @@ Esta elección se fundamenta en que el Proceso 1 establece la puerta de entrada 
 En contraste, se decidió no priorizar el **Proceso 3** debido a su fuerte dependencia de servicios de terceros como NCBI BLAST y bases de variantes poblacionales, sujetos a restricciones de cuota y tiempos de respuesta que es preferible gestionar mediante simulaciones (mocks) en las primeras entregas. La profundización del **Proceso 4** se postergó para una etapa posterior, ya que su función principal es aplicar el esquema de scoring y orquestar el ciclo de reintentos basándose en los resultados de especificidad y variantes que genera el Proceso 3, lo que hace indispensable tener consolidadas las etapas previas antes de abordar su lógica completa.
 
 ---
+## 7. Casos de uso / Historias de usuario
+
+### Actores
+
+- **Primario:** Investigador/a (biólogo/a molecular que diseña primers para su propio experimento).
+- **Secundarios (sistemas externos):** NCBI Entrez / BLAST.
+
+---
+
+### CU-01 · Preparar target y secuencia de referencia
+
+- **Actor:** Investigador/a
+- **Objetivo:** Validar la información de entrada de un target.
+- **RF que realiza:** RF-01, RF-02
+- **Precondición:** El sistema está disponible para que el investigador/a genere una corrida de diseño.
+
+**Flujo principal:**
+
+**Slice 1:**
+1. El Investigador/a selecciona la opción de iniciar una nueva corrida de diseño.
+2. El Investigador/a ingresa el identificador NCBI del target, el organismo de interés y los parámetros de corrida (longitud del primer, %GC y Tm objetivo).
+3. El sistema valida que los campos de entrada cumplan con el formato esperado.
+
+**Slice 2:** → `<<include>>` CU-04
+
+**Postcondición:** La secuencia de referencia, la anotación y los parámetros de corrida quedan validados y disponibles para que el Proceso 2 los tome como entrada.
+
+**Slices secundarios nombrados:**
+- **A1:** Carga masiva mediante archivo `.txt` con lista de identificadores (RF-02).
+- **E1:** Identificador NCBI inexistente o no encontrado en NCBI Entrez (RF-09).
+- **E2:** Incompatibilidad entre el identificador NCBI y el organismo ingresado.
+- **E3:** Parámetros de corrida fuera de los rangos válidos.
+
+#### HU-01.1 · Iniciar diseño individual de primers
+
+*Deriva de: CU-01, Slice 1.*
+
+> **Como** investigador/a, **quiero** ingresar el identificador NCBI de mi target, su organismo y los parámetros de corrida, **para** que el sistema valide que los datos ingresados tienen un formato válido antes de realizar la búsqueda de la secuencia de referencia.
+
+```gherkin
+Escenario: Datos de entrada válidos
+  Given que el investigador/a seleccionó la opción de iniciar una nueva corrida de diseño
+  When ingresa un identificador NCBI (NM_007294), un organismo y parámetros de corrida con formato válido (Tm 60°C, %GC 50%, longitud 20 nt)
+  Then el sistema valida correctamente los datos y permite continuar con la consulta de la referencia
+
+Escenario: Identificador con formato inválido
+  Given que el investigador/a se encuentra ingresando los datos de una nueva corrida
+  When ingresa un identificador NCBI cuyo formato no es válido
+  Then el sistema informa que el identificador ingresado no cumple con el formato esperado y solicita su corrección
+
+Escenario: Parámetros de corrida inválidos
+  Given que el investigador/a ingresó un identificador NCBI y un organismo
+  When uno o más parámetros de corrida no cumplen con los rangos o formatos establecidos
+  Then el sistema informa cuáles parámetros son inválidos y solicita su corrección antes de continuar
+
+Escenario: Datos válidos habilitan la consulta
+  Given que todos los datos ingresados cumplen con las validaciones establecidas
+  When el sistema finaliza la validación
+  Then los datos quedan disponibles para realizar la consulta de la secuencia de referencia en NCBI Entrez
+```
+
+---

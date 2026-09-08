@@ -236,3 +236,50 @@ Escenario: Datos válidos habilitan la consulta
 ```
 
 ---
+
+### CU-02 · Generar y caracterizar candidatos de primers
+
+- **Actor:** Investigador/a (interacción indirecta — se dispara automáticamente al finalizar CU-01, sin una acción nueva del usuario).
+- **Objetivo:** Generar pares de primers candidatos que cumplan los parámetros de diseño y caracterizarlos termodinámicamente, dejándolos listos para la verificación de especificidad y variantes.
+- **RF que realiza:** RF-10
+- **Precondición:** CU-01 finalizó exitosamente; el sistema cuenta con la secuencia de referencia, su anotación y los parámetros de corrida.
+
+**Flujo principal:**
+
+**Slice 1:**
+1. El sistema localiza el gen objetivo dentro de la anotación del genoma de referencia, utilizando su identificador o nombre.
+2. El sistema obtiene las coordenadas de inicio y fin de la región génica.
+3. El sistema determina la hebra en la que se codifica.
+
+**Slice 2:** → `<<include>>` CU-05
+
+**Postcondición:** Existe un conjunto de candidatos de primers caracterizados (con métricas termodinámicas, estructuras secundarias y amplicón simulado), listo para la verificación de especificidad.
+
+**Slices secundarios nombrados:**
+- **A1:** No se encuentra ninguna coincidencia del gen en la anotación (localización fallida).
+- **E1:** Ningún candidato generado cumple simultáneamente todos los parámetros de diseño dentro de la región del gen.
+
+#### HU-02.1 · Localización del gen objetivo
+
+*Deriva de: CU-02, Slice 1.*
+
+> **Como** investigador/a, **quiero** que el sistema localice automáticamente el gen objetivo dentro de la secuencia de referencia y determine la hebra en la que se encuentra codificado, **para** asegurar que la generación de primers se realice sobre la región correcta del gen.
+
+```gherkin
+Escenario: Localización exitosa del gen
+  Given que el sistema dispone de la secuencia de referencia y su anotación obtenidas en CU-01
+  When busca el gen objetivo utilizando su identificador o nombre
+  Then el sistema localiza correctamente el gen dentro del genoma de referencia
+
+Escenario: Determinación de coordenadas
+  Given que el sistema localizó correctamente el gen objetivo
+  When consulta la información correspondiente en la anotación
+  Then obtiene y registra las coordenadas de inicio y fin de la región del gen
+
+Escenario: Determinación de la hebra
+  Given que el sistema identificó las coordenadas del gen
+  When analiza la información de la anotación
+  Then determina correctamente la hebra en la que se encuentra codificado el gen
+```
+
+---

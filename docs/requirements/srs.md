@@ -424,3 +424,53 @@ Escenario: No requiere intervención manual
 ```
 
 ---
+### CU-05 · Caracterizar par de primers
+
+- **Actor:** Investigador/a
+- **Objetivo:** Generar y caracterizar pares de primers candidatos para el gen objetivo, evaluando sus propiedades termodinámicas, estructuras secundarias, especificidad y amplicón esperado.
+- **RF que realiza:** RF-04, RF-05, RF-06, RF-07
+- **Precondición:** La región del gen objetivo ha sido localizada correctamente, se dispone de la secuencia de referencia y de los parámetros de diseño establecidos.
+
+**Flujo principal (slice principal):**
+1. El sistema recorre la región del gen con una ventana deslizante, generando pares de primers forward/reverse candidatos que cumplen la longitud, %GC y Tm objetivo.
+2. El sistema calcula, para cada candidato, sus métricas termodinámicas (Tm real, %GC real, GC clamp, penalización por repeticiones).
+3. El sistema verifica la especificidad de cada par de primers mediante BLAST.
+4. El sistema evalúa cada candidato en busca de estructuras secundarias (horquillas y dímeros, internos y entre el par forward/reverse) y calcula su ΔG.
+5. El sistema genera la simulación del amplicón esperado para cada par candidato.
+
+**Postcondición:** Existe un conjunto de pares de primers candidatos caracterizados, cada uno con sus métricas termodinámicas, evaluación de especificidad, estructuras secundarias, valores de ΔG y amplicón esperado, disponibles para su revisión y selección por parte del investigador/a.
+
+#### HU-05 · Generación y caracterización de candidatos
+
+*Deriva de: CU-05.*
+
+> **Como** investigador/a, **quiero** que el sistema genere pares de primers candidatos y los caracterice según sus propiedades termodinámicas, especificidad y estructuras secundarias, así como el amplicón esperado, **para** disponer de candidatos adecuados para la amplificación del target.
+
+```gherkin
+Escenario: Generación de candidatos
+  Given que el sistema localizó correctamente la región del gen y dispone de los parámetros de diseño
+  When recorre la región mediante una ventana deslizante
+  Then genera pares de primers forward/reverse candidatos que cumplen con los parámetros de longitud, %GC y Tm objetivo establecidos
+
+Escenario: Cálculo de métricas
+  Given un par de primers candidato generado
+  When el sistema realiza su caracterización
+  Then calcula para cada primer su Tm real, %GC, GC clamp y penalización por repeticiones
+
+Escenario: Evaluación de estructuras secundarias
+  Given un par de primers candidato
+  When el sistema analiza sus posibles estructuras secundarias
+  Then evalúa la formación de horquillas y homodímeros de cada primer, así como heterodímeros entre forward y reverse, calculando los valores de ΔG correspondientes
+
+Escenario: Simulación del amplicón
+  Given un par de primers candidato localizado sobre la región objetivo
+  When el sistema simula la amplificación
+  Then determina el amplicón esperado y su información de posición y longitud
+
+Escenario: Candidatos caracterizados
+  Given que se completó la caracterización de los pares candidatos
+  When finaliza el proceso
+  Then el sistema dispone de un conjunto de pares de primers caracterizados con sus métricas termodinámicas, estructuras secundarias y amplicón esperado
+```
+
+---

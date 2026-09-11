@@ -199,7 +199,7 @@ En contraste, se decidió no priorizar el **Proceso 3** debido a su fuerte depen
 
 **Slice 2:** → `<<include>>` CU-04
 
-**Postcondición:** La secuencia de referencia, la anotación y los parámetros de corrida quedan validados y disponibles para que el Proceso 2 los tome como entrada.
+**Postcondición:** La secuencia de referencia, la anotación y los parámetros de corrida quedan validados y disponibles.
 
 **Slices secundarios nombrados:**
 - **A1:** Carga masiva mediante archivo `.txt` con lista de identificadores (RF-02).
@@ -229,10 +229,6 @@ Escenario: Parámetros de corrida inválidos
   When uno o más parámetros de corrida no cumplen con los rangos o formatos establecidos
   Then el sistema informa cuáles parámetros son inválidos y solicita su corrección antes de continuar
 
-Escenario: Datos válidos habilitan la consulta
-  Given que todos los datos ingresados cumplen con las validaciones establecidas
-  When el sistema finaliza la validación
-  Then los datos quedan disponibles para realizar la consulta de la secuencia de referencia en NCBI Entrez
 ```
 
 ---
@@ -289,9 +285,7 @@ Escenario: Determinación de la hebra
 - **Objetivo:** Verificar que un par de primers ya diseñado por otro medio hibride correctamente en el target de interés y obtener sus métricas, sin pasar por la generación automática de candidatos.
 - **RF que realiza:** RF-08
 - **Precondición:** El investigador/a cuenta con una secuencia de primer (o par forward/reverse) ya diseñada, y el sistema está disponible para generar una corrida de validación.
-- **Relaciones con otros casos de uso:**
-  - `<<include>>` CU-01 — para validar el identificador de target/organismo y obtener la secuencia de referencia y anotación.
-  - `<<include>>` CU-04 — para localizar el gen dentro de la secuencia de referencia.
+
 
 **Flujo principal:**
 
@@ -407,10 +401,10 @@ Escenario: Consulta exitosa a NCBI Entrez
   When el sistema consulta NCBI Entrez utilizando el identificador NCBI y el organismo ingresados
   Then el sistema obtiene la secuencia FASTA y la anotación correspondientes al target
 
-Escenario: Datos disponibles internamente
+Escenario: Obtención válida de la secuencia
   Given que NCBI Entrez devuelve correctamente la secuencia FASTA y la anotación
   When el sistema finaliza la consulta
-  Then almacena o deja disponibles internamente estos datos para el proceso de diseño de primers
+  Then almacena o deja disponibles internamente estos datos para el diseño de primers
 
 Escenario: Confirmación al investigador
   Given que la secuencia y la anotación fueron obtenidas correctamente

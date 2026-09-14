@@ -46,10 +46,10 @@ flowchart LR
 
     subgraph SYS ["Límite del sistema — PrimerCraft Pro"]
       direction LR
-      P1(("1<br/>Preparar target y<br/>secuencia de referencia")):::proceso
-      P2(("2<br/>Generar y caracterizar<br/>candidatos de primers")):::proceso
-      P3(("3<br/>Verificar exposición a variantes")):::proceso
-      P4(("4<br/>Puntuar, explicar y<br/>registrar la corrida")):::proceso
+      P1(("1<br/>Gestor de<br/>Preparación de Datos")):::proceso
+      P2(("2<br/>Gestor de Diseño<br/>de Candidatos")):::proceso
+      P3(("3<br/>Gestor de Verificación<br/>de Variantes Poblacionales")):::proceso
+      P4(("4<br/>Gestor de Puntaje<br/>y Trazabilidad")):::proceso
       D2[("D2 · Configuración de scoring")]:::almacen
       D1[("D1 · Corridas de diseño")]:::almacen
     end

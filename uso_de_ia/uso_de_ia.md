@@ -83,3 +83,28 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Resultado** | Archivos reformateados con tablas para los campos estructurados, encabezados consistentes entre documentos, e índices de navegación donde correspondía. |
 | **Modificado/descartado** | El contenido y la redacción no se modificaron — solo la presentación. El equipo revisó que el formato no alterara el sentido de lo ya escrito antes de comitear. |
 | **Error detectado** | Ninguno. |
+
+
+---
+
+## [TP1] Chequeo de consistencia de los casos de uso
+
+| | |
+|---|---|
+| **Herramienta** | Gemini |
+| **Tarea** | Revisar los casos de uso (CU-01 a CU-05) redactados por el equipo, chequeando consistencia interna (numeración de RF/HU/CU, cardinalidad de las precondiciones, clasificación de slices alternativos vs. de excepción) y cobertura de escenarios de error no contemplados. |
+| **Resultado** | Se detectaron varias inconsistencias: colisión de identificadores entre una versión anterior del SRS y la nueva (RF-01, HU-01 y CU-01 duplicados con contenido distinto); la disponibilidad de la API de NCBI Entrez estaba modelada como precondición en vez de como riesgo gestionable; faltaban slices de excepción para timeout y límite de tasa de NCBI Entrez; varios slices "A" (alternativos) en realidad describían fallos y correspondía clasificarlos como "E" (excepción); un paso de CU-03 incluía por error un fragmento de otro caso de uso en vez de un caso de uso completo (`<<include>>` mal formado). |
+| **Modificado/descartado** | El equipo decidió, para cada punto señalado, si corregía el documento o mantenía la redacción original con una justificación propia. La reconciliación final de numeración de RF y la definición de qué caso de uso reemplazaba a cuál quedó a criterio del equipo, no de la IA. |
+| **Error detectado** | Los listados en la columna Resultado — en particular, la colisión de IDs entre versiones fue el hallazgo más relevante, porque afectaba la trazabilidad de todo el documento. |
+
+---
+
+## [TP1] Chequeo del diagrama de modelo de dominio (Mermaid)
+
+| | |
+|---|---|
+| **Herramienta** | Gemini |
+| **Tarea** | Revisar el diagrama de clases del modelo de dominio en Mermaid, chequeando sintaxis válida, cardinalidades consistentes con los casos de uso, y correspondencia entre las relaciones del diagrama y el comportamiento descrito en los CU. |
+| **Resultado** | Se detectaron errores de sintaxis (typos que generaban clases duplicadas fantasma al renderizar; uso de `<--` en vez de `<|--` para relaciones de generalización, que no dibuja la herencia) y errores de cardinalidad (una relación `1..*` que impedía representar el caso "no se encontraron candidatos" ya descrito en una historia de usuario; una relación que no permitía que un `CandidatoPrimer` existiera sin su par, contradiciendo el caso de uso de validación manual de un primer suelto). |
+| **Modificado/descartado** | El equipo aplicó las correcciones de sintaxis y evaluó cada cambio de cardinalidad contra el comportamiento real que querían modelar, antes de aceptarlo. |
+| **Error detectado** | Los de sintaxis (typos, símbolo de generalización incorrecto) y los dos de cardinalidad mencionados arriba. |

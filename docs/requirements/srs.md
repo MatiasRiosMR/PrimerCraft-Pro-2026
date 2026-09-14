@@ -197,7 +197,7 @@ En contraste, se decidió no priorizar el **Proceso 3** debido a su fuerte depen
 2. El Investigador/a ingresa el identificador NCBI del target, el organismo de interés y los parámetros de corrida (longitud del primer, %GC y Tm objetivo).
 3. El sistema valida que los campos de entrada cumplan con el formato esperado.
 
-**Slice 2:** → `<<include>>` CU-04
+ `<<include>>` CU-04
 
 **Postcondición:** La secuencia de referencia, la anotación y los parámetros de corrida quedan validados y disponibles.
 
@@ -243,7 +243,8 @@ Escenario: Identificador con formato inválido
 
 **Slice 2:** 
 1. El sistema recorre la región del gen con una ventana deslizante, generando pares de primers forward/reverse candidatos que cumplen la longitud, %GC y Tm objetivo.
-2. `<<include>>` CU-05
+
+`<<include>>` CU-05
 
 **Postcondición:** Existe un conjunto de candidatos de primers caracterizados (con métricas termodinámicas, estructuras secundarias y amplicón simulado), listo para la verificación de especificidad.
 
@@ -303,14 +304,16 @@ Escenario: Generación por ventana deslizante
 2. El investigador/a ingresa las secuencias forward/reverse, el organismo y el identificador del target.
 3. El sistema valida que los datos de entrada cumplan con el formato requerido.
 
+`<<include>>` CU-04 — el sistema valida el target y obtiene la secuencia de referencia y su anotación.
+
 **Slice 2 — Localización del gen:**
-1. `<<include>>` CU-04 — el sistema valida el target y obtiene la secuencia de referencia y su anotación.
-2. El sistema localiza el gen objetivo y obtiene sus coordenadas y hebra.
+1. El sistema localiza el gen objetivo y obtiene sus coordenadas y hebra.
 
 **Slice 3 — Verificación de hibridación y caracterización:**
 1. El sistema ubica las secuencias de los primers dentro de la región del gen.
 2. El sistema verifica que hibriden en las posiciones y orientaciones esperadas.
-3. `<<include>>` CU-05 — el sistema caracteriza el par de primers.
+
+`<<include>>` CU-05 — el sistema caracteriza el par de primers.
 
 **Postcondición:** Existe un primer validado, con sus métricas termodinámicas y estructurales calculadas, disponible para su revisión por el investigador/a.
 

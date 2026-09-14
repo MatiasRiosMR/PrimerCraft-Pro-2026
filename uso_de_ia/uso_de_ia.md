@@ -12,15 +12,6 @@ title: Uso de IA — PrimerCraft Pro
 
 Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el procedimiento definido por la cátedra (`docs/uso-de-ia.md`). El uso de IA en este TP se limitó a tres funciones de apoyo: **corroborar** datos técnicos puntuales, **elaborar borradores** a partir de decisiones ya tomadas por el grupo, y **sugerir estructuras** de Markdown/Mermaid para ordenar el contenido. El contenido técnico, las decisiones de alcance y la redacción final quedaron a cargo del equipo en todos los casos.
 
-## Índice de entradas
-
-| TP | Entrada | Herramienta |
-|---|---|---|
-| TP1 | [Corroboración del planteo del problema](#tp1-corroboración-del-planteo-del-problema) | Claude |
-| TP1 | [Borrador inicial de la comparación con plataformas existentes](#tp1-borrador-inicial-de-la-comparación-con-plataformas-existentes) | Claude |
-| TP1 | [Estructura Markdown/Mermaid del SRS](#tp1-estructura-markdownmermaid-del-srs) | Claude |
-| TP1 | [Corroboración de RF vs. atributos de calidad](#tp1-corroboración-de-la-distinción-entre-requerimientos-funcionales-y-atributos-de-calidad) | Claude |
-| TP1 | [Corroboración de escenarios de calidad ISO/IEC 25010](#tp1-corroboración-de-la-estructura-de-los-escenarios-de-calidad-isoiec-25010) | Gemini |
 
 ---
 
@@ -59,17 +50,6 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Error detectado** | Ninguno. |
 
 ---
-
-## [TP1] Corroboración de la distinción entre requerimientos funcionales y atributos de calidad
-
-| | |
-|---|---|
-| **Herramienta** | Claude |
-| **Tarea** | Corroborar si el SRS cumplía con el pedido de la cátedra de distinguir con precisión los requerimientos funcionales de los atributos de calidad. |
-| **Resultado** | Se identificó que el SRS dejaba los requerimientos funcionales implícitos solo dentro de las historias de usuario, sin un catálogo numerado independiente. |
-| **Modificado/descartado** | El equipo agregó la sección de requerimientos funcionales (RF-01 a RF-05) y decidió cómo mapearlos contra las historias de usuario existentes. |
-| **Error detectado** | Una omisión de estructura, no un error de contenido técnico. |
-
 
 
 ---

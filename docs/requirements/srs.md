@@ -423,15 +423,7 @@ Escenario: Identificador inexistente o sin resultados
   When  la API de NCBI no devuelve ningún resultado o indica que el identificador es inexistente,
   Then el sistema notifica al investigador/a informando el error de que no se encontró el target y le solicita que verifique el identificador ingresado.
 
-Escenario: Confirmación al investigador
-  Given que la secuencia y la anotación fueron obtenidas correctamente
-  When finaliza la preparación del target
-  Then el sistema informa al investigador/a que el target fue validado correctamente y que la secuencia de referencia quedó disponible para el diseño
 
-Escenario: No requiere intervención manual
-  Given que NCBI Entrez proporcionó correctamente la referencia
-  When el sistema finaliza la consulta
-  Then el investigador/a no necesita descargar ni cargar manualmente el archivo FASTA para continuar con el diseño
 ```
 
 ---

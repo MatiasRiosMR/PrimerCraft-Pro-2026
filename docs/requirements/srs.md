@@ -203,9 +203,7 @@ En contraste, se decidió no priorizar el **Proceso 3** debido a su fuerte depen
 
 **Slices secundarios nombrados:**
 - **A1:** Carga masiva mediante archivo `.txt` con lista de identificadores (RF-02).
-- **E1:** Identificador NCBI inexistente o no encontrado en NCBI Entrez (RF-09).
-- **E2:** Incompatibilidad entre el identificador NCBI y el organismo ingresado.
-- **E3:** Parámetros de corrida fuera de los rangos válidos.
+- **E1:** Parámetros de corrida fuera de los rangos válidos.
 
 #### HU-01.1 · Iniciar diseño individual de primers
 
@@ -397,6 +395,10 @@ Escenario: Caracterización del par
 - **RF que realiza:** RF-03, RF-09
 - **Precondición:** El sistema cuenta con acceso y conectividad a la API pública de NCBI Entrez.
 
+**Slices secundarios nombrados:**
+- **E1:** Identificador NCBI inexistente o no encontrado en NCBI Entrez.
+- **E2:** Incompatibilidad entre el identificador NCBI y el organismo ingresado.
+
 **Flujo principal:**
 1. El sistema consulta internamente la API de NCBI Entrez enviando el identificador y el organismo.
 2. El sistema obtiene la secuencia FASTA y la anotación del genoma de referencia desde NCBI Entrez.
@@ -416,10 +418,10 @@ Escenario: Consulta exitosa a NCBI Entrez
   When el sistema consulta NCBI Entrez utilizando el identificador NCBI y el organismo ingresados
   Then el sistema obtiene la secuencia FASTA y la anotación correspondientes al target
 
-Escenario: Obtención válida de la secuencia
-  Given que NCBI Entrez devuelve correctamente la secuencia FASTA y la anotación
-  When el sistema finaliza la consulta
-  Then almacena o deja disponibles internamente estos datos para el diseño de primers
+Escenario: Identificador inexistente o sin resultados
+  Given que el sistema realiza la consulta a NCBI Entrez con los datos ingresados,
+  When  la API de NCBI no devuelve ningún resultado o indica que el identificador es inexistente,
+  Then el sistema notifica al investigador/a informando el error de que no se encontró el target y le solicita que verifique el identificador ingresado.
 
 Escenario: Confirmación al investigador
   Given que la secuencia y la anotación fueron obtenidas correctamente

@@ -222,10 +222,6 @@ Escenario: Identificador con formato inválido
   When ingresa un identificador NCBI cuyo formato no es válido
   Then el sistema informa que el identificador ingresado no cumple con el formato esperado y solicita su corrección
 
-Escenario: Parámetros de corrida inválidos
-  Given que el investigador/a ingresó un identificador NCBI y un organismo
-  When uno o más parámetros de corrida no cumplen con los rangos o formatos establecidos
-  Then el sistema informa cuáles parámetros son inválidos y solicita su corrección antes de continuar
 
 ```
 

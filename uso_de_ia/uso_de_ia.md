@@ -88,3 +88,41 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Resultado** | Se detectaron errores de sintaxis (typos que generaban clases duplicadas fantasma al renderizar; uso de `<--` en vez de `<|--` para relaciones de generalización, que no dibuja la herencia) y errores de cardinalidad (una relación `1..*` que impedía representar el caso "no se encontraron candidatos" ya descrito en una historia de usuario; una relación que no permitía que un `CandidatoPrimer` existiera sin su par, contradiciendo el caso de uso de validación manual de un primer suelto). |
 | **Modificado/descartado** | El equipo aplicó las correcciones de sintaxis y evaluó cada cambio de cardinalidad contra el comportamiento real que querían modelar, antes de aceptarlo. |
 | **Error detectado** | Los de sintaxis (typos, símbolo de generalización incorrecto) y los dos de cardinalidad mencionados arriba. |
+
+
+
+---
+
+## [TP1] Discusión sobre relaciones `<<include>>` entre casos de uso
+
+| | |
+|---|---|
+| **Herramienta** | Claude |
+| **Tarea** | Consultar si un paso de CU-03 (validar un primer ingresado manualmente), que repetía lógica ya escrita en CU-01, ameritaba modelarse como una relación `<<include>>` directa hacia ese paso puntual. |
+| **Resultado** | Se explicó que `<<include>>` en UML/Cockburn solo puede apuntar a un caso de uso completo (con su propio objetivo, flujo y postcondición), nunca a un fragmento o paso suelto de otro caso de uso. Como la lógica de localizar el gen dentro de la secuencia de referencia sí tenía entidad propia y ya se reutilizaba en más de un lugar, se sugirió extraerla como un caso de uso de soporte nuevo (sin actor humano directo), en vez de forzar una inclusión mal formada. |
+| **Modificado/descartado** | El equipo aceptó extraer el caso de uso de soporte y lo incorporó al documento, reescribiendo CU-02 y CU-03 para que lo incluyeran correctamente en vez de duplicar la lógica. En una revisión posterior, el equipo reformuló y renumeró estos casos de uso de soporte de manera distinta a la sugerida inicialmente (ver entrada "Ordenamiento y consolidación de un documento reformulado"). |
+| **Error detectado** | Una relación `<<include>>` mal formada, que apuntaba a un paso de otro caso de uso en vez de a un caso de uso completo. |
+
+---
+
+## [TP1] Ordenamiento y consolidación de un documento reformulado (canvas, RF y casos de uso)
+
+| | |
+|---|---|
+| **Herramienta** | Claude |
+| **Tarea** | Ordenar y dar formato a una versión nueva y más extensa del canvas de descubrimiento, el catálogo de requerimientos funcionales y los casos de uso (con CU-04 y CU-05 redefinidos respecto de una iteración anterior del documento), para dejarlos listos como archivos separados según la estructura del repositorio (`docs/requirements/srs.md`, `docs/architecture/`). |
+| **Resultado** | Los tres documentos reformateados y separados según su ubicación final en el repo. Al ordenar el contenido, se detectó una inconsistencia entre la sección "Elección de Procesos" (que declaraba pospuesto el Proceso 3, dependiente de NCBI BLAST y variantes poblacionales) y el flujo principal de CU-05 (incluido tanto por CU-02 como por CU-03), que sí ejecutaba una verificación de especificidad vía BLAST como parte de su lógica central. |
+| **Modificado/descartado** | Se aceptó el ordenamiento y formato propuesto. La inconsistencia detectada quedó señalada para que el equipo la revise y decida cómo reconciliarla; no fue resuelta unilateralmente por la IA. |
+| **Error detectado** | La inconsistencia entre la Elección de Procesos y el flujo de CU-05 respecto del alcance real de la verificación por BLAST. |
+
+---
+
+## [TP1] Redacción de mensajes de commit
+
+| | |
+|---|---|
+| **Herramienta** | Claude |
+| **Tarea** | Redactar, en formato Conventional Commits, los mensajes correspondientes a las tareas de entrega repartidas entre las integrantes del equipo (diagramas, modelo de dominio, elección de procesos, casos de uso, actualizaciones del canvas y del catálogo de RF). |
+| **Resultado** | Mensajes de commit con tipo, alcance y descripción para cada entrega, además de una advertencia sobre posibles conflictos de merge cuando dos personas editaban el mismo archivo (`docs/requirements/srs.md`) en la misma sesión de trabajo. |
+| **Modificado/descartado** | Se completaron a mano los detalles que la IA no podía conocer por sí sola (nombres reales de casos de uso, contenido exacto de documentos externos referenciados). El orden de commiteo y la coordinación entre integrantes quedó a criterio del equipo. |
+| **Error detectado** | Ninguno de contenido; se recibieron advertencias preventivas (colisión de numeración entre versiones del SRS, riesgo de conflicto de merge) que el equipo tuvo en cuenta antes de comitear. |

@@ -70,18 +70,6 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Modificado/descartado** | El equipo agregó la sección de requerimientos funcionales (RF-01 a RF-05) y decidió cómo mapearlos contra las historias de usuario existentes. |
 | **Error detectado** | Una omisión de estructura, no un error de contenido técnico. |
 
----
-
-## [TP1] Corroboración de la estructura de los escenarios de calidad (ISO/IEC 25010)
-
-| | |
-|---|---|
-| **Herramienta** | Gemini |
-| **Tarea** | Corroborar que las seis dimensiones usadas para redactar los escenarios de calidad del SRS (fuente → estímulo → artefacto → entorno → respuesta → medida) se correspondieran con el modelo de atributos de calidad de la norma ISO/IEC 25010, y que los cuatro atributos elegidos (eficiencia de desempeño, fiabilidad, usabilidad, mantenibilidad) fueran categorías válidas de esa norma. |
-| **Resultado** | Confirmó que la estructura de seis dimensiones y los cuatro atributos elegidos son consistentes con ISO/IEC 25010, y sugirió no dejar ningún atributo sin al menos dos escenarios con distinta condición de entorno. |
-| **Modificado/descartado** | El equipo redactó el contenido específico de cada escenario (fuente, estímulo, medida concreta) a partir del propio conocimiento del sistema; de Gemini solo se tomó la confirmación de la estructura, no redacción de contenido. |
-| **Error detectado** | Ninguno; sirvió como chequeo de que no faltara ninguna dimensión del escenario antes de darlo por cerrado. |
-
 
 
 ---

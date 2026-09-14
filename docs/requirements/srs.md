@@ -171,7 +171,7 @@ Para el desarrollo prioritario en lo que resta del cuatrimestre se seleccionaron
 
 Esta elección se fundamenta en que el Proceso 1 establece la puerta de entrada indispensable del sistema, resolviendo la validación de los datos ingresados y la obtención de la secuencia mediante la API de NCBI Entrez. Por su parte, el Proceso 2 representa el verdadero motor algorítmico del proyecto, ya que ejecuta de manera completamente local la lógica de diseño por ventana deslizante, el cálculo de propiedades termodinámicas como la Tm por Nearest-Neighbor y la evaluación de estructuras secundarias mediante ΔG, garantizando un alto valor del dominio y desarrollo técnico sin depender de limitaciones externas.
 
-En contraste, se decidió no priorizar el **Proceso 3** debido a su fuerte dependencia de servicios de terceros como NCBI BLAST y bases de variantes poblacionales, sujetos a restricciones de cuota y tiempos de respuesta que es preferible gestionar mediante simulaciones (mocks) en las primeras entregas. La profundización del **Proceso 4** se postergó para una etapa posterior, ya que su función principal es aplicar el esquema de scoring y orquestar el ciclo de reintentos basándose en los resultados de especificidad y variantes que genera el Proceso 3, lo que hace indispensable tener consolidadas las etapas previas antes de abordar su lógica completa.
+En contraste, se decidió no priorizar el **Proceso 3** debido a su fuerte dependencia de servicios de terceros como bases de variantes poblacionales, sujetos a restricciones de tiempos de respuesta. La profundización del **Proceso 4** se postergó para una etapa posterior, ya que su función principal es aplicar el esquema de scoring y orquestar el ciclo de reintentos basándose en los resultados de especificidad y variantes que genera el Proceso 3, lo que hace indispensable tener consolidadas las etapas previas antes de abordar su lógica completa.
 
 ---
 ## 7. Casos de uso / Historias de usuario
@@ -247,7 +247,9 @@ Escenario: Parámetros de corrida inválidos
 2. El sistema obtiene las coordenadas de inicio y fin de la región génica.
 3. El sistema determina la hebra en la que se codifica.
 
-**Slice 2:** → `<<include>>` CU-05
+**Slice 2:** 
+1. El sistema recorre la región del gen con una ventana deslizante, generando pares de primers forward/reverse candidatos que cumplen la longitud, %GC y Tm objetivo.
+2. `<<include>>` CU-05
 
 **Postcondición:** Existe un conjunto de candidatos de primers caracterizados (con métricas termodinámicas, estructuras secundarias y amplicón simulado), listo para la verificación de especificidad.
 
@@ -276,6 +278,19 @@ Escenario: Determinación de la hebra
   Given que el sistema identificó las coordenadas del gen
   When analiza la información de la anotación
   Then determina correctamente la hebra en la que se encuentra codificado el gen
+```
+
+#### HU-02.2 · Generación automática de candidatos
+
+*Deriva de: CU-02, Slice 2.*
+
+> **Como** investigador/a, **quiero** que el sistema recorra la región objetivo para generar automáticamente candidatos de primers, **para** asegurar que cumplan con la longitud, %GC y Tm objetivo antes de ser caracterizados.
+
+```gherkin
+Escenario: Generación por ventana deslizante
+  Given que el sistema localizó correctamente la región del gen y dispone de los parámetros de diseño,
+  When recorre la región mediante una ventana deslizante,
+  Then  genera pares de primers forward/reverse candidatos que cumplen con los parámetros de longitud, porcentaje de GC y Tm objetivo establecidos.
 ```
 
 ---
@@ -385,7 +400,7 @@ Escenario: Caracterización del par
 **Flujo principal:**
 1. El sistema consulta internamente la API de NCBI Entrez enviando el identificador y el organismo.
 2. El sistema obtiene la secuencia FASTA y la anotación del genoma de referencia desde NCBI Entrez.
-3. El sistema notifica al Investigador/a si el target fue validado correctamente o no.
+3. El sistema notifica al Investigador/a que los datos (genoma de referencia y anotación) fueron obtenidos correctamente o no .
 
 **Postcondición:** La secuencia FASTA y la anotación del genoma de referencia correspondientes al identificador NCBI y organismo ingresados quedan obtenidas y disponibles internamente para que los casos de uso de diseño y validación de primers puedan utilizarlas.
 
@@ -421,31 +436,25 @@ Escenario: No requiere intervención manual
 ### CU-05 · Caracterizar par de primers
 
 - **Actor:** Investigador/a
-- **Objetivo:** Generar y caracterizar pares de primers candidatos para el gen objetivo, evaluando sus propiedades termodinámicas, estructuras secundarias, especificidad y amplicón esperado.
+- **Objetivo:** Caracterizar pares de primers candidatos para el gen objetivo, evaluando sus propiedades termodinámicas, estructuras secundarias, especificidad y amplicón esperado.
 - **RF que realiza:** RF-04, RF-05, RF-06, RF-07
 - **Precondición:** La región del gen objetivo ha sido localizada correctamente, se dispone de la secuencia de referencia y de los parámetros de diseño establecidos.
 
 **Flujo principal (slice principal):**
-1. El sistema recorre la región del gen con una ventana deslizante, generando pares de primers forward/reverse candidatos que cumplen la longitud, %GC y Tm objetivo.
-2. El sistema calcula, para cada candidato, sus métricas termodinámicas (Tm real, %GC real, GC clamp, penalización por repeticiones).
-3. El sistema verifica la especificidad de cada par de primers mediante BLAST.
-4. El sistema evalúa cada candidato en busca de estructuras secundarias (horquillas y dímeros, internos y entre el par forward/reverse) y calcula su ΔG.
-5. El sistema genera la simulación del amplicón esperado para cada par candidato.
+1. El sistema calcula, para cada candidato, sus métricas termodinámicas (Tm real, %GC real, GC clamp, penalización por repeticiones).
+2. El sistema verifica la especificidad de cada par de primers mediante BLAST.
+3. El sistema evalúa cada candidato en busca de estructuras secundarias (horquillas y dímeros, internos y entre el par forward/reverse) y calcula su ΔG.
+4. El sistema genera la simulación del amplicón esperado para cada par candidato.
 
 **Postcondición:** Existe un conjunto de pares de primers candidatos caracterizados, cada uno con sus métricas termodinámicas, evaluación de especificidad, estructuras secundarias, valores de ΔG y amplicón esperado, disponibles para su revisión y selección por parte del investigador/a.
 
-#### HU-05 · Generación y caracterización de candidatos
+#### HU-05 · Caracterización de candidatos
 
 *Deriva de: CU-05.*
 
-> **Como** investigador/a, **quiero** que el sistema genere pares de primers candidatos y los caracterice según sus propiedades termodinámicas, especificidad y estructuras secundarias, así como el amplicón esperado, **para** disponer de candidatos adecuados para la amplificación del target.
+> **Como** investigador/a, **quiero** que el sistema caracterice los pares de primers candidatos según sus propiedades termodinámicas, especificidad y estructuras secundarias, así como el amplicón esperado, **para** disponer de candidatos adecuados para la amplificación del target.
 
 ```gherkin
-Escenario: Generación de candidatos
-  Given que el sistema localizó correctamente la región del gen y dispone de los parámetros de diseño
-  When recorre la región mediante una ventana deslizante
-  Then genera pares de primers forward/reverse candidatos que cumplen con los parámetros de longitud, %GC y Tm objetivo establecidos
-
 Escenario: Cálculo de métricas
   Given un par de primers candidato generado
   When el sistema realiza su caracterización

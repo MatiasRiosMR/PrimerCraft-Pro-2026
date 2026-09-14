@@ -130,7 +130,7 @@ Si el sistema funciona:
 | Aviso de superposición entre primers de distintos ensayos del mismo laboratorio | Extensión posterior. |
 | Registro versionado de parámetros, umbrales y versión de datos de variantes por corrida | Extensión posterior. |
 | Scoring desglosado y configurable (puntuación y sugerencia automática de mejores pares) | Extensión posterior. |
-| Cruce de la región de anclaje contra variantes poblacionales (dbSNP/Ensembl) | *(Nota: el canvas original lo marca como "se prioriza dentro del MVP" — pendiente de que el equipo lo reconcilie contra esta tabla, que lo lista como fuera de alcance).* |
+| Cruce de la región de anclaje contra variantes poblacionales (dbSNP/Ensembl) | Extensión Posterior |
 
 
 

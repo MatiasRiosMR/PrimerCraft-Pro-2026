@@ -218,7 +218,7 @@ Escenario: Datos de entrada válidos
   Then el sistema valida correctamente los datos y permite continuar con la consulta de la referencia
 
 Escenario: Identificador con formato inválido
-  Given que el investigador/a se encuentra ingresando los datos de una nueva corrida
+  Given que el investigador/a se encuentra ingresando los datos de una nueva corrida de diseño
   When ingresa un identificador NCBI cuyo formato no es válido
   Then el sistema informa que el identificador ingresado no cumple con el formato esperado y solicita su corrección
 
@@ -249,8 +249,8 @@ Escenario: Identificador con formato inválido
 **Postcondición:** Existe un conjunto de candidatos de primers caracterizados (con métricas termodinámicas, estructuras secundarias y amplicón simulado), listo para la verificación de especificidad.
 
 **Slices secundarios nombrados:**
-- **A1:** No se encuentra ninguna coincidencia del gen en la anotación (localización fallida).
-- **E1:** Ningún candidato generado cumple simultáneamente todos los parámetros de diseño dentro de la región del gen.
+- **E1:** No se encuentra ninguna coincidencia del gen en la anotación (localización fallida).
+- **E2:** Ningún candidato generado cumple simultáneamente todos los parámetros de diseño dentro de la región del gen.
 
 #### HU-02.1 · Localización del gen objetivo
 
@@ -260,7 +260,7 @@ Escenario: Identificador con formato inválido
 
 ```gherkin
 Escenario: Localización exitosa del gen
-  Given que el sistema dispone de la secuencia de referencia y su anotación obtenidas en CU-01
+  Given que el sistema dispone de la secuencia de referencia y su anotación 
   When busca el gen objetivo utilizando su identificador o nombre
   Then el sistema localiza correctamente el gen dentro del genoma de referencia
 

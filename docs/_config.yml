@@ -1,6 +1,11 @@
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+plugins:
+  - jekyll-remote-theme
 title: PrimerCraft Pro
 description: Diseño y puntuación automática de primers para PCR/qPCR — Trabajo Final de Ingeniería de Software, Licenciatura en Bioinformática, FIUNER
 mermaid:
   version: "10.9.1"
 nav_order_sort: nav_order
+aux_links:
+  "Repositorio en GitHub":
+    - "https://github.com/MatiasRiosMR/PrimerCraft-Pro-2026"

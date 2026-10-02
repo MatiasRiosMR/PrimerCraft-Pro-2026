@@ -126,3 +126,74 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Resultado** | Mensajes de commit con tipo, alcance y descripción para cada entrega, además de una advertencia sobre posibles conflictos de merge cuando dos personas editaban el mismo archivo (`docs/requirements/srs.md`) en la misma sesión de trabajo. |
 | **Modificado/descartado** | Se completaron a mano los detalles que la IA no podía conocer por sí sola (nombres reales de casos de uso, contenido exacto de documentos externos referenciados). El orden de commiteo y la coordinación entre integrantes quedó a criterio del equipo. |
 | **Error detectado** | Ninguno de contenido; se recibieron advertencias preventivas (colisión de numeración entre versiones del SRS, riesgo de conflicto de merge) que el equipo tuvo en cuenta antes de comitear. |
+---
+
+## [TP2] Revisión de links y organización de la documentación
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code |
+| **Tarea** | Revisar todos los links a archivos y secciones del repositorio y la organización de la documentación, después de subir las maquetas, el perfil, los criterios y las evaluaciones heurísticas. |
+| **Resultado** | Se encontraron rutas que apuntaban a nombres viejos (`perfil-investigador.md`, `criterios-generacion.md`, `docs/ui/…`) y rutas relativas mal armadas hacia las maquetas y capturas. La IA corrigió las rutas, armó índices para `docs/ux/` y `docs/architecture/`, actualizó el README principal y adaptó la portada del sitio, que seguía siendo la plantilla de la cátedra. |
+| **Modificado/descartado** | El grupo pidió quitar de las evaluaciones los pedidos al asistente escritos en lenguaje informal, y subir la carpeta de la marca, que faltaba. Cada cambio se commiteó por separado con mensajes revisados por el grupo. |
+| **Error detectado** | 36 links rotos en las evaluaciones heurísticas, el perfil y los criterios; una referencia a una carpeta de marca que no existía en el repositorio; una inconsistencia de colores entre la marca y la interfaz. |
+
+---
+
+## [TP2] Preparación de los prompts de evaluación heurística y alineación con el SRS
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code |
+| **Tarea** | Completar los prompts del ciclo 2 (perfil, escenario, historias de usuario y HTML de cada maqueta) para pegarlos en Gemini, y pedir que la respuesta llegue como documento Markdown con una estructura fija. |
+| **Resultado** | Cinco prompts listos para pegar, uno por pantalla. Al armarlos, la IA detectó que las evaluaciones citaban escenarios y códigos de casos de uso que ya no coincidían con el SRS: HU-01.1 esc. 3 y HU-04 esc. 3 y 4 se habían quitado el 14/09, y los códigos de CU-02 habían cambiado (A1 → E1 y E1 → E2). |
+| **Modificado/descartado** | El grupo decidió que la evaluación la hiciera otra IA (Gemini) en conversaciones nuevas, como establece el método, y no la misma IA que generó la iteración 2 de las maquetas. Se corrigieron las referencias en los textos descriptivos; los prompts del ciclo 1 se dejaron como se enviaron, con una nota que explica cómo se corresponden con el SRS actual. |
+| **Error detectado** | Las referencias desactualizadas al SRS. Además, en una sustitución automática la IA cambió mal un código (dejó "sin candidatos" como CU-02 E1); lo detectó en la revisión y lo corrigió a E2. |
+
+---
+
+## [TP2] Evaluación heurística de las cinco pantallas
+
+| | |
+|---|---|
+| **Herramienta** | Gemini |
+| **Tarea** | Evaluar cada maqueta (UI-1 a UI-5) con las 10 heurísticas de Nielsen, en una conversación nueva por pantalla, pensando en el perfil y el escenario del grupo. |
+| **Resultado** | Cinco evaluaciones en Markdown con 37 hallazgos en total, cada uno con heurística, severidad (0–4), elemento del HTML, problema y sugerencia. Las respuestas se pegaron sin editar en cada evaluación. |
+| **Modificado/descartado** | No se volvió a correr la evaluación para obtener otra respuesta: se conservó la primera, que es la evaluación real. Cada hallazgo se verificó contra el HTML antes de decidir (ver la entrada siguiente). |
+| **Error detectado** | 19 de los 37 hallazgos describían problemas que la maqueta no tiene (por ejemplo, decía que "Cancelar corrida" no hace nada, cuando abre un diálogo de confirmación) y 4 eran parcialmente ciertos. Gemini también citó elementos inexistentes (`#input-ncbi`, un botón "Iniciar corrida", el organismo *Arabidopsis*), aunque el prompt indicaba que la pantalla tenía JavaScript. |
+
+---
+
+## [TP2] Verificación de los hallazgos y borrador de la revisión crítica
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code |
+| **Tarea** | Verificar cada hallazgo de Gemini contra el HTML y el JavaScript de su maqueta y proponer, para cada uno, aceptarlo o rechazarlo según el criterio de la evaluación. |
+| **Resultado** | Una tabla por pantalla con la verificación y una justificación por hallazgo. Se propuso aceptar 3: avisar demoras de NCBI (UI-2), agregar "Ajustar parámetros" con resultados (UI-3) e informar las condiciones del cálculo de Tm y ΔG (UI-5). El resto se propuso rechazar, por ser incorrecto o por agregar funciones fuera de la HU o del alcance. |
+| **Modificado/descartado** | A pedido del grupo, la propuesta se pasó a la sección "Revisión crítica del grupo" de cada evaluación. Las decisiones quedan sujetas a la revisión del grupo antes de la entrega. |
+| **Error detectado** | Los de Gemini listados en la entrada anterior. Además, el texto visible de la maqueta UI-3 muestra "(CU-02 E1)" para el estado sin candidatos, que en el SRS es CU-02 E2. Se dejó sin corregir porque el grupo pidió no modificar el código de las maquetas. |
+
+---
+
+## [TP2] Publicación del sitio con GitHub Pages y rediseño
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code |
+| **Tarea** | Publicar la documentación con GitHub Pages, según el instructivo de la cátedra, y rediseñar el sitio con el logo y los colores de la marca. |
+| **Resultado** | Sitio publicado desde `main` en `/docs`, con menú lateral por secciones, portada, galería de maquetas, página de identidad visual, textos en español y un visor para ampliar los diagramas. La IA armó el sitio localmente y revisó cada página en el navegador antes del push. |
+| **Modificado/descartado** | El grupo pidió un diseño más moderno, con el logo y los colores de la marca. Los colores de los nodos de los diagramas se ajustan solo en el sitio; el código Mermaid de los documentos conserva sus colores. |
+| **Error detectado** | El modelo de dominio no se dibujaba ("Syntax error") por una línea `---` repetida y por clases vacías escritas `class X {}`. Se corrigió sin cambiar clases ni relaciones. Los diagramas grandes se veían demasiado chicos para leerse. La configuración de `_config.yml` copiada del instructivo (`theme: just-the-docs`) no funciona en GitHub Pages y se reemplazó por `remote_theme`. En la portada, la IA usó al principio una secuencia de ejemplo cuyo reverse era el complemento del forward, que no es un par de primers válido; se reemplazó por un motivo gráfico. |
+
+---
+
+## [TP2] Redacción de mensajes de commit
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code |
+| **Tarea** | Redactar los mensajes de commit, en el formato que ya usa el repositorio, para cada grupo de cambios de esta etapa. |
+| **Resultado** | Un mensaje por cambio, con los archivos de cada uno separados para commitearlos de a uno. |
+| **Modificado/descartado** | Los commits los hizo el grupo, en el orden que eligió. |
+| **Error detectado** | Ninguno. |

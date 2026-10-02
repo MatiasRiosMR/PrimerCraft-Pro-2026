@@ -2,6 +2,7 @@
 title: Arquitectura
 nav_order: 2
 has_children: true
+permalink: /architecture/
 ---
 
 # Arquitectura

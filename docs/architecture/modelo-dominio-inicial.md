@@ -14,12 +14,11 @@ nav_order: 2
 - Objetivo: que quien resuelve el problema hable de la misma manera que el usuario (lenguaje ubicuo).
 - Conceptos del dominio, entidades unidas y sus cardinalidades.
 
-**Fuente (editable):** https://mermaid.ai/app/projects/fe8785b1-f5bb-4a3b-9f4c-41368f8f8917/diagrams/8d382321-b962-435b-99c1-e5cf0ded5771
+**Fuente (editable):** [abrir en Mermaid](https://mermaid.ai/app/projects/fe8785b1-f5bb-4a3b-9f4c-41368f8f8917/diagrams/8d382321-b962-435b-99c1-e5cf0ded5771)
 
 ## Diagrama
 
 ```mermaid
----
 ---
 config:
   theme: base
@@ -28,26 +27,26 @@ config:
 ---
 classDiagram
 direction LR
-    class Investigador {}
+    class Investigador
 
 
-    class CorridaDeDiseno {}
+    class CorridaDeDiseno
 
 
 
 
-    class ParametrosDeCorrida {}
+    class ParametrosDeCorrida
 
 
-    class ParDePrimers {}
+    class ParDePrimers
 
 
-    class CandidatoPrimer {}
+    class CandidatoPrimer
 
 
-    class Corrida{}
-    class CorridaDeVerificacion{}
-    class InformacionGenoma{}
+    class Corrida
+    class CorridaDeVerificacion
+    class InformacionGenoma
 
 
 

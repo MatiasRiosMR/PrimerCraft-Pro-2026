@@ -1,5 +1,6 @@
 ---
 title: Git, GitHub y Documentación
+parent: Instructivos
 nav_order: 1
 ---
 

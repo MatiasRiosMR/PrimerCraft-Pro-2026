@@ -1,5 +1,6 @@
 ---
 title: Diagrama de Contexto (DFD Nivel 0)
+parent: Instructivos
 nav_order: 2
 ---
 

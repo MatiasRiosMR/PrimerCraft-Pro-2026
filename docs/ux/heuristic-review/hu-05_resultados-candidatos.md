@@ -43,6 +43,8 @@ secundarias, así como el amplicón esperado, para disponer de candidatos adecua
   La especificidad (BLAST) en el MVP es simulada (mock).
 ```
 
+> Este prompt se registra tal como se envió. En el SRS actual "ningún candidato cumple todos los parámetros" es CU-02 E2, no E1.
+
 > Los marcadores `<…>` remiten a textos ya transcriptos completos en el prompt de UI-1 y en el perfil; se abrevian para no repetirlos.
 
 ### Respuesta obtenida
@@ -55,9 +57,9 @@ HTML: [`../../mockups/hu-05_resultados-candidatos.html`](../../mockups/hu-05_res
 
 ![Con candidatos](../../mockups/capturas/hu-05_resultados-candidatos__1-con-candidatos.png)
 
-**Sin candidatos (CU-02 E1)**
+**Sin candidatos (CU-02 E2)**
 
-![Sin candidatos (CU-02 E1)](../../mockups/capturas/hu-05_resultados-candidatos__2-sin-candidatos.png)
+![Sin candidatos (CU-02 E2)](../../mockups/capturas/hu-05_resultados-candidatos__2-sin-candidatos.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 
@@ -65,7 +67,7 @@ HTML: [`../../mockups/hu-05_resultados-candidatos.html`](../../mockups/hu-05_res
 - Gráfico de "pesas" (dumbbell) con la Tm de F y R sobre la escala 57–63 °C y el objetivo marcado.
 - Filtros (todos / sin advertencias / con advertencias), opciones de orden y botón "Copiar" de cada secuencia. Copiar no es exportar, pero tampoco está en el TP1.
 - Vista del heterodímero F·R con los enlaces marcados.
-- En CU-02 E1: la v1 inicial tenía un embudo con cuántas ventanas descartó cada parámetro y una sugerencia de ajuste. **Se quitó antes de la evaluación** porque es una función de diagnóstico que el TP1 no pide; quedaron el mensaje, los parámetros usados y el botón "Ajustar parámetros".
+- En CU-02 E2: la v1 inicial tenía un embudo con cuántas ventanas descartó cada parámetro y una sugerencia de ajuste. **Se quitó antes de la evaluación** porque es una función de diagnóstico que el TP1 no pide; quedaron el mensaje, los parámetros usados y el botón "Ajustar parámetros".
 - La pantalla evita a propósito cualquier puntaje global o "mejor par" (fuera de alcance, SRS §2.6).
 - Secuencias y métricas de ejemplo **ilustrativas** (no calculadas); el amplicón mostrado sí mide 184 pb.
 - Ilustraciones SVG (cromatograma del encabezado, ícono de filtro sin resultados, par hibridado) embebidas en el HTML.
@@ -110,11 +112,29 @@ descrito en los comentarios de los bloques <script>.
 
 PERFIL: <pegar perfil §2>
 ESCENARIO: <pegar Escenario A §3.1>
-HISTORIA: <pegar HU-05>
+HISTORIA: <pegar HU-05 + CU-02 E2>
 
 Para cada heurística: veredicto (CUMPLE / CUMPLE PARCIALMENTE / NO CUMPLE), por qué
 (con referencia al elemento del HTML) y, si corresponde, hallazgo y sugerencia.
 Numerá los hallazgos (H1, H2, …).
+Respondé únicamente con un documento Markdown, sin texto antes ni después, para
+guardarlo como archivo .md. Usá exactamente esta estructura:
+
+# Evaluación heurística — <nombre de la pantalla>
+
+## Resumen
+| N.° | Heurística | Veredicto | Hallazgos |
+(una fila por cada una de las 10 heurísticas; en Hallazgos, los H… o "—")
+
+## 1. Visibilidad del estado del sistema
+**Veredicto:** CUMPLE / CUMPLE PARCIALMENTE / NO CUMPLE
+**Por qué:** … (con referencia al elemento concreto del HTML)
+**Hallazgos:** H… (o "Ninguno")
+
+(repetir la misma sección para las heurísticas 2 a 10)
+
+## Hallazgos
+| Hallazgo | Heurística | Severidad (0–4) | Elemento del HTML | Problema | Sugerencia |
 
 HTML:
 <pegar el contenido de hu-05_resultados-candidatos.html, sin el bloque <style id="fuentes-embebidas">>

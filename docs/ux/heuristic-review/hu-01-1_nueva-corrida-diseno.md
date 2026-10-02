@@ -65,6 +65,8 @@ Criterios de aceptación:
 Además, RF-01 pide valores por defecto sugeridos.
 ```
 
+> Este prompt se registra tal como se envió. En el SRS actual HU-01.1 tiene dos escenarios (datos válidos e identificador con formato inválido); el criterio 3 de este prompt, parámetros inválidos, corresponde a CU-01 E1.
+
 ### Respuesta obtenida
 
 El HTML generado es el archivo [`../../mockups/hu-01-1_nueva-corrida-diseno.html`](../../mockups/hu-01-1_nueva-corrida-diseno.html) (v1, iteración 2).
@@ -75,9 +77,9 @@ El HTML generado es el archivo [`../../mockups/hu-01-1_nueva-corrida-diseno.html
 
 ![Datos válidos](../../mockups/capturas/hu-01-1_nueva-corrida-diseno__1-datos-validos.png)
 
-**Errores de formato (HU-01.1 esc. 2 y 3)**
+**Errores de formato (HU-01.1 esc. 2 · CU-01 E1)**
 
-![Errores de formato (HU-01.1 esc. 2 y 3)](../../mockups/capturas/hu-01-1_nueva-corrida-diseno__2-errores-de-formato.png)
+![Errores de formato (HU-01.1 esc. 2 · CU-01 E1)](../../mockups/capturas/hu-01-1_nueva-corrida-diseno__2-errores-de-formato.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 
@@ -101,7 +103,7 @@ Antes de correr la evaluación, el grupo cambió dos criterios de generación (v
 **Qué cambió en esta pantalla:**
 
 - El identificador se valida mientras se escribe: indica el tipo de accession (NM_, NC_, GenBank…) y da un mensaje específico si parece un nombre de gen, si le falta el guion bajo o si le faltan dígitos (HU-01.1 esc. 2).
-- Los parámetros se editan escribiendo o con −/+ (mantener apretado repite). Los botones se deshabilitan en los límites del rango y la etiqueta pasa de "sugerido" a "ajustado". Un valor fuera de rango muestra cuál es el problema en el mismo parámetro (HU-01.1 esc. 3).
+- Los parámetros se editan escribiendo o con −/+ (mantener apretado repite). Los botones se deshabilitan en los límites del rango y la etiqueta pasa de "sugerido" a "ajustado". Un valor fuera de rango muestra cuál es el problema en el mismo parámetro (CU-01 E1).
 - El esquema "Primer objetivo" se actualiza con la longitud y el %GC elegidos.
 - La barra inferior resume la corrida o, si hay errores, lista los campos a corregir con un enlace a cada uno. El botón indica por qué está deshabilitado.
 - "Restablecer sugeridos" y "Cancelar" se pueden deshacer.
@@ -110,7 +112,7 @@ Antes de correr la evaluación, el grupo cambió dos criterios de generación (v
 
 **Supuestos nuevos a revisar:**
 
-- Aviso al ingresar un cromosoma completo (`NC_`): puede impedir delimitar el gen. Deriva del supuesto de UI-2 sobre CU-02 A1.
+- Aviso al ingresar un cromosoma completo (`NC_`): puede impedir delimitar el gen. Deriva del supuesto de UI-2 sobre CU-02 E1.
 - Los casos del botón "Guion demo" (por ejemplo, `NM_999999` → identificador inexistente) son convenciones de la simulación, no reglas del sistema.
 
 > **Al pedir la evaluación:** la pastilla punteada "Estado de la maqueta" y su botón "Guion demo" no son parte de la interfaz. El bloque `<style id="fuentes-embebidas">` (tipografías en base64, ~145 KB) se puede omitir al pegar el HTML.
@@ -137,7 +139,7 @@ descrito en los comentarios de los bloques <script>.
 
 PERFIL: <pegar la tabla del perfil de user_profile.md §2>
 ESCENARIO: <pegar Escenario A de user_profile.md §3.1>
-HISTORIA: <pegar HU-01.1 con sus criterios de aceptación>
+HISTORIA: <pegar HU-01.1 con sus criterios de aceptación y CU-01 E1>
 
 Para cada una de las 10 heurísticas indicá:
 - Veredicto: CUMPLE / CUMPLE PARCIALMENTE / NO CUMPLE
@@ -145,6 +147,24 @@ Para cada una de las 10 heurísticas indicá:
 - Si no cumple o cumple parcialmente: hallazgo concreto y sugerencia de mejora.
 
 Numerá los hallazgos (H1, H2, …) para poder referenciarlos.
+Respondé únicamente con un documento Markdown, sin texto antes ni después, para
+guardarlo como archivo .md. Usá exactamente esta estructura:
+
+# Evaluación heurística — <nombre de la pantalla>
+
+## Resumen
+| N.° | Heurística | Veredicto | Hallazgos |
+(una fila por cada una de las 10 heurísticas; en Hallazgos, los H… o "—")
+
+## 1. Visibilidad del estado del sistema
+**Veredicto:** CUMPLE / CUMPLE PARCIALMENTE / NO CUMPLE
+**Por qué:** … (con referencia al elemento concreto del HTML)
+**Hallazgos:** H… (o "Ninguno")
+
+(repetir la misma sección para las heurísticas 2 a 10)
+
+## Hallazgos
+| Hallazgo | Heurística | Severidad (0–4) | Elemento del HTML | Problema | Sugerencia |
 
 HTML:
 <pegar el contenido de hu-01-1_nueva-corrida-diseno.html, sin el bloque <style id="fuentes-embebidas">>

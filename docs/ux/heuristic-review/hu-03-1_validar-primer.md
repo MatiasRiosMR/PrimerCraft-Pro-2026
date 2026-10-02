@@ -111,6 +111,24 @@ HISTORIA: <pegar HU-03.1 + CU-03 E1>
 Para cada heurística: veredicto (CUMPLE / CUMPLE PARCIALMENTE / NO CUMPLE), por qué
 (con referencia al elemento del HTML) y, si corresponde, hallazgo y sugerencia.
 Numerá los hallazgos (H1, H2, …).
+Respondé únicamente con un documento Markdown, sin texto antes ni después, para
+guardarlo como archivo .md. Usá exactamente esta estructura:
+
+# Evaluación heurística — <nombre de la pantalla>
+
+## Resumen
+| N.° | Heurística | Veredicto | Hallazgos |
+(una fila por cada una de las 10 heurísticas; en Hallazgos, los H… o "—")
+
+## 1. Visibilidad del estado del sistema
+**Veredicto:** CUMPLE / CUMPLE PARCIALMENTE / NO CUMPLE
+**Por qué:** … (con referencia al elemento concreto del HTML)
+**Hallazgos:** H… (o "Ninguno")
+
+(repetir la misma sección para las heurísticas 2 a 10)
+
+## Hallazgos
+| Hallazgo | Heurística | Severidad (0–4) | Elemento del HTML | Problema | Sugerencia |
 
 HTML:
 <pegar el contenido de hu-03-1_validar-primer.html, sin el bloque <style id="fuentes-embebidas">>

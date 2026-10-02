@@ -48,6 +48,8 @@ Esta pantalla se reutiliza en el flujo B (validar un primer existente, HU-03.2):
 también ese estado, con los pasos "Primers y target / Obtención y localización / Resultado".
 ```
 
+> Este prompt se registra tal como se envió. En el SRS actual HU-04 tiene dos escenarios (consulta exitosa e identificador inexistente); los criterios 3 y 4 de este prompt ya no están en la HU, y "no se encuentra el gen en la anotación" es CU-02 E1, no A1.
+
 > Los marcadores `<…>` remiten a textos ya transcriptos completos en el prompt de UI-1 y en el perfil; se abrevian para no repetirlos.
 
 ### Respuesta obtenida
@@ -68,13 +70,13 @@ HTML: [`../../mockups/hu-04_hu-02-1_progreso-corrida.html`](../../mockups/hu-04_
 
 ![ID y organismo no coinciden (CU-04 E2)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__3-id-vs-organismo.png)
 
-**Completa (HU-04 esc. 3)**
+**Completa (HU-04 esc. 1 · HU-02.1)**
 
-![Completa (HU-04 esc. 3)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__4-completa.png)
+![Completa (HU-04 esc. 1 · HU-02.1)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__4-completa.png)
 
-**Gen no localizado en la anotación (CU-02 A1)**
+**Gen no localizado en la anotación (CU-02 E1)**
 
-![Gen no localizado en la anotación (CU-02 A1)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__5-gen-no-localizado.png)
+![Gen no localizado en la anotación (CU-02 E1)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__5-gen-no-localizado.png)
 
 **Validación en curso — flujo B (HU-03.2)**
 
@@ -89,7 +91,7 @@ HTML: [`../../mockups/hu-04_hu-02-1_progreso-corrida.html`](../../mockups/hu-04_
 - Botón "Cancelar corrida": no aparece en ningún CU.
 - CU-04 E2 con acción directa "Continuar con *Homo sapiens*". Supone que NCBI devuelve el organismo del registro.
 - CU-04 E1 con una lista de chequeo (formato ✓, conexión ✓, registro ✗) que distingue "no existe" de "NCBI no responde".
-- CU-02 A1 (gen no localizado) con la explicación "suele pasar cuando se ingresa el accession de un cromosoma completo". Esa causa probable la propone la IA.
+- CU-02 E1 (gen no localizado) con la explicación "suele pasar cuando se ingresa el accession de un cromosoma completo". Esa causa probable la propone la IA.
 - Ilustraciones SVG en los estados de error (base de datos vacía, identificadores que no coinciden, lupa sobre la anotación).
 - La referencia que se obtiene es genómica (`NC_000017.11`, región de 81 189 pb de BRCA1), no el ARNm `NM_007294`: así lo pide CU-04 ("genoma de referencia y anotación") y es lo que permite dar coordenadas y hebra. Las coordenadas de BRCA1 (chr17: 43 044 295 – 43 125 483, hebra −, GRCh38) son reales; el número de ventanas (81 170 = 81 189 − 20 + 1) sale de esa región.
 - Estado del flujo B: tarjetas "Forward ubicado / Reverse buscando" y paso "Ubicando los primers".
@@ -104,7 +106,7 @@ Antes de correr la evaluación, el grupo cambió dos criterios de generación (v
 **Qué cambió en esta pantalla:**
 
 - La corrida se simula con los datos que llegan de UI-1: los pasos se completan de a uno, el contador de ventanas avanza hasta 81 170, aparecen las marcas de los pares que cumplen y corre el tiempo. El porcentaje también se ve en la pestaña del navegador.
-- Según los datos ingresados, la corrida se desvía al estado que corresponde: identificador inexistente (CU-04 E1), identificador y organismo que no coinciden (CU-04 E2), gen no localizado (CU-02 A1) o corrida sin candidatos (CU-02 E1).
+- Según los datos ingresados, la corrida se desvía al estado que corresponde: identificador inexistente (CU-04 E1), identificador y organismo que no coinciden (CU-04 E2), gen no localizado (CU-02 E1) o corrida sin candidatos (CU-02 E2).
 - "Cancelar corrida" pide confirmación en un diálogo y vuelve a UI-1 con los datos conservados. En CU-04 E2, "Continuar con *Homo sapiens*" retoma la corrida.
 - El estado "Completa" muestra la cantidad de pares y el tiempo reales de la simulación.
 - Flujo B (HU-03.2): la ubicación de F y R usa el mismo cálculo que UI-5, y "Ver resultado" se habilita al terminar.
@@ -133,11 +135,29 @@ descrito en los comentarios de los bloques <script>.
 
 PERFIL: <pegar perfil §2>
 ESCENARIO: <pegar Escenario A §3.1>
-HISTORIAS: <pegar HU-04, HU-02.1, CU-04 E1/E2 y CU-02 A1>
+HISTORIAS: <pegar HU-04, CU-04 E1/E2, HU-02.1, CU-02 E1, HU-02.2 y HU-03.2 (flujo B)>
 
 Para cada heurística: veredicto (CUMPLE / CUMPLE PARCIALMENTE / NO CUMPLE), por qué
 (con referencia al elemento del HTML) y, si corresponde, hallazgo y sugerencia.
 Numerá los hallazgos (H1, H2, …).
+Respondé únicamente con un documento Markdown, sin texto antes ni después, para
+guardarlo como archivo .md. Usá exactamente esta estructura:
+
+# Evaluación heurística — <nombre de la pantalla>
+
+## Resumen
+| N.° | Heurística | Veredicto | Hallazgos |
+(una fila por cada una de las 10 heurísticas; en Hallazgos, los H… o "—")
+
+## 1. Visibilidad del estado del sistema
+**Veredicto:** CUMPLE / CUMPLE PARCIALMENTE / NO CUMPLE
+**Por qué:** … (con referencia al elemento concreto del HTML)
+**Hallazgos:** H… (o "Ninguno")
+
+(repetir la misma sección para las heurísticas 2 a 10)
+
+## Hallazgos
+| Hallazgo | Heurística | Severidad (0–4) | Elemento del HTML | Problema | Sugerencia |
 
 HTML:
 <pegar el contenido de hu-04_hu-02-1_progreso-corrida.html, sin el bloque <style id="fuentes-embebidas">>

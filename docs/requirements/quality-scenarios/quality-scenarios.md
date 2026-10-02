@@ -1,5 +1,7 @@
 ---
-title: Escenarios de calidad — PrimerCraft Pro
+title: Escenarios de calidad
+parent: Requerimientos
+nav_order: 2
 ---
 
 # Escenarios de calidad — PrimerCraft Pro

@@ -1,5 +1,7 @@
 ---
-title: Registro de uso de IA — Parte A (escenarios de calidad)
+title: Registro de uso de IA (escenarios de calidad)
+parent: Requerimientos
+nav_order: 3
 ---
 
 # Registro de uso de IA — Parte A

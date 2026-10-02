@@ -1,3 +1,9 @@
+---
+title: SRS
+parent: Requerimientos
+nav_order: 1
+---
+
 # SRS — PrimerCraft Pro
 
 **Especificación de Requerimientos del Software**

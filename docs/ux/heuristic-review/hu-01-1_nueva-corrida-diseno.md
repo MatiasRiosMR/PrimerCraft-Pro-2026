@@ -172,7 +172,92 @@ HTML:
 
 ### Respuesta completa de la IA
 
-> _Pendiente: pegar la respuesta completa de la IA, sin editar._
+Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar.
+
+<details>
+<summary>Ver la respuesta completa</summary>
+
+# Evaluación heurística — Nueva corrida de diseño (HU-01.1)
+
+## Resumen
+| N.° | Heurística | Veredicto | Hallazgos |
+|---|---|---|---|
+| 1 | Visibilidad del estado del sistema | CUMPLE PARCIALMENTE | H1, H2 |
+| 2 | Relación entre el sistema y el mundo real | CUMPLE | — |
+| 3 | Control y libertad del usuario | CUMPLE | — |
+| 4 | Consistencia y estándares | CUMPLE PARCIALMENTE | H3 |
+| 5 | Prevención de errores | CUMPLE PARCIALMENTE | H4 |
+| 6 | Reconocimiento antes que recuerdo | CUMPLE | — |
+| 7 | Flexibilidad y eficiencia de uso | CUMPLE | — |
+| 8 | Estética y diseño minimalista | CUMPLE | — |
+| 9 | Ayudar a los usuarios a reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE | H5 |
+| 10 | Ayuda y documentación | CUMPLE | — |
+
+---
+
+## 1. Visibilidad del estado del sistema
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** El stepper del encabezado (`.stepper`) indica claramente la etapa actual ("1. Datos y parámetros") y las futuras. Al modificar los deslizadores numéricos, la previsualización del amplicón y su contenido GC (`.preview-bar`) se actualizan dinámicamente ofreciendo retroalimentación inmediata. Sin embargo, no hay un indicador explícito que informe el estado activo de la consulta de organismo ("Validando en NCBI...") al seleccionar un organismo, ni una advertencia visible previa de que la consulta Entrez dependerá de la conectividad o latencia externa antes de presionar el botón principal.  
+**Hallazgos:** H1, H2
+
+## 2. Relación entre el sistema y el mundo real
+**Veredicto:** CUMPLE  
+**Por qué:** Utiliza lenguaje natural científico alineado exactamente con el nivel del usuario (biólogo molecular): identificador NCBI (e.g., `NM_007294`), $T_m$ (°C), %GC, longitud en nt y $\Delta G$. Mantiene las convenciones del dominio biológico (color de bases nucleotídicas $A, T, G, C$, sentido $5'\rightarrow3'$) sin simplificaciones innecesarias ni tecnicismos informáticos ambiguos.  
+**Hallazgos:** Ninguno
+
+## 3. Control y libertad del usuario
+**Veredicto:** CUMPLE  
+**Por qué:** Permite modificar ágilmente cualquier parámetro de corrida mediante botones incremental/decremental o ingreso directo por teclado (`.num-in`), restaurar valores o cambiar la selección de organismo en cualquier momento antes de iniciar. Ofrece un enlace explícito "Saltar al contenido" (`.skip`) para navegación por teclado y permite retroceder o alternar fácilmente hacia la sección "Validar" desde el riel lateral sin perder el flujo.  
+**Hallazgos:** Ninguno
+
+## 4. Consistencia y estándares
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** El patrón de entrada para los parámetros numéricos ($T_m$, %GC, longitud) combina un campo de texto integrado dentro de una tarjeta con botones de incremento/decremento (`.step`) y una barra deslizante visual (`.track`). Sin embargo, en el caso de la longitud de los primers, la escala del rango visual debajo de la barra (`.scale`) muestra `18 - 22 - 25` pero los límites operativos reales permiten valores fuera de ese rango visible, generando inconsistencia entre la representación gráfica y el control.  
+**Hallazgos:** H3
+
+## 5. Prevención de errores
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** El sistema previene errores mediante la limitación automática de los controles numéricos y la presencia de chips predefinidos para organismos habituales. Sin embargo, en el campo de texto libre del Identificador NCBI (`#input-ncbi`), no se realiza una mascara o filtrado de caracteres en tiempo de escritura (p. ej., se permite ingresar espacios o caracteres especiales no válidos antes de enviar), dependiendo únicamente de la validación posterior al hacer clic en "Continuar".  
+**Hallazgos:** H4
+
+## 6. Reconocimiento antes que recuerdo
+**Veredicto:** CUMPLE  
+**Por qué:** Muestra explícitamente los organismos más frecuentes mediante *chips* marcables (*Homo sapiens*, *Mus musculus*, *Arabidopsis thaliana*, etc.) para evitar la necesidad de redactar la taxonomía exacta a mano. Además, el panel derecho "Próximos pasos" visibiliza claramente qué ocurrirá al confirmar la corrida (consulta NCBI Entrez, localización en secuencia de referencia, evaluación de parámetros), reduciendo la carga de memoria del usuario sobre el proceso secuencial.  
+**Hallazgos:** Ninguno
+
+## 7. Flexibilidad y eficiencia de uso
+**Veredicto:** CUMPLE  
+**Por qué:** Permite dos vías eficientes de interacción para los parámetros: el ajuste rápido visual mediante botones step/deslizadores para usuarios de mouse o teclado, y la edición directa por tipeo continuo (`.num-in`). La barra de acciones fija inferior (`.actionbar`) y los accesos rápidos a accesibilidad mediante teclado optimizan significativamente la velocidad de trabajo repetitivo.  
+**Hallazgos:** Ninguno
+
+## 8. Estética y diseño minimalista
+**Veredicto:** CUMPLE  
+**Por qué:** Mantiene una jerarquía visual sumamente ordenada y limpia con tipografía legible, uso apropiado de tarjetas con sombras suaves y contraste adecuado. Elimina ruido innecesario, destacando el amplicón previsualizado y los datos críticos sin abarrotar la pantalla.  
+**Hallazgos:** Ninguno
+
+## 9. Ayudar a los usuarios a reconocer, diagnosticar y recuperarse de errores
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** Cuando el identificador o parámetro tiene un error de formato, el campo se resalta en rojo (`.is-err`) y se muestra un mensaje de error claro en pantalla (`.msg-err`). En la barra inferior se incluye un resumen de errores con enlaces internos (`.errsum`). No obstante, en la vista móvil/pantalla pequeña (`@media (max-width:1100px)`), la barra de resumen de errores se oculta o condensa excesivamente y no redirige el foco automáticamente al primer campo inválido al presionar el botón de disparo "Iniciar corrida".  
+**Hallazgos:** H5
+
+## 10. Ayuda y documentación
+**Veredicto:** CUMPLE  
+**Por qué:** Ofrece descripciones explicativas directas sobre cada parámetro en contexto (`.hint` y `.why`), detallando el rango recomendado sin interrumplir la tarea. Presenta en la columna lateral la lista explicativa del proceso de diseño automático para orientar al investigador sobre los cálculos internos del sistema.  
+**Hallazgos:** Ninguno
+
+---
+
+## Hallazgos
+
+| Hallazgo | Heurística | Severidad (0–4) | Elemento del HTML | Problema | Sugerencia |
+|---|---|---|---|---|---|
+| H1 | 1. Visibilidad del estado del sistema | 2 | `.chips .chip` y `.org-otro` | Al seleccionar u opinar sobre un organismo o cambiar la opción a "Otro", no se muestra retroalimentación visual clara ni indicación de validación previa sobre la disponibilidad del taxón en la base de datos. | Agregar un indicador visual tipo micro-spinner o badge de confirmación ("Taxón verificado") al ingresar o seleccionar un organismo. |
+| H2 | 1. Visibilidad del estado del sistema | 2 | `.btn-p` (`#btn-continuar`) | Al presionar "Iniciar corrida", si la conexión con NCBI Entrez tarda varios segundos, la interfaz no cambia inmediatamente a un estado deshabilitado con spinner de carga dentro del botón principal. | Incorporar el estado visual `.btn.busy` con indicador `.spin` e inactivación del botón inmediatamente tras el evento de envío (*submit*). |
+| H3 | 4. Consistencia y estándares | 1 | `.param .scale` | Las marcas numéricas bajo la barra deslizante de la longitud del primer (`.scale`) muestran valores fijos (`18 - 22 - 25`) que no se adaptan dinámicamente ni reflejan con exactitud si el usuario ingresa valores límite por teclado (p. ej. `15` o `30`). | Hacer que las marcas extremas de la escala visual representen siempre el límite mínimo y máximo estricto configurado para el parámetro, o actualizar la posición del indicador en tiempo real de forma uniforme. |
+| H4 | 5. Prevención de errores | 2 | `input#input-ncbi` (`.input.lg`) | El campo de entrada de identificador NCBI permite ingresar cualquier carácter o formato inválido (incluyendo minúsculas sin auto-formato o espacios) sin ofrecer una limpieza automática o restricción preventiva al escribir. | Implementar formateo automático al vuelo (como conversión a mayúsculas automática) e impedir la entrada de caracteres no alfanuméricos ni guiones bajos en el evento `input`. |
+| H5 | 9. Reconocer y recuperarse de errores | 2 | `.actionbar` / `.errsum` | En dispositivos móviles o pantallas compactas, la lista/resumen de errores se oculta por CSS (`display: none`), perdiéndose el acceso directo por enlace para corregir el campo defectuoso. | Mantener visible el contador/resumen de errores en dispositivos móviles dentro del `actionbar` y añadir la transferencia automática del foco teclado (`element.focus()`) al primer campo con error al intentar enviar. |
+
+</details>
 
 ---
 

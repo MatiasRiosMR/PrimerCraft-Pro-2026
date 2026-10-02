@@ -165,7 +165,124 @@ HTML:
 
 ### Respuesta completa de la IA
 
-> _Pendiente: pegar la respuesta completa de la IA, sin editar._
+Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar. Las marcas como `[cite: 2]` son de la propia respuesta.
+
+<details>
+<summary>Ver la respuesta completa</summary>
+
+# Evaluación heurística — Progreso de la corrida (HU-04, HU-02.1)
+
+## Resumen
+
+| N.° | Heurística | Veredicto | Hallazgos |
+|---|---|---|---|
+| 1 | Visibilidad del estado del sistema | CUMPLE PARCIALMENTE | H1, H2 |
+| 2 | Coincidencia entre el sistema y el mundo real | CUMPLE | — |
+| 3 | Control y libertad del usuario | CUMPLE PARCIALMENTE | H3, H4 |
+| 4 | Consistencia y estándares | CUMPLE | — |
+| 5 | Prevención de errores | CUMPLE | — |
+| 6 | Reconocimiento antes que recuerdo | CUMPLE | — |
+| 7 | Flexibilidad y eficiencia de uso | CUMPLE PARCIALMENTE | H5 |
+| 8 | Estética y diseño minimalista | CUMPLE | — |
+| 9 | Ayuda a los usuarios a reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE | H6, H7 |
+| 10 | Ayuda y documentación | CUMPLE PARCIALMENTE | H8 |
+
+---
+
+## 1. Visibilidad del estado del sistema
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** En el estado normal en curso (`v1`), la pantalla informa adecuadamente las etapas transcurridas y la etapa actual mediante una línea de tiempo (`ul.tl`), un indicador porcentual animado (`div.stat`) y una animación del locus genómico (`svg.locus .win`). Sin embargo, en los estados de error grave (como `v2` "ID inexistente", `v3` "Incompatibilidad de organismo" o `v5` "Gen no localizado"), la interfaz sustituye completamente el panel de progreso por una vista de error genérica (`div.big`) que elimina la línea de tiempo. Esto impide al biólogo visualizar en qué punto exacto de la tubería de análisis falló la consulta (por ejemplo, si la falla ocurrió al conectar con NCBI Entrez o durante el parsing de la anotación).  
+**Hallazgos:** H1, H2
+
+---
+
+## 2. Coincidencia entre el sistema y el mundo real
+
+**Veredicto:** CUMPLE  
+**Por qué:** El lenguaje utilizado respeta rigurosamente el dominio de la biología molecular y la genómica. Términos como "NCBI Entrez", "FASTA", "Anotación", "Locus", "Exones", "Candidatos" y coordenadas genómicas son familiares y adecuados para un/a biólogo/a molecular[cite: 2]. La metáfora visual del locus con exones (`.exon`) e intrones alineada con una regla de pares de bases (`.axis`) refleja fielmente los esquemas genómicos habitualmente consultados por estos profesionales[cite: 2].  
+**Hallazgos:** Ninguno
+
+---
+
+## 3. Control y libertad del usuario
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** Durante la ejecución en curso (`v1`), el botón de acción principal de la barra inferior dice "Cancelar corrida"[cite: 2]. Sin embargo, el script JavaScript adjunto no implementa un gestor de eventos (`addEventListener`) ni manejador para detener o abortar el proceso asincrónico (vía `AbortController` o actualización de estado). En las vistas de error (`v2`, `v3`, `v5`), aunque se ofrece el botón "Modificar datos de entrada", no se permite reintentar directamente la consulta en caso de fallos temporales de la API pública de NCBI sin tener que volver atrás y reescribir la información.  
+**Hallazgos:** H3, H4
+
+---
+
+## 4. Consistencia y estándares
+
+**Veredicto:** CUMPLE  
+**Por qué:** La pantalla mantiene una coherencia estructural y visual completa con el resto de la aplicación, utilizando la misma barra de navegación lateral (`nav.rail`), el encabezado corporativo (`header.appbar`), el stepper de pasos y la barra de acciones inferior fija (`div.actionbar`)[cite: 2]. Los códigos de color para estados de éxito (verde `--ok`), advertencia/error (rojo `--err`) e información en curso (azul/verde primario `--primary`) son consistentes y estandarizados en todo el HTML y CSS[cite: 2].  
+**Hallazgos:** Ninguno
+
+---
+
+## 5. Prevención de errores
+
+**Veredicto:** CUMPLE  
+**Por qué:** La pantalla es de carácter informativo/procesamiento y no expone formularios de edición directa que permitan la introducción de datos erróneos. La barra de acciones deshabilita de manera segura los botones de avance ("Ver candidatos" / "Ver resultados") con el atributo `disabled` y `aria-disabled="true"` mientras la corrida está en progreso (`v1`) o si esta ha terminado en error (`v2`, `v3`, `v5`), evitando la navegación a estados inconsistentes[cite: 2].  
+**Hallazgos:** Ninguno
+
+---
+
+## 6. Reconocimiento antes que recuerdo
+
+**Veredicto:** CUMPLE  
+**Por qué:** En la parte superior de la pantalla se muestra explícitamente el bloque de contexto (`div.ctx`) con los parámetros ingresados en la etapa previa: identificador NCBI (`NM_007294`), organismo (`Homo sapiens`), Tm, %GC y longitud de oligos[cite: 2]. El investigador no necesita memorizar qué datos ingresó ni recurrir a notas externas para interpretar los resultados de la corrida en curso[cite: 2].  
+**Hallazgos:** Ninguno
+
+---
+
+## 7. Flexibilidad y eficiencia de uso
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** No existe la opción de omitir o acelerar la animación de escaneo genómico si el usuario desea revisar únicamente el log textual de pasos. Además, cuando la corrida finaliza con éxito (`v4`), la interfaz requiere de forma obligatoria que el usuario haga clic en el botón inferior "Ver candidatos" para navegar hacia los resultados[cite: 2], en lugar de redirigir automáticamente o permitir un atajo de teclado explícito para la transición.  
+**Hallazgos:** H5
+
+---
+
+## 8. Estética y diseño minimalista
+
+**Veredicto:** CUMPLE  
+**Por qué:** El diseño visual presenta una jerarquía clara, alta legibilidad y un uso equilibrado del espacio en blanco[cite: 2]. La información no esencial está omitida y los elementos decorativos (como las tramas de secuencias e ilustraciones SVG) no interfieren con la lectura de los indicadores de estado ni con las métricas principales[cite: 2].  
+**Hallazgos:** Ninguno
+
+---
+
+## 9. Ayuda a los usuarios a reconocer, diagnosticar y recuperarse de errores
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** Ante errores de consulta NCBI (`v2` ID inexistente, `v3` Incompatibilidad ID vs. Organismo), los mensajes explican adecuadamente el problema y sugieren verificar los datos ingresados[cite: 2]. Sin embargo, en el escenario de fallo de localización del gen (`v5`), el mensaje de error "No se encontró ninguna coincidencia para el gen objetivo dentro de la anotación de referencia obtenida" es escueto y carece de orientación o acciones correctivas para el investigador (por ejemplo, sugerir la búsqueda manual por coordenadas genómicas o revisar alias del gen)[cite: 2]. Asimismo, el botón de retorno reenvía al usuario mediante `window.history.back()` en lugar de mantener el estado del formulario precompletado de manera explícita[cite: 2].  
+**Hallazgos:** H6, H7
+
+---
+
+## 10. Ayuda y documentación
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** Si bien los nombres de los pasos de la corrida son claros ("Obteniendo secuencia NCBI Entrez", "Localizando gen objetivo", etc.)[cite: 2], no hay enlaces de ayuda, tooltips contextuales ni explicaciones breves sobre las limitaciones de tiempo asociadas a las cuotas de procesamiento y colas públicas de la API de NCBI Entrez o BLAST, un aspecto crítico de la frustración del perfil de usuario[cite: 2].  
+**Hallazgos:** H8
+
+---
+
+## Hallazgos
+
+| Hallazgo | Heurística | Severidad (0–4) | Elemento del HTML | Problema | Sugerencia |
+|---|---|---|---|---|---|
+| H1 | 1. Visibilidad del estado del sistema | 2 | `div.v2`, `div.v3`, `div.v5` | La vista de error reemplaza todo el panel de progreso (`.split`), ocultando la línea de tiempo (`ul.tl`). El usuario pierde el contexto de en qué etapa exacta falló la tubería[cite: 2]. | Mantener la estructura principal con la línea de tiempo visible, marcando con estado `.err` el paso específico donde ocurrió la falla y mostrando el mensaje descriptivo a un costado. |
+| H2 | 1. Visibilidad del estado del sistema | 2 | `div.stat` | El porcentaje de avance (ej. "45%") y la barra de progreso no reflejan el tiempo ni el estado real de la solicitud asincrónica; son estáticos en el HTML o simulados[cite: 2]. | Vincular el porcentaje de la barra de progreso directamente con eventos de cambio de estado recibidos desde el servidor/API. |
+| H3 | 3. Control y libertad del usuario | 2 | `button.btn-p` ("Cancelar corrida") | El botón de cancelación no posee implementación funcional en el bloque `<script>` para abortar peticiones HTTP en curso (`fetch` / `AbortController`)[cite: 2]. | Registrar el manejador de eventos `click` en el botón de cancelación que aborte la llamada API y retorne al usuario al estado de edición con un aviso informativo. |
+| H4 | 3. Control y libertad del usuario | 2 | `div.v2`, `div.v3`, `div.v5` | Cuando la consulta falla por problemas en NCBI o red, no existe un botón "Reintentar" rápido sin abandonar la pantalla o perder los datos[cite: 2]. | Incluir un botón secundario "Reintentar consulta" junto a "Modificar datos de entrada" en las pantallas de error. |
+| H5 | 7. Flexibilidad y eficiencia de uso | 1 | `div.v4 .actionbar` | Al completarse la corrida con éxito (`v4`), la pantalla requiere una acción manual obligatoria del usuario para ir a la vista de candidatos[cite: 2]. | Agregar una opción de redirección automática opcional al finalizar, o habilitar un atajo de teclado claro (ej. `Enter`) para avanzar. |
+| H6 | 9. Reconocer, diagnosticar y recuperarse de errores | 3 | `div.v5 .big` | El mensaje de error por gen no localizado no explica probables causas del dominio (ej. anotación incompleta en NCBI, desajuste de símbolo genómico) ni sugiere alternativas de solución[cite: 2]. | Rediseñar el mensaje detallando que el identificador recuperado no contiene anotaciones CDS/mRNA claras para ese símbolo genómico e indicar cómo ajustar los parámetros. |
+| H7 | 9. Reconocer, diagnosticar y recuperarse de errores | 2 | `a.btn[onclick="history.back()"]` | La navegación hacia atrás mediante el historial del navegador (`history.back()`) puede provocar la pérdida de parámetros ingresados si la página previa no los retuvo en el estado[cite: 2]. | Reemplazar `history.back()` por un enlace parametrizado explícito (ej. `hu-01-1_nueva-corrida-diseno.html?id=NM_007294`) que garantice la persistencia de los campos en el formulario. |
+| H8 | 10. Ayuda y documentación | 1 | `div.tl` / `header.top` | No se advierte al usuario sobre posibles demoras derivadas de las restricciones y colas de espera del servidor público de NCBI Entrez[cite: 2]. | Incluir una nota contextual o tooltip informativo sobre los tiempos de espera promedio de NCBI cuando una etapa demore más de lo habitual. |
+
+</details>
 
 ---
 

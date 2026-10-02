@@ -136,7 +136,145 @@ HTML:
 
 ### Respuesta completa de la IA
 
-> _Pendiente: pegar la respuesta completa de la IA, sin editar._
+Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar.
+
+<details>
+<summary>Ver la respuesta completa</summary>
+
+# Evaluación heurística — Validar primer existente (HU-03.1)
+
+## Resumen
+
+| N.° | Heurística | Veredicto | Hallazgos |
+|---|---|---|---|
+| 1 | Visibilidad del estado del sistema | CUMPLE PARCIALMENTE | H1, H2 |
+| 2 | Coincidencia entre el sistema y el mundo real | CUMPLE | — |
+| 3 | Control y libertad del usuario | CUMPLE PARCIALMENTE | H3 |
+| 4 | Consistencia y estándares | CUMPLE PARCIALMENTE | H4 |
+| 5 | Prevención de errores | CUMPLE PARCIALMENTE | H5, H6 |
+| 6 | Reconocer antes que recordar | CUMPLE | — |
+| 7 | Flexibilidad y eficiencia de uso | CUMPLE PARCIALMENTE | H7 |
+| 8 | Estética y diseño minimalista | CUMPLE | — |
+| 9 | Ayudar a los usuarios a reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE | H8 |
+| 10 | Ayuda y documentación | CUMPLE PARCIALMENTE | H9 |
+
+---
+
+## 1. Visibilidad del estado del sistema
+
+**Veredicto:** CUMPLE PARCIALMENTE
+
+**Por qué:** La interfaz muestra correctamente el paso activo mediante el componente `.stepper .cur` ("1. Secuencias y target"). Sin embargo, cuando se activa el estado de datos con errores (`#st2:checked`), la lista de errores globales (`.errsum`) que resume las fallas del formulario está oculta en pantallas de escritorio mediante CSS modal/responsive (`[data-pantalla=ui-4] .v1 .errsum { display: none }`), privando al usuario de un resumen consolidado de las fallas de entrada. Además, el botón de acción principal (`#btn-val`) cambia dinámicamente su texto a "Validando contra NCBI..." e incluye un spinner (`.spin`), pero el atributo `aria-disabled="true"` en la variante de error no impide la interacción por teclado o click de forma nativa al no ser un elemento `<button>` deshabilitado real o al faltar bloqueo de submit explícito en el formulario.
+
+**Hallazgos:** H1, H2
+
+---
+
+## 2. Coincidencia entre el sistema y el mundo real
+
+**Veredicto:** CUMPLE
+
+**Por qué:** La pantalla utiliza terminología biológica precisa y natural para el perfil de biólogo molecular (como "Forward (5' → 3')", "Reverse (5' → 3')", "NCBI RefSeq / Gene ID", "Nomenclatura IUPAC", "Complementariedad 3'"). La representación visual de los pares de bases coloreados por nucleótido (`.ruler .A`, `.ruler .C`, `.ruler .G`, `.ruler .T`) y la separación clara entre las cadenas coinciden exactamente con la convención utilizada en herramientas estándar del dominio.
+
+**Hallazgos:** Ninguno
+
+---
+
+## 3. Control y libertad del usuario
+
+**Veredicto:** CUMPLE PARCIALMENTE
+
+**Por qué:** La interfaz no ofrece un botón o acción directa dentro de los cuadros de edición para limpiar el texto ingresado (*Reset* / *Clear input*). Si un usuario pega por error una secuencia extensa o incorrecta en los campos `textarea`, debe seleccionarla y borrarla manualmente. Tampoco existe la posibilidad de restaurar valores por defecto o cancelar la operación de validación una vez disparada la petición asíncrona hacia NCBI.
+
+**Hallazgos:** H3
+
+---
+
+## 4. Consistencia y estándares
+
+**Veredicto:** CUMPLE PARCIALMENTE
+
+**Por qué:** Existe una inconsistencia funcional en los controles de selección de organismo (`.chips` / `.chip`): mientras que la especie se selecciona mediante un grupo de chips interactivos (`#chips-org`), la variante para ingresar "Otro" renderiza un campo de texto adicional (`.org-otro`), pero este no comparte el mismo patrón de validación/estilo visual nativo que el campo de identificador de target (`#f-id`). Adicionalmente, se utiliza la clase CSS `.btn` en un enlace `<a>` para la acción "Validar primers" en la barra de acciones inferior, combinando comportamiento de navegación y ejecución de acción sin la semántica de formulario adecuada.
+
+**Hallazgos:** H4
+
+---
+
+## 5. Prevención de errores
+
+**Veredicto:** CUMPLE PARCIALMENTE
+
+**Por qué:** Aunque la pantalla incluye sanitización automática al pegar secuencias (eliminando números, espacios y convirtiendo a mayúsculas mediante el comentario de script `e.value = e.value.toUpperCase().replace(/[^A-Z-]/g, '')`), el editor permite escribir libremente caracteres alfabéticos que no pertenecen al código IUPAC válido para bases de nucleótidos (por ejemplo, las letras 'Z', 'X', 'Q'). Aunque se resaltan en rojo con la clase `.ruler .x`, el sistema no previene la entrada en tiempo de tipeo ni advierte antes de presionar el botón de validación sobre qué letras específicas son inválidas de forma preventiva antes del blur/submit. Además, el campo Target admite formatos sin validar la coherencia previa con el organismo seleccionado.
+
+**Hallazgos:** H5, H6
+
+---
+
+## 6. Reconocer antes que recordar
+
+**Veredicto:** CUMPLE
+
+**Por qué:** La interfaz expone de forma permanente en la columna lateral/inferior la tabla con la "Nomenclatura IUPAC para bases degeneradas" (`.iupac`), permitiendo al usuario verificar qué significa cada código (como R, Y, S, W, K, M, B, D, H, V, N) sin necesidad de recordarlo de memoria o acudir a otra pestaña. Además, los accesos directos de teclado estándar de la aplicación se detallan explícitamente y las instrucciones clave permanecen visibles.
+
+**Hallazgos:** Ninguno
+
+---
+
+## 7. Flexibilidad y eficiencia de uso
+
+**Veredicto:** CUMPLE PARCIALMENTE
+
+**Por qué:** No se provee una funcionalidad para cargar archivos en formato FASTA/TXT o arrastrar y soltar (*drag & drop*), lo cual obliga al biólogo a copiar y pegar texto manualmente desde sus archivos locales. Para un usuario experto que valida múltiples pares de primers seguidos, la carga manual campo por campo reduce significativamente la eficiencia operativa.
+
+**Hallazgos:** H7
+
+---
+
+## 8. Estética y diseño minimalista
+
+**Veredicto:** CUMPLE
+
+**Por qué:** La maquetación es clara, utiliza tipografía legible (`Instrument Sans` / `JetBrains Mono`), un esquema de color coherente para indicar la orientación forward (`--fwd: #0d9488`) y reverse (`--rev: #7c3aed`), y organiza la información en tarjetas sin recargar la pantalla con elementos innecesarios. Se oculta información secundaria de manera adecuada y la jerarquía visual dirige la atención a los campos clave.
+
+**Hallazgos:** Ninguno
+
+---
+
+## 9. Ayudar a los usuarios a reconocer, diagnosticar y recuperarse de errores
+
+**Veredicto:** CUMPLE PARCIALMENTE
+
+**Por qué:** Cuando se ingresa un carácter no válido (Estado 2), el sistema señala la posición del error mediante `.ruler .x` y agrega el mensaje de error `.msg-err`. Sin embargo, la sugerencia de corrección automática (`.fix`) ofrece reemplazar o eliminar el carácter de forma estática, pero la acción no indica claramente a qué posición exacta de la secuencia se aplica la corrección cuando existen múltiples caracteres inválidos repetidos, lo que puede confundir al usuario al intentar corregir secuencias largas.
+
+**Hallazgos:** H8
+
+---
+
+## 10. Ayuda y documentación
+
+**Veredicto:** CUMPLE PARCIALMENTE
+
+**Por qué:** No existe una sección de ayuda contextual o tooltip explícito que explique el formato esperado para el identificador del target en NCBI (por ejemplo, ejemplos visuales de RefSeq como `NM_001101` o Gene ID `7157`), obligando al usuario a asumir la sintaxis correcta.
+
+**Hallazgos:** H9
+
+---
+
+## Hallazgos
+
+| Hallazgo | Heurística | Severidad (0–4) | Elemento del HTML | Problema | Sugerencia |
+|---|---|---|---|---|---|
+| H1 | 1. Visibilidad del estado del sistema | 2 | `[data-pantalla=ui-4] .v1 .errsum` | El resumen global de errores `.errsum` se oculta mediante la regla CSS media query `@media (min-width: 1101px)` en la vista de escritorio, dejando al usuario sin una vista agrupada de todos los fallos del formulario. | Eliminar la regla `display: none` para `.errsum` en el CSS de panel de escritorio o ubicar el resumen dentro del área visible de la columna principal. |
+| H2 | 1. Visibilidad del estado del sistema | 2 | `#btn-val` / `.btn[aria-disabled="true"]` | El botón de validación utiliza `aria-disabled="true"` en estado de error pero no deshabilita funcionalmente el elemento ni previene el evento click/submit a nivel JS, permitiendo intentar el envío con datos inválidos. | Reemplazar por `<button disabled>` o agregar un control de intercepción en el manejador de eventos `click`/`submit` que detenga la ejecución si el estado es inválido. |
+| H3 | 3. Control y libertad del usuario | 1 | `.ed-b textarea` (`#f-fwd`, `#f-rev`) | Los campos de entrada de secuencia carecen de una opción/botón para limpiar rápidamente el contenido (*Clear field*). | Agregar un botón "Limpiar" o un icono con la acción de vaciar la secuencia en el encabezado `.ed-h` de cada editor. |
+| H4 | 4. Consistencia y estándares | 2 | `#f-org-otro` / `.chip` | El campo para especificar "Otro organismo" aparece como un input desconectado visualmente de la botonera de chips `#chips-org`. | Integrar el input dentro del chip o convertir la selección de organismo en un combo de autocompletado consistente para cualquier especie. |
+| H5 | 5. Prevención de errores | 3 | `.ed textarea` (`#f-fwd`, `#f-rev`) | Permite tipear y pegar cualquier letra del alfabeto; la validación IUPAC solo ocurre tras el evento de entrada, generando estados de error visibles en lugar de restringir/advertir la entrada de caracteres imposibles. | Filtrar o advertir en tiempo real mediante un indicador preventivo que bloquee caracteres no pertenecientes al alfabeto amino/nucleotídico o código IUPAC. |
+| H6 | 5. Prevención de errores | 2 | `.input` (`#f-id`) | El campo de identificador de target no valida sintácticamente el formato esperado de NCBI en tiempo de tipeo (ej. prefijo `NM_`, `NC_` o numérico puro). | Añadir validación con expresión regular en línea para prefijos NCBI conocidos y mostrar sugerencia de formato en tiempo real. |
+| H7 | 7. Flexibilidad y eficiencia de uso | 2 | `.ed` (`#f-fwd`, `#f-rev`) | La interfaz solo permite ingresar secuencias mediante tipeo/pegado manual en áreas de texto; no permite la carga de archivos `.fasta`, `.txt` o `.seq`. | Incorporar una zona de arrastrar y soltar (*drag & drop*) o un botón "Cargar archivo FASTA" que extraiga automáticamente las secuencias forward y reverse. |
+| H8 | 9. Ayudar a los usuarios a reconocer, diagnosticar y recuperarse de errores | 2 | `.fix` | La caja de sugerencia de corrección `.fix` no especifica la posición del carácter incorrecto (p. ej., "Posición 12: carácter 'Z' no válido"). | Incluir el número de posición y contexto del nucleótido en la sugerencia de corrección de la alerta `.fix`. |
+| H9 | 10. Ayuda y documentación | 1 | `.hint` (`#f-id`) | La ayuda del identificador del target es genérica y no provee un botón o tooltip con ejemplos de IDs válidos de NCBI RefSeq / Gene ID. | Añadir un botón o enlace de ayuda contextual con ejemplos cliqueables (ej. "Ej: NM_001101.5, 7157") que completen el campo como demostración. |
+
+</details>
 
 ---
 

@@ -132,7 +132,121 @@ HTML:
 
 ### Respuesta completa de la IA
 
-> _Pendiente: pegar la respuesta completa de la IA, sin editar._
+Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar.
+
+<details>
+<summary>Ver la respuesta completa</summary>
+
+# Evaluación heurística — Resultado de validación (HU-03.3)
+
+## Resumen
+
+| N.° | Heurística | Veredicto | Hallazgos |
+|---|---|---|---|
+| 1 | Visibilidad del estado del sistema | CUMPLE | — |
+| 2 | Relación entre el sistema y el mundo real | CUMPLE | — |
+| 3 | Control y libertad del usuario | CUMPLE PARCIALMENTE | H1 |
+| 4 | Consistencia y estándares | CUMPLE | — |
+| 5 | Prevención de errores | CUMPLE | — |
+| 6 | Reconocimiento antes que recuerdo | CUMPLE PARCIALMENTE | H2 |
+| 7 | Flexibilidad y eficiencia de uso | CUMPLE PARCIALMENTE | H3 |
+| 8 | Estética y diseño minimalista | CUMPLE | — |
+| 9 | Ayuda a los usuarios a reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE | H4 |
+| 10 | Ayuda y documentación | CUMPLE PARCIALMENTE | H5 |
+
+---
+
+## 1. Visibilidad del estado del sistema
+
+**Veredicto:** CUMPLE  
+**Por qué:** La interfaz comunica de forma inmediata y explícita el resultado global de la validación mediante el bloque `.hero`, adaptando su estilo según el estado de la maqueta. En el estado positivo (`#st1`), muestra un banner de confirmación verde con el texto *"El par de primers hibrida correctamente en el gen objetivo"* y los checks de las verificaciones realizadas. En el estado negativo (`#st2`), el banner se transforma en un aviso crítico en rojo indicando *"El par de primers no hibrida en la región esperada"*. Además, el estado de la navegación principal se refleja claramente en la barra lateral con la clase `.on` y el atributo `aria-current="page"`.  
+**Hallazgos:** Ninguno
+
+---
+
+## 2. Relación entre el sistema y el mundo real
+
+**Veredicto:** CUMPLE  
+**Por qué:** El lenguaje y los símbolos corresponden perfectamente con la jerga y conceptos del laboratorio de biología molecular. Se representan adecuadamente las convenciones biológicas como el alineamiento de hebras (5'→3' / 3'→5'), la complementariedad de bases con código de colores (A, T, G, C), y métricas biofísicas familiares para la investigadora ($T_m$, %GC, $\Delta G$, amplicón). La visualización de la alineación en la etiqueta `<pre class="aln">` simula la salida estándar de herramientas de alineamiento de secuencias del dominio.  
+**Hallazgos:** Ninguno
+
+---
+
+## 3. Control y libertad del usuario
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** El usuario puede regresar fácilmente a la pantalla anterior utilizando el botón de la barra de acciones (`.actionbar .btn:contains("Modificar secuencias")`) o el enlace secundario *"Volver a editar secuencias"*. Sin embargo, la barra de acciones fija carece de una vía directa para iniciar un nuevo flujo de trabajo o descargar/exportar el informe de caracterización obtenido sin tener que navegar hacia atrás secuencialmente.  
+**Hallazgos:** H1
+
+---
+
+## 4. Consistencia y estándares
+
+**Veredicto:** CUMPLE  
+**Por qué:** El diseño mantiene una coherencia visual y de interacción rigurosa con el resto de la aplicación. Utiliza el riel de navegación lateral (`.rail`), la barra superior de la aplicación (`.appbar`), el sistema de tarjetas (`.card`), los badges de estado (`.badge`) y la paleta cromática estandarizada (verde para Forward `--fwd`, violeta para Reverse `--rev`, rojo para errores/mismatches). Las convenciones de teclado estándar (como el salto mediante la tecla Tab y enlaces `skip`) están implementadas adecuadamente.  
+**Hallazgos:** Ninguno
+
+---
+
+## 5. Prevención de errores
+
+**Veredicto:** CUMPLE  
+**Por qué:** Al ser una pantalla de presentación de resultados derivada del procesamiento de datos previa validación estricta de sintaxis IUPAC en la etapa anterior (HU-03.1/HU-03.2), la interfaz previene lecturas erróneas al deshabilitar o truncar la presentación de análisis secundarios (como las estructuras secundarias o las métricas de par) cuando la hibridación falla (`.view.v2` en `#st2`), evitando que el usuario saque conclusiones falsas a partir de datos no aplicables.  
+**Hallazgos:** Ninguno
+
+---
+
+## 6. Reconocimiento antes que recuerdo
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** La pantalla presenta de forma muy clara las métricas de la caracterización (temperaturas de fusión, porcentaje GC, tamaño del amplicón y alineamiento). No obstante, en la vista donde la hibridación no ocurre (`.view.v2`), el sistema informa que las secuencias no se localizaron, pero no muestra en pantalla el organismo de referencia ni las secuencias exactas ingresadas originalmente por el usuario para su contrastación inmediata sin tener que volver a la pantalla de edición.  
+**Hallazgos:** H2
+
+---
+
+## 7. Flexibilidad y eficiencia de uso
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** La interfaz provee accesos rápidos mediante teclado (`<kbd>`) para la interacción y permite la navegación adaptativa. Sin embargo, para un usuario experto que requiere documentar su experimento o pasar los datos a un cuaderno de laboratorio digital (ELN) o planilla, la pantalla no ofrece acciones de un solo clic para copiar el alineamiento en formato texto plano, copiar el mapa de la región ni exportar un reporte resumido en PDF/JSON.  
+**Hallazgos:** H3
+
+---
+
+## 8. Estética y diseño minimalista
+
+**Veredicto:** CUMPLE  
+**Por qué:** La jerarquía visual es excelente. La información se organiza de forma modular mediante tarjetas bien delimitadas, separando el resumen del resultado, la alineación de secuencias, la localización cromosómica en el gen objetivo y el desglose de métricas termodinámicas. No hay elementos decorativos superfluos que distraigan de la tarea de inspección bioinformática.  
+**Hallazgos:** Ninguno
+
+---
+
+## 9. Ayuda a los usuarios a reconocer, diagnosticar y recuperarse de errores
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** En el escenario de fallo de hibridación (`.view.v2` / `#st2`), la pantalla diagnostica el problema correctamente indicando que el par no hibrida en la región del gen objetivo. Sin embargo, no ofrece sugerencias de diagnóstico probables que orienten al biólogo sobre la causa raíz (por ejemplo: si las secuencias corresponden a la hebra opuesta sin revertir, si hay diferencias de variante de transcrito, o si el identificador NCBI ingresado no corresponde al lote de primers).  
+**Hallazgos:** H4
+
+---
+
+## 10. Ayuda y documentación
+
+**Veredicto:** CUMPLE PARCIALMENTE  
+**Por qué:** La interfaz muestra los valores calculados de las métricas termodinámicas ($\Delta G$, $T_m$), pero carece de leyendas explicativas, notas al pie o tooltips informativos que indiquen las condiciones por defecto asumidas en el cálculo (por ejemplo, concentración de sales/monovalentes, concentración de dNTPs y primers) ni los umbrales recomendados de $\Delta G$ para la formación de estructuras secundarias críticas.  
+**Hallazgos:** H5
+
+---
+
+## Hallazgos
+
+| Hallazgo | Heurística | Severidad (0–4) | Elemento del HTML | Problema | Sugerencia |
+|---|---|---|---|---|---|
+| **H1** | 3. Control y libertad del usuario | 2 | `.actionbar` | La barra de acciones solo ofrece la opción de volver a modificar o descargar un reporte, pero no permite reiniciar el proceso directamente para validar otro par distinto. | Agregar un botón o enlace secundario en la barra de acciones como "Validar otro par" que redirija a `hu-03-1_validar-primer.html`. |
+| **H2** | 6. Reconocimiento antes que recuerdo | 2 | `.hero.bad` / `.card` en vista de fallo (`.v2`) | Cuando la hibridación falla, la pantalla no muestra cuáles eran las secuencias Forward y Reverse ingresadas ni el ID del target, obligando al usuario a recordar qué ingresó o a volver atrás para verificarlo. | Incluir una sección resumen compacta en el estado de fallo que muestre el identificador NCBI consultado y las secuencias $5'\rightarrow 3'$ evaluadas. |
+| **H3** | 7. Flexibilidad y eficiencia de uso | 2 | `.card:has(.aln)` | No existe una función o botón dedicado para copiar el alineamiento en formato texto/FASTA al portapapeles con un solo clic para usarlo en informes o notas de laboratorio. | Incorporar un botón "Copiar alineamiento" (`.btn`) en el encabezado de la tarjeta `.card-h` de la sección de alineamiento. |
+| **H4** | 9. Diagnóstico y recuperación de errores | 3 | `.hero.bad` | En caso de no hibridación, el mensaje explicativo es genérico y no ofrece orientación o posibles causas biológicas/técnicas para ayudar a corregir la entrada. | Añadir una lista de verificación de diagnóstico rápida (ej.: "Comprobá si el orden Forward/Reverse está invertido", "Verificá la versión del FASTA/RefSeq en NCBI"). |
+| **H5** | 10. Ayuda y documentación | 1 | `.metrics .m` | Las métricas termodinámicas ($\Delta G$) y de alineamiento no especifican los parámetros de reacción asumidos ($[Na^+]$, $[Mg^{2+}]$, concentraciones de oligos) para el cálculo. | Incluir una nota aclaratoria o un enlace/tooltip de ayuda ("?") al pie de la tarjeta de métricas con los parámetros por defecto de cálculo termodinámico. |
+
+</details>
 
 ---
 

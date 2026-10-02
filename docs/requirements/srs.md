@@ -470,3 +470,48 @@ Escenario: Candidatos caracterizados
 ```
 
 ---
+## 8. Requerimientos no funcionales
+
+### 8.1. Taxonomía elegida
+
+
+El grupo utiliza la taxonomía **ISO/IEC 25010:2023** (modelo de calidad del producto) para clasificar los atributos de calidad. Esta taxonomía define características y subcaracterísticas estandarizadas que evalúan la calidad del producto de software y da un vocabulario común y estructurado para definir qué se espera del sistema más allá de su funcionalidad básica.
+
+
+### 8.2. Significado de los cinco atributos elegidos
+
+
+| # | Característica ISO/IEC 25010:2023 | Subcaracterística(s) que se ponen a prueba | Significado para el grupo |
+|---|---|---|---|
+| 1 | **Adecuación funcional** | Pertinencia funcional | Grado en que las funciones facilitan las tareas del usuario, ofreciendo solo los pasos necesarios y evitando redundancias, acciones intermedias o complejidades innecesarias. |
+| 2 | **Capacidad de interacción** (antes *usabilidad*) | Protección frente a errores del usuario | Grado en que el sistema puede usarse de forma comprensible por sus usuarios previstos, con mecanismos que impiden que el usuario cometa errores de operación o que los interceptan antes de que impacten en el sistema. |
+| 3 | **Mantenibilidad** | Modificabilidad | Grado en que el software se puede modificar de forma eficaz y eficiente para agregar capacidades, adaptarse a cambios del entorno o corregir defectos, sin degradar la calidad existente. Se manifiesta en **tiempo de desarrollo**: mide la facilidad para agregar código nuevo (p. ej., un conector) sin tocar el motor algorítmico central. |
+| 4 | **Compatibilidad** | Interoperabilidad | Grado en que dos o más sistemas intercambian información a través de sus interfaces y la interpretan y usan correctamente mediante estándares compartidos. Se manifiesta en **tiempo de ejecución**: mide la capacidad de procesar un paquete de datos (JSON/FASTA) que llega de la red aunque el servicio externo haya agregado campos o cambiado el encabezado sin aviso. |
+| 5 | **Fiabilidad** | Tolerancia a fallos · Capacidad de recuperación | Grado en que el sistema mantiene un nivel especificado de desempeño y sigue funcionando pese a fallas de servicios externos o interrupciones de red, preservando el estado y permitiendo su recuperación. |
+
+
+### 8.3. Justificación de la selección
+
+
+La selección responde a los riesgos y necesidades del dominio de PrimerCraft Pro:
+
+
+- **Pertinencia Funcional y Protección frente a errores del usuario** se priotizaron para resolver el dolor principal del investigador: la fragmentación de herramientas, la pérdida de tiempo en planillas/pestañas y el riesgo de invalidar corridas por errores de formato.
+- **Fiabilidad y Capacidad de recuperación** se priorizaron debido a la dependencia crítica de APIs públicas externas (NCBI Entrez, NCBI BLAST, dbSNP/Ensembl) que imponen límites de uso, fallas de red y esquemas de datos dinámicos .
+- **Modificabilidad** se priorizó para respaldar el ciclo de vida **iterativo e incremental** elegido: se dejan explícitamente fuera algunos procesos para extensiones posteriores el cruce con variantes (dbSNP/Ensembl) y los perfiles de scoring, que habrá que incorporar sin rehacer lo ya construido.
+
+
+**Atributos que quedaron afuera:**
+
+
+- **Seguridad de la información (confidencialidad):** el sistema procesa únicamente información biológica pública, sin datos sensibles ni de pacientes .
+- **Flexibilidad** y **Eficiencia de desempeño** llevada al extremo: no son críticas en este MVP, porque el cuello de botella no está en el cómputo local sino en la interacción con los servicios web externos, que ya queda cubierta por Fiabilidad e Interoperabilidad.
+
+
+---
+
+
+### 8.4. Escenarios
+
+
+Los podemos encontrar en :Link a escenarios que estan en docs/requirements/quality-scenarios/

@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="docs/marca/logotipo-original.png" alt="PrimerCraft Pro" width="480">
+
 # PrimerCraft Pro
 
 **Diseño y puntuación automática de primers para PCR/qPCR**
@@ -32,15 +34,52 @@
 
 Está pensada para investigadores/as de biología molecular que hoy alternan entre múltiples herramientas dispersas (NCBI, Primer3/Primer-BLAST, verificadores de estructura) para llegar al mismo resultado.
 
-Para profundizar mas sobre esto, ir a: [`docs/requirements/srs.md`](docs/requirements/srs.md)
+Para profundizar más sobre esto, ir a: [`docs/requirements/srs.md`](docs/requirements/srs.md)
 
 
 ---
 
 ## Modelo de ciclo de vida
 
-Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir la herramienta por etapas, entregando primero el núcleo útil del sistema y agregando valor funcional en cada entrega. De forma **incremental**, se puede poner a punto el cálculo básico de primers antes de sumar capacidades más avanzadas como la alerta por variantes poblacionales (SNPs) o el procesamiento automático de listas en lote. De forma **iterativa**, permite ajustar progresivamente aspectos complejos como la conexión con servicios externos (NCBI BLAST), probando primero con una versión simulada antes de implementar la integración definitiva.s.
+Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir la herramienta por etapas, entregando primero el núcleo útil del sistema y agregando valor funcional en cada entrega. De forma **incremental**, se puede poner a punto el cálculo básico de primers antes de sumar capacidades más avanzadas como la alerta por variantes poblacionales (SNPs) o el procesamiento automático de listas en lote. De forma **iterativa**, permite ajustar progresivamente aspectos complejos como la conexión con servicios externos (NCBI BLAST), probando primero con una versión simulada antes de implementar la integración definitiva.
 
+
+---
+
+## Documentación
+
+| Área | Documento | Contenido |
+|---|---|---|
+| Requerimientos | [`docs/requirements/srs.md`](docs/requirements/srs.md) | SRS: visión y alcance, requerimientos funcionales y no funcionales, casos de uso e historias de usuario |
+| | [`docs/requirements/quality-scenarios/quality-scenarios.md`](docs/requirements/quality-scenarios/quality-scenarios.md) | Escenarios de calidad (ISO/IEC 25010) |
+| | [`docs/requirements/quality-scenarios/registro-uso-ia.md`](docs/requirements/quality-scenarios/registro-uso-ia.md) | Registro de uso de IA de los escenarios de calidad |
+| Arquitectura | [`docs/architecture/contexto_inicial.md`](docs/architecture/contexto_inicial.md) | Diagrama de contexto (DFD nivel 0 y nivel 1) |
+| | [`docs/architecture/modelo-dominio-inicial.md`](docs/architecture/modelo-dominio-inicial.md) | Modelo de dominio |
+| UX | [`docs/ux/README.md`](docs/ux/README.md) | Índice del diseño de experiencia de usuario |
+| | [`docs/ux/user_profile.md`](docs/ux/user_profile.md) | Perfil de usuario, escenarios de uso y flujos de navegación |
+| | [`docs/ux/criterios_generacion.md`](docs/ux/criterios_generacion.md) | Criterios de generación de las maquetas |
+| | [`docs/ux/heuristic-review/`](docs/ux/README.md#pantallas) | Evaluación heurística de cada pantalla (UI-1 a UI-5) |
+| Maquetas | `docs/mockups/` | Maquetas HTML de las 5 pantallas y sus capturas de escritorio y móvil |
+| Marca | `docs/marca/` | Isotipo y logotipo del grupo |
+| Instructivos | [`docs/instructivos/git-github-y-documentacion.md`](docs/instructivos/git-github-y-documentacion.md) | Git, GitHub y documentación técnica |
+| | [`docs/instructivos/diagrama-de-contexto-dfd.md`](docs/instructivos/diagrama-de-contexto-dfd.md) | Cómo armar el diagrama de contexto (DFD) |
+| Uso de IA | [`uso_de_ia/uso_de_ia.md`](uso_de_ia/uso_de_ia.md) | Registro general de uso de IA generativa, actualizado TP a TP |
+
+## Estructura del repositorio
+
+```
+PrimerCraft-Pro-2026/
+├── docs/
+│   ├── requirements/   # SRS y escenarios de calidad
+│   ├── architecture/   # diagrama de contexto y modelo de dominio
+│   ├── ux/             # perfil, criterios y evaluaciones heurísticas
+│   ├── mockups/        # maquetas HTML y capturas (capturas/, capturas/movil/)
+│   ├── marca/          # isotipo y logotipo
+│   └── instructivos/   # guías de la cátedra
+├── src/                # código fuente
+├── tests/              # pruebas
+└── uso_de_ia/          # registro de uso de IA
+```
 
 ---
 

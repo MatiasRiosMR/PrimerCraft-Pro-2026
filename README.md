@@ -8,6 +8,8 @@
 
 **Trabajo Final — Ingeniería de Software (2026)**
 
+**[Ver la documentación publicada](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/)**
+
 </div>
 
 ---
@@ -59,7 +61,7 @@ Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir l
 | | [`docs/ux/user_profile.md`](docs/ux/user_profile.md) | Perfil de usuario, escenarios de uso y flujos de navegación |
 | | [`docs/ux/criterios_generacion.md`](docs/ux/criterios_generacion.md) | Criterios de generación de las maquetas |
 | | [`docs/ux/heuristic-review/`](docs/ux/README.md#pantallas) | Evaluación heurística de cada pantalla (UI-1 a UI-5) |
-| Maquetas | `docs/mockups/` | Maquetas HTML de las 5 pantallas y sus capturas de escritorio y móvil |
+| Maquetas | `docs/mockups/` | Maquetas HTML de las 5 pantallas y sus capturas de escritorio y móvil. Para usarlas en el navegador: [UI-1](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-01-1_nueva-corrida-diseno.html), [UI-2](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-04_hu-02-1_progreso-corrida.html), [UI-3](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-05_resultados-candidatos.html), [UI-4](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-03-1_validar-primer.html), [UI-5](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-03-3_resultado-validacion.html) |
 | Marca | `docs/marca/` | Isotipo y logotipo del grupo |
 | Instructivos | [`docs/instructivos/git-github-y-documentacion.md`](docs/instructivos/git-github-y-documentacion.md) | Git, GitHub y documentación técnica |
 | | [`docs/instructivos/diagrama-de-contexto-dfd.md`](docs/instructivos/diagrama-de-contexto-dfd.md) | Cómo armar el diagrama de contexto (DFD) |

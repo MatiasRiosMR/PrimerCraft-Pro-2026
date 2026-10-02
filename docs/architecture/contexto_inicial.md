@@ -80,7 +80,10 @@ flowchart LR
 
     %% --- almacenes y salidas (nombres idénticos al Nivel 0) ---
     D2 -->|"pesos y umbrales de scoring"| P4
-    P4 -->|"registro de corrida: parámetros, umbrales,<br/>versión de datos, resultados"| D1
+    P1 -->|"parámetros de corrida +<br/>anotación y versión de secuencia"| D1
+    P3 -->|"variantes consultadas +<br/>versión de base de variantes"| D1
+    D1 -->|"corrida acumulada"| P4
+    P4 -->|"puntajes, umbrales usados<br/>y resultado final"| D1
     P1 -->|"mensajes de error de<br/>identificación / entrada inválida"| INV
     P4 -->|"primers diseñados y puntuados, desglose de scoring,<br/>alertas de variantes, simulación de amplicón,<br/>reporte trazable"| INV
 

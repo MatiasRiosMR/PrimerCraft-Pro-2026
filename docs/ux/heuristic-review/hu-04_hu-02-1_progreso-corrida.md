@@ -101,19 +101,6 @@ Antes de correr la evaluación, el grupo cambió dos criterios de generación (v
 - **Tecnología:** HTML + CSS + **JavaScript** sin frameworks ni dependencias; el archivo se sigue abriendo con doble clic. El JavaScript va al final del archivo en dos bloques: `interaccion-nucleo` (igual en las cinco pantallas: datos de la corrida entre pantallas, avisos con "Deshacer", atajos de teclado, validaciones compartidas) e `interaccion-pantalla` (el comportamiento propio de esta pantalla). Sin JavaScript, la maqueta se ve como la versión estática.
 - **Diseño de panel:** en escritorio la pantalla ocupa exactamente la ventana y no se desplaza; si una columna no entra, se desplaza solo esa columna. En tablet y teléfono se mantiene el desplazamiento normal.
 
-**Pedidos al asistente (texto literal del grupo):**
-
-```text
-el maquetado hacelo con html pero metele otro lenguaje para mejorar la experiencia del
-usuario mas moderna
-```
-
-```text
-hay widgets como el de [texto pegado del panel "Próximos pasos"] que tengo que deslizar
-para verlos. la idea es que todo este en la misma vision, onda no tener que deslizar.
-como un panel digamos
-```
-
 **Qué cambió en esta pantalla:**
 
 - La corrida se simula con los datos que llegan de UI-1: los pasos se completan de a uno, el contador de ventanas avanza hasta 81 170, aparecen las marcas de los pares que cumplen y corre el tiempo. El porcentaje también se ve en la pestaña del navegador.

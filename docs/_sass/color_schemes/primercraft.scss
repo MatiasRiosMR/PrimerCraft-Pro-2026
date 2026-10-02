@@ -1,0 +1,20 @@
+// Esquema de color PrimerCraft Pro: colores de la marca (docs/marca/isotipo.svg)
+// y de las maquetas (verde azulado #0E6660, azul profundo #12324A,
+// forward #0D9488, reverse #7C3AED).
+$color-scheme: light;
+$body-background-color: #ffffff;
+$body-heading-color: #12324a;
+$body-text-color: #33424d;
+$link-color: #0e6660;
+$nav-child-link-color: #3f4f5a;
+$sidebar-color: #f3f8f7;
+$base-button-color: #f3f8f7;
+$btn-primary-color: #0e6660;
+$code-background-color: #f6f9f9;
+$feedback-color: #e8f1f0;
+$table-background-color: #ffffff;
+$search-background-color: #ffffff;
+$search-result-preview-color: #3f4f5a;
+$border-color: #dde8e6;
+
+@import "./color_schemes/light";

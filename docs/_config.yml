@@ -3,9 +3,38 @@ plugins:
   - jekyll-remote-theme
 title: PrimerCraft Pro
 description: Diseño y puntuación automática de primers para PCR/qPCR — Trabajo Final de Ingeniería de Software, Licenciatura en Bioinformática, FIUNER
+lang: es
+
+color_scheme: primercraft
 mermaid:
-  version: "10.9.1"
+  version: "11.4.1"
 nav_order_sort: nav_order
+heading_anchors: true
+
 aux_links:
   "Repositorio en GitHub":
     - "https://github.com/MatiasRiosMR/PrimerCraft-Pro-2026"
+aux_links_new_tab: true
+
+nav_external_links:
+  - title: Registro de uso de IA
+    url: https://github.com/MatiasRiosMR/PrimerCraft-Pro-2026/blob/main/uso_de_ia/uso_de_ia.md
+    opens_in_new_tab: true
+
+back_to_top: true
+back_to_top_text: "Volver arriba"
+
+gh_edit_link: true
+gh_edit_link_text: "Ver o editar esta página en GitHub"
+gh_edit_repository: "https://github.com/MatiasRiosMR/PrimerCraft-Pro-2026"
+gh_edit_branch: "main"
+gh_edit_source: docs
+gh_edit_view_mode: "tree"
+
+callouts:
+  nota:
+    title: Nota
+    color: green
+  importante:
+    title: Importante
+    color: purple

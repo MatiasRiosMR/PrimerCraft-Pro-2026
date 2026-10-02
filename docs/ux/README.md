@@ -2,6 +2,7 @@
 title: UX
 nav_order: 3
 has_children: true
+permalink: /ux/
 ---
 
 # UX

@@ -1,3 +1,9 @@
+---
+title: Escenarios de calidad — PrimerCraft Pro
+---
+
+# Escenarios de calidad — PrimerCraft Pro
+
 ## 1. Escenarios
 
 

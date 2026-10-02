@@ -1,5 +1,8 @@
 ---
-title: Evaluación heurística — UI-1 Nueva corrida de diseño (HU-01.1)
+title: UI-1 · Nueva corrida de diseño
+parent: Evaluación heurística
+grand_parent: UX
+nav_order: 1
 ---
 
 # Evaluación heurística — UI-1 · Nueva corrida de diseño
@@ -174,7 +177,7 @@ HTML:
 
 Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar.
 
-<details>
+<details markdown="1">
 <summary>Ver la respuesta completa</summary>
 
 # Evaluación heurística — Nueva corrida de diseño (HU-01.1)

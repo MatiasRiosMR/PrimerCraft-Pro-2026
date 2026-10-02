@@ -1,5 +1,7 @@
 ---
-title: Perfil de usuario — Investigador/a de biología molecular
+title: Perfil de usuario
+parent: UX
+nav_order: 1
 ---
 
 # Perfil de usuario — Investigador/a de biología molecular

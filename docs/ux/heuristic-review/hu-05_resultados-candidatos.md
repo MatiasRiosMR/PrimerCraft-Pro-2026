@@ -1,5 +1,8 @@
 ---
-title: Evaluación heurística — UI-3 Resultados de candidatos (HU-05)
+title: UI-3 · Resultados de candidatos
+parent: Evaluación heurística
+grand_parent: UX
+nav_order: 3
 ---
 
 # Evaluación heurística — UI-3 · Resultados de candidatos
@@ -144,7 +147,7 @@ HTML:
 
 Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar.
 
-<details>
+<details markdown="1">
 <summary>Ver la respuesta completa</summary>
 
 # Evaluación heurística — Resultados de candidatos (HU-05)

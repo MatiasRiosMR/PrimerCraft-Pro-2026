@@ -1,5 +1,8 @@
 ---
-title: Evaluación heurística — UI-5 Resultado de validación (HU-03.3)
+title: UI-5 · Resultado de validación
+parent: Evaluación heurística
+grand_parent: UX
+nav_order: 5
 ---
 
 # Evaluación heurística — UI-5 · Resultado de validación
@@ -134,7 +137,7 @@ HTML:
 
 Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar.
 
-<details>
+<details markdown="1">
 <summary>Ver la respuesta completa</summary>
 
 # Evaluación heurística — Resultado de validación (HU-03.3)

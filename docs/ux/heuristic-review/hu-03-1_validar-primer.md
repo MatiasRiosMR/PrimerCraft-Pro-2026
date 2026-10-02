@@ -1,5 +1,8 @@
 ---
-title: Evaluación heurística — UI-4 Validar primer existente (HU-03.1)
+title: UI-4 · Validar primer existente
+parent: Evaluación heurística
+grand_parent: UX
+nav_order: 4
 ---
 
 # Evaluación heurística — UI-4 · Validar primer existente
@@ -138,7 +141,7 @@ HTML:
 
 Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar.
 
-<details>
+<details markdown="1">
 <summary>Ver la respuesta completa</summary>
 
 # Evaluación heurística — Validar primer existente (HU-03.1)

@@ -1,5 +1,8 @@
 ---
-title: Evaluación heurística — UI-2 Progreso de la corrida (HU-04, HU-02.1, HU-02.2, HU-03.2)
+title: UI-2 · Progreso de la corrida
+parent: Evaluación heurística
+grand_parent: UX
+nav_order: 2
 ---
 
 # Evaluación heurística — UI-2 · Progreso de la corrida
@@ -167,7 +170,7 @@ HTML:
 
 Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin editar. Las marcas como `[cite: 2]` son de la propia respuesta.
 
-<details>
+<details markdown="1">
 <summary>Ver la respuesta completa</summary>
 
 # Evaluación heurística — Progreso de la corrida (HU-04, HU-02.1)

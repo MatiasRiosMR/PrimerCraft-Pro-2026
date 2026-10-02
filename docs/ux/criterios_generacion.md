@@ -1,5 +1,7 @@
 ---
-title: Criterios de generación del maquetado
+title: Criterios de generación
+parent: UX
+nav_order: 2
 ---
 
 # Criterios de generación del maquetado (TP2 §4.3)

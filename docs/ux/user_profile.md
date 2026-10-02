@@ -35,13 +35,13 @@ El SRS (§2.4) lo define como **stakeholder directo**, no como actor de ningún 
 
 ### Implicancias de diseño que se desprenden del perfil
 
-Estas implicancias se usan como **criterios** al pedir la generación de las pantallas (ver [`criterios-generacion.md`](../criterios-generacion.md)).
+Estas implicancias se usan como **criterios** al pedir la generación de las pantallas (ver [`criterios_generacion.md`](criterios_generacion.md)).
 
 1. **Lenguaje técnico sin simplificar**: usar Tm, ΔG, %GC, nt, pb tal cual. Explicarlos sería ruido para este usuario.
 2. **Valores por defecto sugeridos** en los parámetros (RF-01), editables.
 3. **Mensajes de error concretos** que digan qué campo falló y cómo corregirlo (HU-01.1, HU-04, CU-03 E1).
 4. **Estado visible del proceso** mientras el sistema consulta NCBI y caracteriza (la espera no debe ser "a ciegas").
-5. **Pantalla de escritorio** como diseño principal, en formato de panel: cada pantalla entra entera en la ventana, sin desplazarse. Como el dispositivo es un supuesto, la maqueta además se adapta a tablet y teléfono sin cambiar funciones (ver `criterios-generacion.md`).
+5. **Pantalla de escritorio** como diseño principal, en formato de panel: cada pantalla entra entera en la ventana, sin desplazarse. Como el dispositivo es un supuesto, la maqueta además se adapta a tablet y teléfono sin cambiar funciones (ver `criterios_generacion.md`).
 
 ---
 

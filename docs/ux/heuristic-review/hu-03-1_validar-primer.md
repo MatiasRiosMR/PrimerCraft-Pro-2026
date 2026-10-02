@@ -7,9 +7,9 @@ title: Evaluación heurística — UI-4 Validar primer existente (HU-03.1)
 | | |
 |---|---|
 | **HU** | HU-03.1 · Ingreso y validación del primer (CU-03, Slice 1) |
-| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
+| **Perfil** | [`user_profile.md`](../user_profile.md) |
 | **Escenario de uso** | Escenario B — Validar un par diseñado por otro medio |
-| **Maqueta** | [`hu-03-1_validar-primer.html`](../mockups/hu-03-1_validar-primer.html) |
+| **Maqueta** | [`hu-03-1_validar-primer.html`](../../mockups/hu-03-1_validar-primer.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -22,7 +22,7 @@ title: Evaluación heurística — UI-4 Validar primer existente (HU-03.1)
 Actuá como diseñador/a de interfaces. Generá el maquetado en HTML de UNA pantalla de
 "PrimerCraft Pro", una aplicación web para diseñar primers de PCR/qPCR.
 
-CRITERIOS: <los mismos criterios que en UI-1 (ver criterios-generacion.md)>
+CRITERIOS: <los mismos criterios que en UI-1 (ver criterios_generacion.md)>
 
 USUARIO (perfil): <mismo perfil que en UI-1>
 
@@ -42,17 +42,17 @@ sistema valide que los datos tienen un formato correcto antes de su verificació
 
 ### Respuesta obtenida
 
-HTML: [`../mockups/hu-03-1_validar-primer.html`](../mockups/hu-03-1_validar-primer.html) (v1, iteración 2).
+HTML: [`../../mockups/hu-03-1_validar-primer.html`](../../mockups/hu-03-1_validar-primer.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **Datos válidos**
 
-![Datos válidos](../mockups/capturas/hu-03-1_validar-primer__1-datos-validos.png)
+![Datos válidos](../../mockups/capturas/hu-03-1_validar-primer__1-datos-validos.png)
 
 **Caracteres fuera de IUPAC (CU-03 E1)**
 
-![Caracteres fuera de IUPAC (CU-03 E1)](../mockups/capturas/hu-03-1_validar-primer__2-caracteres-no-iupac.png)
+![Caracteres fuera de IUPAC (CU-03 E1)](../../mockups/capturas/hu-03-1_validar-primer__2-caracteres-no-iupac.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 
@@ -65,7 +65,7 @@ HTML: [`../mockups/hu-03-1_validar-primer.html`](../mockups/hu-03-1_validar-prim
 
 ### Iteración 2 del ciclo 1 (30/09) — Interacción con JavaScript y diseño de panel
 
-Antes de correr la evaluación, el grupo cambió dos criterios de generación (ver [`criterios-generacion.md`](../criterios-generacion.md)) y pidió regenerar la maqueta con **Claude Code** sobre la misma base visual:
+Antes de correr la evaluación, el grupo cambió dos criterios de generación (ver [`criterios_generacion.md`](../criterios_generacion.md)) y pidió regenerar la maqueta con **Claude Code** sobre la misma base visual:
 
 - **Tecnología:** HTML + CSS + **JavaScript** sin frameworks ni dependencias; el archivo se sigue abriendo con doble clic. El JavaScript va al final del archivo en dos bloques: `interaccion-nucleo` (igual en las cinco pantallas: datos de la corrida entre pantallas, avisos con "Deshacer", atajos de teclado, validaciones compartidas) e `interaccion-pantalla` (el comportamiento propio de esta pantalla). Sin JavaScript, la maqueta se ve como la versión estática.
 - **Diseño de panel:** en escritorio la pantalla ocupa exactamente la ventana y no se desplaza; si una columna no entra, se desplaza solo esa columna. En tablet y teléfono se mantiene el desplazamiento normal.

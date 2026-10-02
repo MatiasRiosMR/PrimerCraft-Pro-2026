@@ -7,9 +7,9 @@ title: Evaluación heurística — UI-3 Resultados de candidatos (HU-05)
 | | |
 |---|---|
 | **HU** | HU-05 · Caracterización de candidatos (CU-05, incluido desde CU-02) |
-| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
+| **Perfil** | [`user_profile.md`](../user_profile.md) |
 | **Escenario de uso** | Escenario A — Diseñar primers para un gen |
-| **Maqueta** | [`hu-05_resultados-candidatos.html`](../mockups/hu-05_resultados-candidatos.html) |
+| **Maqueta** | [`hu-05_resultados-candidatos.html`](../../mockups/hu-05_resultados-candidatos.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -22,7 +22,7 @@ title: Evaluación heurística — UI-3 Resultados de candidatos (HU-05)
 Actuá como diseñador/a de interfaces. Generá el maquetado en HTML de UNA pantalla de
 "PrimerCraft Pro", una aplicación web para diseñar primers de PCR/qPCR.
 
-CRITERIOS: <los mismos criterios que en UI-1 (ver criterios-generacion.md)>
+CRITERIOS: <los mismos criterios que en UI-1 (ver criterios_generacion.md)>
 Importante: el SRS deja FUERA de alcance el scoring/ranking automático. No inventes un
 puntaje global: mostrá las métricas desglosadas y dejá que el usuario decida.
 
@@ -47,17 +47,17 @@ secundarias, así como el amplicón esperado, para disponer de candidatos adecua
 
 ### Respuesta obtenida
 
-HTML: [`../mockups/hu-05_resultados-candidatos.html`](../mockups/hu-05_resultados-candidatos.html) (v1, iteración 2).
+HTML: [`../../mockups/hu-05_resultados-candidatos.html`](../../mockups/hu-05_resultados-candidatos.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **Con candidatos**
 
-![Con candidatos](../mockups/capturas/hu-05_resultados-candidatos__1-con-candidatos.png)
+![Con candidatos](../../mockups/capturas/hu-05_resultados-candidatos__1-con-candidatos.png)
 
 **Sin candidatos (CU-02 E1)**
 
-![Sin candidatos (CU-02 E1)](../mockups/capturas/hu-05_resultados-candidatos__2-sin-candidatos.png)
+![Sin candidatos (CU-02 E1)](../../mockups/capturas/hu-05_resultados-candidatos__2-sin-candidatos.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 
@@ -72,7 +72,7 @@ HTML: [`../mockups/hu-05_resultados-candidatos.html`](../mockups/hu-05_resultado
 
 ### Iteración 2 del ciclo 1 (30/09) — Interacción con JavaScript y diseño de panel
 
-Antes de correr la evaluación, el grupo cambió dos criterios de generación (ver [`criterios-generacion.md`](../criterios-generacion.md)) y pidió regenerar la maqueta con **Claude Code** sobre la misma base visual:
+Antes de correr la evaluación, el grupo cambió dos criterios de generación (ver [`criterios_generacion.md`](../criterios_generacion.md)) y pidió regenerar la maqueta con **Claude Code** sobre la misma base visual:
 
 - **Tecnología:** HTML + CSS + **JavaScript** sin frameworks ni dependencias; el archivo se sigue abriendo con doble clic. El JavaScript va al final del archivo en dos bloques: `interaccion-nucleo` (igual en las cinco pantallas: datos de la corrida entre pantallas, avisos con "Deshacer", atajos de teclado, validaciones compartidas) e `interaccion-pantalla` (el comportamiento propio de esta pantalla). Sin JavaScript, la maqueta se ve como la versión estática.
 - **Diseño de panel:** en escritorio la pantalla ocupa exactamente la ventana y no se desplaza; si una columna no entra, se desplaza solo esa columna. En tablet y teléfono se mantiene el desplazamiento normal.

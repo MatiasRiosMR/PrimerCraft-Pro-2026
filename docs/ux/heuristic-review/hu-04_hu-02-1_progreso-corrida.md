@@ -7,9 +7,9 @@ title: Evaluación heurística — UI-2 Progreso de la corrida (HU-04, HU-02.1, 
 | | |
 |---|---|
 | **HU** | Pantalla compartida: HU-04 · Obtener la secuencia de referencia · HU-02.1 · Localización del gen · HU-02.2 · Generación automática de candidatos (sin pantalla propia: se ve como un paso) · HU-03.2 · Localización del gen en el flujo B |
-| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
+| **Perfil** | [`user_profile.md`](../user_profile.md) |
 | **Escenario de uso** | Escenario A — Diseñar primers para un gen (y Escenario B, paso intermedio de la validación) |
-| **Maqueta** | [`hu-04_hu-02-1_progreso-corrida.html`](../mockups/hu-04_hu-02-1_progreso-corrida.html) |
+| **Maqueta** | [`hu-04_hu-02-1_progreso-corrida.html`](../../mockups/hu-04_hu-02-1_progreso-corrida.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -22,7 +22,7 @@ title: Evaluación heurística — UI-2 Progreso de la corrida (HU-04, HU-02.1, 
 Actuá como diseñador/a de interfaces. Generá el maquetado en HTML de UNA pantalla de
 "PrimerCraft Pro", una aplicación web para diseñar primers de PCR/qPCR.
 
-CRITERIOS: <los mismos criterios que en UI-1 (ver criterios-generacion.md)>
+CRITERIOS: <los mismos criterios que en UI-1 (ver criterios_generacion.md)>
 
 USUARIO (perfil): <mismo perfil que en UI-1>
 
@@ -52,33 +52,33 @@ también ese estado, con los pasos "Primers y target / Obtención y localizació
 
 ### Respuesta obtenida
 
-HTML: [`../mockups/hu-04_hu-02-1_progreso-corrida.html`](../mockups/hu-04_hu-02-1_progreso-corrida.html) (v1, iteración 2).
+HTML: [`../../mockups/hu-04_hu-02-1_progreso-corrida.html`](../../mockups/hu-04_hu-02-1_progreso-corrida.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **En curso**
 
-![En curso](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__1-en-curso.png)
+![En curso](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__1-en-curso.png)
 
 **ID inexistente (HU-04 esc. 2 · CU-04 E1)**
 
-![ID inexistente (HU-04 esc. 2 · CU-04 E1)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__2-id-inexistente.png)
+![ID inexistente (HU-04 esc. 2 · CU-04 E1)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__2-id-inexistente.png)
 
 **ID y organismo no coinciden (CU-04 E2)**
 
-![ID y organismo no coinciden (CU-04 E2)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__3-id-vs-organismo.png)
+![ID y organismo no coinciden (CU-04 E2)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__3-id-vs-organismo.png)
 
 **Completa (HU-04 esc. 3)**
 
-![Completa (HU-04 esc. 3)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__4-completa.png)
+![Completa (HU-04 esc. 3)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__4-completa.png)
 
 **Gen no localizado en la anotación (CU-02 A1)**
 
-![Gen no localizado en la anotación (CU-02 A1)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__5-gen-no-localizado.png)
+![Gen no localizado en la anotación (CU-02 A1)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__5-gen-no-localizado.png)
 
 **Validación en curso — flujo B (HU-03.2)**
 
-![Validación en curso — flujo B (HU-03.2)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__6-validacion-flujo-b.png)
+![Validación en curso — flujo B (HU-03.2)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__6-validacion-flujo-b.png)
 
 > Al llegar desde UI-4 (botón "Validar primers") el enlace termina en `#flujo-b` y la maqueta muestra directamente este estado, sin JavaScript (selector `:target`).
 
@@ -96,7 +96,7 @@ HTML: [`../mockups/hu-04_hu-02-1_progreso-corrida.html`](../mockups/hu-04_hu-02-
 
 ### Iteración 2 del ciclo 1 (30/09) — Interacción con JavaScript y diseño de panel
 
-Antes de correr la evaluación, el grupo cambió dos criterios de generación (ver [`criterios-generacion.md`](../criterios-generacion.md)) y pidió regenerar la maqueta con **Claude Code** sobre la misma base visual:
+Antes de correr la evaluación, el grupo cambió dos criterios de generación (ver [`criterios_generacion.md`](../criterios_generacion.md)) y pidió regenerar la maqueta con **Claude Code** sobre la misma base visual:
 
 - **Tecnología:** HTML + CSS + **JavaScript** sin frameworks ni dependencias; el archivo se sigue abriendo con doble clic. El JavaScript va al final del archivo en dos bloques: `interaccion-nucleo` (igual en las cinco pantallas: datos de la corrida entre pantallas, avisos con "Deshacer", atajos de teclado, validaciones compartidas) e `interaccion-pantalla` (el comportamiento propio de esta pantalla). Sin JavaScript, la maqueta se ve como la versión estática.
 - **Diseño de panel:** en escritorio la pantalla ocupa exactamente la ventana y no se desplaza; si una columna no entra, se desplaza solo esa columna. En tablet y teléfono se mantiene el desplazamiento normal.

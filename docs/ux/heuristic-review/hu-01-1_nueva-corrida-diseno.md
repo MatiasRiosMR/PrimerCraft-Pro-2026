@@ -7,9 +7,9 @@ title: Evaluación heurística — UI-1 Nueva corrida de diseño (HU-01.1)
 | | |
 |---|---|
 | **HU** | HU-01.1 · Iniciar diseño individual de primers (CU-01, Slice 1) |
-| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
+| **Perfil** | [`user_profile.md`](../user_profile.md) |
 | **Escenario de uso** | Escenario A — Diseñar primers para un gen |
-| **Maqueta** | [`hu-01-1_nueva-corrida-diseno.html`](../mockups/hu-01-1_nueva-corrida-diseno.html) |
+| **Maqueta** | [`hu-01-1_nueva-corrida-diseno.html`](../../mockups/hu-01-1_nueva-corrida-diseno.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -67,17 +67,17 @@ Además, RF-01 pide valores por defecto sugeridos.
 
 ### Respuesta obtenida
 
-El HTML generado es el archivo [`../mockups/hu-01-1_nueva-corrida-diseno.html`](../mockups/hu-01-1_nueva-corrida-diseno.html) (v1, iteración 2).
+El HTML generado es el archivo [`../../mockups/hu-01-1_nueva-corrida-diseno.html`](../../mockups/hu-01-1_nueva-corrida-diseno.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **Datos válidos**
 
-![Datos válidos](../mockups/capturas/hu-01-1_nueva-corrida-diseno__1-datos-validos.png)
+![Datos válidos](../../mockups/capturas/hu-01-1_nueva-corrida-diseno__1-datos-validos.png)
 
 **Errores de formato (HU-01.1 esc. 2 y 3)**
 
-![Errores de formato (HU-01.1 esc. 2 y 3)](../mockups/capturas/hu-01-1_nueva-corrida-diseno__2-errores-de-formato.png)
+![Errores de formato (HU-01.1 esc. 2 y 3)](../../mockups/capturas/hu-01-1_nueva-corrida-diseno__2-errores-de-formato.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 
@@ -93,7 +93,7 @@ El HTML generado es el archivo [`../mockups/hu-01-1_nueva-corrida-diseno.html`](
 
 ### Iteración 2 del ciclo 1 (30/09) — Interacción con JavaScript y diseño de panel
 
-Antes de correr la evaluación, el grupo cambió dos criterios de generación (ver [`criterios-generacion.md`](../criterios-generacion.md)) y pidió regenerar la maqueta con **Claude Code** sobre la misma base visual:
+Antes de correr la evaluación, el grupo cambió dos criterios de generación (ver [`criterios_generacion.md`](../criterios_generacion.md)) y pidió regenerar la maqueta con **Claude Code** sobre la misma base visual:
 
 - **Tecnología:** HTML + CSS + **JavaScript** sin frameworks ni dependencias; el archivo se sigue abriendo con doble clic. El JavaScript va al final del archivo en dos bloques: `interaccion-nucleo` (igual en las cinco pantallas: datos de la corrida entre pantallas, avisos con "Deshacer", atajos de teclado, validaciones compartidas) e `interaccion-pantalla` (el comportamiento propio de esta pantalla). Sin JavaScript, la maqueta se ve como la versión estática.
 - **Diseño de panel:** en escritorio la pantalla ocupa exactamente la ventana y no se desplaza; si una columna no entra, se desplaza solo esa columna. En tablet y teléfono se mantiene el desplazamiento normal.
@@ -148,8 +148,8 @@ Ignorá la pastilla "Estado de la maqueta" y su botón "Guion demo": no son part
 interfaz. La pantalla tiene JavaScript: evaluá también su comportamiento, que está
 descrito en los comentarios de los bloques <script>.
 
-PERFIL: <pegar la tabla del perfil de perfil-investigador.md §2>
-ESCENARIO: <pegar Escenario A de perfil-investigador.md §3.1>
+PERFIL: <pegar la tabla del perfil de user_profile.md §2>
+ESCENARIO: <pegar Escenario A de user_profile.md §3.1>
 HISTORIA: <pegar HU-01.1 con sus criterios de aceptación>
 
 Para cada una de las 10 heurísticas indicá:

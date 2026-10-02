@@ -7,7 +7,7 @@ permalink: /marca/
 
 # Identidad visual
 
-El isotipo es una "P" que encierra dos flechas enfrentadas, **forward →** y **← reverse**, con la hebra molde entre ellas: un par de primers que delimita una región. Las maquetas y este sitio usan la misma familia de colores y las mismas tipografías.
+El isotipo es una "P" que encierra dos flechas enfrentadas, **forward →** y **← reverse**, con la hebra molde entre ellas: un par de primers que delimita una región. Las maquetas y este sitio usan la misma familia de colores.
 
 <div class="pc-brand-board" markdown="0">
   <div><img src="{{ '/marca/isotipo.svg' | relative_url }}" alt="Isotipo de PrimerCraft Pro"></div>
@@ -26,6 +26,8 @@ El isotipo es una "P" que encierra dos flechas enfrentadas, **forward →** y **
 Son los colores de la interfaz. El isotipo usa tonos de la misma familia ajustados para la marca (degradé #0B6E6B → #0A3F5C, forward #0F8A80, hebra molde #0A445E, reverse #5B47D6). El criterio está en [Criterios de generación](../ux/criterios_generacion.md).
 
 ## Tipografías
+
+Tipografías de las maquetas. El sitio usa Instrument Sans también en los títulos, en negrita.
 
 | Uso | Tipografía |
 |---|---|

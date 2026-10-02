@@ -81,6 +81,7 @@ flowchart LR
     %% --- almacenes y salidas (nombres idénticos al Nivel 0) ---
     D2 -->|"pesos y umbrales de scoring"| P4
     P1 -->|"parámetros de corrida +<br/>anotación y versión de secuencia"| D1
+    P2 -->|"candidatos generados con métricas<br/>y resultado de BLAST"| D1
     P3 -->|"variantes consultadas +<br/>versión de base de variantes"| D1
     D1 -->|"corrida acumulada"| P4
     P4 -->|"puntajes, umbrales usados<br/>y resultado final"| D1

@@ -280,13 +280,19 @@ Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin edit
 
 ## Revisión crítica del grupo
 
-> _Pendiente: completar después de la evaluación, con una fila por hallazgo (H1, H2, …)._
+Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 9 hallazgos, 4 no coinciden con la maqueta (señalan un problema que el HTML no tiene) y 2 son parcialmente ciertos; no se acepta ninguno.
 
 | Hallazgo | Heurística | Veredicto de la IA | Decisión | Justificación del grupo |
 |---|---|---|---|---|
-| H1 | | | Acepta / Rechaza | |
-| H2 | | | | |
-| H3 | | | | |
+| H1 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** La regla CSS lo oculta solo en el estado **válido** (`.v1`). Con errores aparece el resumen con enlaces, y la barra inferior muestra "Reverse: 2 caracteres para corregir". |
+| H2 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** El JavaScript intercepta el envío: si hay errores, muestra el resumen ("No se consultó a NCBI") y no avanza. |
+| H3 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 1 | Rechaza | Vaciar un campo de texto es una acción estándar (Ctrl+A, Supr), y existe "Cancelar". Impacto mínimo (severidad 1 según la propia IA). |
+| H4 | 4. Consistencia y estándares | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **Parcialmente cierto.** Es una apreciación subjetiva y los selectores que cita (`#f-org-otro`, `#chips-org`) no existen. Es el mismo patrón que UI-1, así que hay consistencia entre pantallas. |
+| H5 | 5. Prevención de errores | CUMPLE PARCIALMENTE · severidad 3 | Rechaza | CU-03 E1 pide **informar** el error, no impedirlo. La pantalla marca cada posición inválida mientras se escribe. Bloquear teclas o descartar caracteres al pegar alteraría la secuencia del paper sin avisar. |
+| H6 | 5. Prevención de errores | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Usa la misma validación que UI-1 (`PC.checkId`) y muestra "✓ Formato válido". |
+| H7 | 7. Flexibilidad y eficiencia de uso | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | HU-03.1 pide ingresar secuencias, no cargar archivos. Sería una función fuera de la HU. |
+| H8 | 9. Ayudar a los usuarios a reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Indica la posición y qué usar: "Posición 9 · "X" no es un código IUPAC. Si la base es desconocida, usá N." Además, la IA habla de botones "Reemplazar/Eliminar" que se quitaron antes de la evaluación. |
+| H9 | 10. Ayuda y documentación | CUMPLE PARCIALMENTE · severidad 1 | Rechaza | **Parcialmente cierto.** El usuario tiene conocimiento alto y trabaja con NCBI a diario. El campo valida el formato y dice qué tipo de accession reconoció. |
 
 **Criterio para decidir:** se acepta si el hallazgo afecta al perfil y al escenario concretos; se rechaza si supone un usuario genérico (por ejemplo, explicar qué es la Tm a alguien con conocimiento de dominio alto), si agrega funciones fuera de la HU o del alcance del SRS, o si contradice el TP1.
 

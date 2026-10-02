@@ -252,13 +252,15 @@ Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin edit
 
 ## Revisión crítica del grupo
 
-> _Pendiente: completar después de la evaluación, con una fila por hallazgo (H1, H2, …)._
+Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 5 hallazgos, 2 no coinciden con la maqueta (señalan un problema que el HTML no tiene) y 1 es parcialmente cierto; se acepta 1.
 
 | Hallazgo | Heurística | Veredicto de la IA | Decisión | Justificación del grupo |
 |---|---|---|---|---|
-| H1 | | | Acepta / Rechaza | |
-| H2 | | | | |
-| H3 | | | | |
+| H1 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** "Validar otro par" está en la barra de los dos estados. Además, los botones "Modificar secuencias" y "descargar reporte" que menciona no existen. |
+| H2 | 6. Reconocimiento antes que recuerdo | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **Parcialmente cierto.** Muestra la alineación del reverse con su secuencia contra la referencia de BRCA1, el resultado del forward (20/20) y aclara que las secuencias y el target se conservan al volver. |
+| H3 | 7. Flexibilidad y eficiencia de uso | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | Copiar o exportar no está en HU-03.3 y exportar está fuera de alcance según los criterios. |
+| H4 | 9. Diagnóstico y recuperación de errores | CUMPLE PARCIALMENTE · severidad 3 | Rechaza | **No coincide con la maqueta.** Ya tiene el bloque "¿Qué revisar?" (reverse escrito 5'→3', no invertido ni complementado, par del gen y organismo correctos) y el umbral usado (≥ 18/20 y 3' sin errores). Es justo lo que sugiere la IA. |
+| H5 | 10. Ayuda y documentación | CUMPLE PARCIALMENTE · severidad 1 | **Acepta** | El perfil desconfía de la "caja negra". Sin las condiciones asumidas ([Na⁺], [Mg²⁺], concentración de oligo), el usuario no puede comparar la Tm y el ΔG con los de su herramienta. Alcanza con una nota al pie de las métricas. Aplica también a UI-3. |
 
 **Criterio para decidir:** se acepta si el hallazgo afecta al perfil y al escenario concretos; se rechaza si supone un usuario genérico (por ejemplo, explicar qué es la Tm a alguien con conocimiento de dominio alto), si agrega funciones fuera de la HU o del alcance del SRS, o si contradice el TP1.
 

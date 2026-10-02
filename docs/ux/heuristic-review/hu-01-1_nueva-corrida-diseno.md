@@ -263,13 +263,15 @@ Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin edit
 
 ## Revisión crítica del grupo
 
-> _Pendiente: completar después de la evaluación, con una fila por hallazgo (H1, H2, …)._
+Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 5 hallazgos, 3 no coinciden con la maqueta (señalan un problema que el HTML no tiene) y 1 es parcialmente cierto; no se acepta ninguno.
 
 | Hallazgo | Heurística | Veredicto de la IA | Decisión | Justificación del grupo |
 |---|---|---|---|---|
-| H1 | | | Acepta / Rechaza | |
-| H2 | | | | |
-| H3 | | | | |
+| H1 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | HU-01.1 solo valida el **formato**. La compatibilidad entre el identificador y el organismo es CU-04 E2 y se informa en UI-2. Verificar el taxón acá agrega una función fuera de la HU. |
+| H2 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Al enviar, el botón pasa a "Validando formato…" con spinner (`PC.busy`) y queda bloqueado (`.btn.busy{pointer-events:none}`). |
+| H3 | 4. Consistencia y estándares | CUMPLE PARCIALMENTE · severidad 1 | Rechaza | **No coincide con la maqueta.** Las escalas muestran los límites reales: "15 · rango válido · 35", "30 · rango válido · 70" y "50 · rango válido · 72". |
+| H4 | 5. Prevención de errores | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **Parcialmente cierto.** El identificador se valida mientras se escribe, con mensajes específicos (nombre de gen, falta de guion bajo, faltan dígitos), y se pasa a mayúsculas al salir del campo. Bloquear teclas ocultaría el error en vez de explicarlo (CU-01 pide informar). El selector que cita no existe (el campo es `#id`). |
+| H5 | 9. Reconocer y recuperarse de errores | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Es al revés: se oculta solo en **escritorio** (≥1101 px), porque ahí el resumen con enlaces está en la barra inferior. Al enviar con errores, el foco va al primer enlace del resumen. |
 
 **Criterio para decidir:** se acepta si el hallazgo afecta al perfil y al escenario concretos; se rechaza si supone un usuario genérico (por ejemplo, explicar qué es la Tm a alguien con conocimiento de dominio alto), si agrega funciones fuera de la HU o del alcance del SRS, o si contradice el TP1.
 

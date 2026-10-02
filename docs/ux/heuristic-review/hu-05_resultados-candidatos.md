@@ -256,13 +256,20 @@ Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin edit
 
 ## Revisión crítica del grupo
 
-> _Pendiente: completar después de la evaluación, con una fila por hallazgo (H1, H2, …)._
+Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 10 hallazgos, 6 no coinciden con la maqueta (señalan un problema que el HTML no tiene); se acepta 1.
 
 | Hallazgo | Heurística | Veredicto de la IA | Decisión | Justificación del grupo |
 |---|---|---|---|---|
-| H1 | | | Acepta / Rechaza | |
-| H2 | | | | |
-| H3 | | | | |
+| H1 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Los filtros muestran los totales: "Todos · 24", "Sin advertencias · 17"… |
+| H2 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | El embudo de descartes estaba en la v1 y **se quitó a propósito**: es una función de diagnóstico que no está en la HU ni en CU-02 E2. |
+| H3 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Hay un selector "Ordenar por" que funciona y filtros por advertencias. |
+| H4 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 3 | **Acepta** | Con candidatos, la pantalla no tiene barra de acciones: la única salida es el riel. Si Laura no queda conforme con los pares (escenario A), le falta un "Ajustar parámetros" que conserve los datos, como el que ya existe en el estado sin candidatos. |
+| H5 | 4. Consistencia y estándares | CUMPLE PARCIALMENTE · severidad 1 | Rechaza | **No coincide con la maqueta.** El JavaScript asigna `role="tablist"`, `aria-selected` y `tabindex` a las pestañas del detalle y a los filtros. |
+| H6 | 4. Consistencia y estándares | CUMPLE PARCIALMENTE · severidad 1 | Rechaza | Es un tema de código, no de usabilidad: el usuario no lo ve. |
+| H7 | 7. Flexibilidad y eficiencia de uso | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | Exportar está fuera de alcance: el criterio de generación dice "NO agregues… exportar". |
+| H8 | 9. Reconocer, diagnosticar y recuperarse de errores | NO CUMPLE · severidad 3 | Rechaza | **No coincide con la maqueta.** Está el botón "← Ajustar parámetros" ("Volvés al formulario con tus valores actuales cargados"). |
+| H9 | 9. Reconocer, diagnosticar y recuperarse de errores | NO CUMPLE · severidad 2 | Rechaza | **No coincide con la maqueta.** La insignia nombra la advertencia ("Horquilla F", "Dímero F·R", "Δ Tm 2,5 °C") y cada métrica muestra su umbral. Para un usuario con conocimiento alto, eso alcanza. |
+| H10 | 10. Ayuda y documentación | CUMPLE PARCIALMENTE · severidad 1 | Rechaza | **No coincide con la maqueta.** Cada tarjeta muestra su umbral ("umbral ≤ 2 °C", "kcal/mol · umbral > −3"). Solo el homodímero no lo tiene; si el grupo quiere, puede anotarlo como detalle menor. |
 
 **Criterio para decidir:** se acepta si el hallazgo afecta al perfil y al escenario concretos; se rechaza si supone un usuario genérico (por ejemplo, explicar qué es la Tm a alguien con conocimiento de dominio alto), si agrega funciones fuera de la HU o del alcance del SRS, o si contradice el TP1.
 

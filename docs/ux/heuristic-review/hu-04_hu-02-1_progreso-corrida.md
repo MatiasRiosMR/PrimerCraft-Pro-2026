@@ -288,13 +288,18 @@ Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin edit
 
 ## Revisión crítica del grupo
 
-> _Pendiente: completar después de la evaluación, con una fila por hallazgo (H1, H2, …)._
+Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 8 hallazgos, 4 no coinciden con la maqueta (señalan un problema que el HTML no tiene); se acepta 1.
 
 | Hallazgo | Heurística | Veredicto de la IA | Decisión | Justificación del grupo |
 |---|---|---|---|---|
-| H1 | | | Acepta / Rechaza | |
-| H2 | | | | |
-| H3 | | | | |
+| H1 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Los estados de error mantienen el stepper ("✓ Target · ! Obtención y diseño · 3 Resultados") y muestran una lista de chequeo con el paso que falló (por ejemplo, "✓ Formato · ✓ Conexión con NCBI · ✖ Registro encontrado"). |
+| H2 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | Es una maqueta: el avance se simula a propósito. En el sistema real sale del backend, que es justo lo que sugiere el hallazgo. No hay nada que cambiar en la pantalla. |
+| H3 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Abre un diálogo "¿Cancelar la corrida?" ("Seguir esperando" / "Cancelar corrida") y vuelve a UI-1 con los datos conservados. |
+| H4 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | Ningún caso de uso define una falla de conexión (CU-04 la pone como precondición). Los errores modelados (E1, E2, gen no localizado) no se resuelven reintentando. Si el grupo quiere, puede vincularse a un escenario de calidad de disponibilidad. |
+| H5 | 7. Flexibilidad y eficiencia de uso | CUMPLE PARCIALMENTE · severidad 1 | Rechaza | Avanzar automáticamente le quita el control al usuario (heurística 3). El botón "Ver resultados →" se habilita y aparece un aviso. |
+| H6 | 9. Reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE · severidad 3 | Rechaza | **No coincide con la maqueta.** Da la causa probable ("Suele pasar cuando se ingresa el accession de un cromosoma completo…"), detalla qué se buscó y aclara que los parámetros se conservan. |
+| H7 | 9. Reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** No existe `history.back()`. Los botones llevan a UI-1 con los datos cargados (`PC.link`) y un aviso del motivo. |
+| H8 | 10. Ayuda y documentación | CUMPLE PARCIALMENTE · severidad 1 | **Acepta** (prioridad baja) | El perfil marca la dependencia de NCBI y la urgencia de "no esperar sin información". Una nota breve cuando una etapa tarda más de lo habitual está dentro del alcance (RF-06, aviso de espera). |
 
 **Criterio para decidir:** se acepta si el hallazgo afecta al perfil y al escenario concretos; se rechaza si supone un usuario genérico (por ejemplo, explicar qué es la Tm a alguien con conocimiento de dominio alto), si agrega funciones fuera de la HU o del alcance del SRS, o si contradice el TP1.
 

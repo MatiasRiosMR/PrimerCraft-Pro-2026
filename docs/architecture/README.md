@@ -1,4 +1,10 @@
-# architecture
+---
+title: Arquitectura
+nav_order: 2
+has_children: true
+---
+
+# Arquitectura
 
 Modelos del sistema: diagrama de contexto y modelo de dominio. Los diagramas están en bloques Mermaid dentro de cada `.md`, y cada documento enlaza también a su fuente editable.
 

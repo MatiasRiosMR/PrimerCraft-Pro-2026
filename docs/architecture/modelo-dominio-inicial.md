@@ -1,3 +1,9 @@
+---
+title: Modelo de dominio
+parent: Arquitectura
+nav_order: 2
+---
+
 # Modelo de dominio — PrimerCraft Pro
 
 ## Cómo se construyó

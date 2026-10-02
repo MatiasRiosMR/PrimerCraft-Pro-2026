@@ -1,3 +1,9 @@
+---
+title: Diagrama de contexto
+parent: Arquitectura
+nav_order: 1
+---
+
 # Diagrama de contexto — PrimerCraft Pro
 
 Diagrama de contexto DFD, Nivel 0 y Nivel 1.

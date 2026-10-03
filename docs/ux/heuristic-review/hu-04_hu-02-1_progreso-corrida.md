@@ -310,4 +310,6 @@ Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 8 ha
 
 ## Ciclos adicionales
 
-> _Completar solo si, a partir de los hallazgos aceptados, se ajusta la pantalla: cambios pedidos (H…), prompt, archivo resultante (`…_v2.html`, sin pisar la v1) y reevaluación con la misma tabla._
+### Ciclo 3 (03/10) — Datos de ejemplo reales de BRCA1
+
+Se reemplazó el par de ejemplo por uno real de BRCA1 (`CCTTGCTAAGCCAGGCTGTTTGC` / `GAACACCACTGAGAAGCGTGCAG`, 208 pb, exón 10 de NM_007294.4), porque el anterior no existía en el gen. En UI-2 cambian la posición del forward en el flujo B (43 094 586 · 23/23) y la región de referencia sobre la que se ubican los primers. La interfaz no cambió. Motivo, procedimiento y verificación en el [ciclo 3 de UI-3](hu-05_resultados-candidatos.md#ciclos-adicionales).

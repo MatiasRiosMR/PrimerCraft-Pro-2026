@@ -280,4 +280,22 @@ Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 10 h
 
 ## Ciclos adicionales
 
-> _Completar solo si, a partir de los hallazgos aceptados, se ajusta la pantalla: cambios pedidos (H…), prompt, archivo resultante (`…_v2.html`, sin pisar la v1) y reevaluación con la misma tabla._
+### Ciclo 3 (03/10) — Datos de ejemplo reales de BRCA1
+
+**Motivo.** En la revisión previa a la entrega, el grupo comprobó que los pares de ejemplo de las maquetas **no existían en BRCA1**: ni el par principal (`TGGAACAG…` / `CTCCAGTT…`, 184 pb) ni el resto aparecían en NM_007294.4 ni en NC_000017.11:43 044 295–43 125 483, en ninguna hebra. Además, UI-3 indicaba "GC clamp 3' en F y R" en todos los pares aunque dos forward terminaban en A, y los otros 20 pares y sus amplicones eran secuencias aleatorias. Para el perfil (conocimiento de dominio alto, desconfía de la "caja negra") eso no es aceptable: cualquier investigador puede comprobarlo con Primer-BLAST. No surge de un hallazgo de la evaluación heurística sino de la revisión del grupo, y no cambia la interfaz: solo los datos.
+
+**Pedido (Claude Code).** Reemplazar los datos de ejemplo de las cinco maquetas por pares reales, obtenidos de la secuencia de NCBI, sin cambiar el diseño ni el comportamiento.
+
+**Qué se hizo.**
+
+- Se descargaron de NCBI Entrez NM_007294.4 y la región de BRCA1 en NC_000017.11 (GRCh38).
+- El par principal (UI-3 par #1, y el par de ejemplo de UI-4 → UI-2 → UI-5) es `CCTTGCTAAGCCAGGCTGTTTGC` / `GAACACCACTGAGAAGCGTGCAG`: amplicón de **208 pb** (43 094 586 – 43 094 793) dentro del exón 10 de NM_007294.4, así que sirve para ADN genómico y para cDNA. Es único en la región del gen.
+- Los 24 pares de UI-3 salen de la referencia (las 24 secuencias de amplicón se verificaron contra NCBI). Las advertencias ya no se fuerzan: surgen del cálculo (2 dímeros F·R, 2 con Δ Tm > 2 °C, 2 con más de un sitio en el gen —uno dentro de un elemento Alu, con 41 sitios— y 1 horquilla en R). Contadores: 24 · 18 · 6.
+- Se descartaron primers derivados de secuencias **Alu**, muy frecuentes en los intrones de BRCA1, porque no serían específicos en el genoma.
+- Cálculos: Tm por Nearest-Neighbor (SantaLucia 1998) con 50 mM Na⁺, 1,5 mM Mg²⁺, 0,6 mM dNTP y 50 nM de oligo (condiciones por defecto de Primer3); ΔG a 37 °C estimado con el mismo modelo. La especificidad sigue siendo **simulada** (cuenta los sitios en la región del gen, no un BLAST contra el genoma), como establece el SRS §2.6.
+- El GC clamp de UI-3 ahora se calcula para cada par en lugar de mostrarse siempre como cumplido.
+- Se regeneraron las capturas afectadas.
+
+**Archivo resultante.** Se modificó el mismo archivo; la versión evaluada por Gemini queda en el historial de git (commit `bdb0b7e`). La evaluación heurística no se repitió porque la interfaz no cambió.
+
+**Error detectado en la IA.** En la primera selección de pares, la IA dejó como "sin advertencias" pares con homodímeros por debajo de −6 kcal/mol, que la pestaña "Estructuras secundarias" marcaba en rojo. Se detectó al revisar los datos y se rehízo la selección exigiendo homodímeros mayores que −5 kcal/mol.

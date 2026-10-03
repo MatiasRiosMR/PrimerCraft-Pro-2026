@@ -303,4 +303,6 @@ Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 9 ha
 
 ## Ciclos adicionales
 
-> _Completar solo si, a partir de los hallazgos aceptados, se ajusta la pantalla: cambios pedidos (H…), prompt, archivo resultante (`…_v2.html`, sin pisar la v1) y reevaluación con la misma tabla._
+### Ciclo 3 (03/10) — Datos de ejemplo reales de BRCA1
+
+Se reemplazó el par de ejemplo por uno real de BRCA1 (`CCTTGCTAAGCCAGGCTGTTTGC` / `GAACACCACTGAGAAGCGTGCAG`, 208 pb, exón 10 de NM_007294.4), porque el anterior no existía en el gen. En UI-4 cambian las secuencias precargadas (23 nt cada una) y el ejemplo del estado con caracteres fuera de IUPAC ("X" en la posición 9 y "U" en la 19). La interfaz no cambió. Motivo, procedimiento y verificación en el [ciclo 3 de UI-3](hu-05_resultados-candidatos.md#ciclos-adicionales).

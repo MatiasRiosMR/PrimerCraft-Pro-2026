@@ -22,7 +22,7 @@ El SRS (§2.4) lo define como **stakeholder directo**, no como actor de ningún 
 
 | Aspecto | Descripción | Escenario de uso |
 |---|---|---|
-| **Quién es** | Biólogo/a molecular que diseña primers para sus propios experimentos de PCR/qPCR. | [SRS §2.4], [SRS §7 Actores] |
+| **Quién es** | Biólogo/a molecular que diseña primers para sus propios experimentos de PCR/qPCR. | [SRS §2.4], [SRS §5 Actores] |
 | **Dónde trabaja** | Laboratorios chicos o grupos de investigación **sin presupuesto** para suites pagas (Benchling, Geneious). | [SRS §2.2] |
 | **Objetivo con el sistema** | Obtener pares de primers robustos (o validar los que ya tiene) **sin saltar entre NCBI, Primer3/Primer-BLAST y una planilla propia**, pasando de horas de trabajo manual a segundos. | [SRS §2.1], [SRS §2.4], [SRS §2.5] |
 | **Tareas principales** | (a) Iniciar una corrida de diseño a partir de un identificador NCBI. (b) Validar un par de primers diseñado por otro medio. | [CU-01], [CU-03] |

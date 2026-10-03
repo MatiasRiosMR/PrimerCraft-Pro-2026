@@ -641,7 +641,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   <!-- ================= ESTADO 1 · CON CANDIDATOS ================= -->
   <div class="view v1">
   <div class="toolbar">
-    <div class="seg" role="tablist" aria-label="Filtrar pares"><span class="on" role="tab" aria-selected="true">Todos · 24</span><span>Sin advertencias · 17</span><span>Con advertencias · 7</span></div>
+    <div class="seg" role="tablist" aria-label="Filtrar pares"><span class="on" role="tab" aria-selected="true">Todos · 24</span><span>Sin advertencias · 18</span><span>Con advertencias · 6</span></div>
     <label class="hint" style="margin:0;display:flex;gap:8px;align-items:center">Ordenar por
       <select class="input"><option>Diferencia de Tm F/R</option><option>ΔG heterodímero</option><option>Tamaño del amplicón</option><option>Posición en el gen</option></select></label>
   </div>
@@ -650,35 +650,35 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
     <div class="list" role="listbox" aria-label="Pares candidatos">
       <article class="pair sel" role="option" aria-selected="true" tabindex="0">
         <div class="ph"><span class="n">Par #1</span><span class="badge b-ok">✓ Sin advertencias</span></div>
-        <div class="s seq"><em class="fw">F</em>TGGAACAGAAGAAAGCCGTC</div>
-        <div class="s seq"><em class="rv">R</em>CTCCAGTTTCACCTCTTGGG</div>
-        <div class="db" title="Tm forward y reverse sobre la escala 57–63 °C; la línea es el objetivo (60 °C)"><div class="ax"></div><div class="tg"></div><div class="ln" style="left:51.6%;width:5%"></div><div class="f" style="left:51.6%"></div><div class="r" style="left:56.6%"></div></div>
-        <div class="dbl"><span>57 °C</span><span>Tm F 60,1 · R 60,4</span><span>63 °C</span></div>
-        <div class="fp"><div>%GC<b>50 / 55</b></div><div>ΔG dímero<b>−3,2</b></div><div>Especif.<b>única</b></div><div>Amplicón<b>184 pb</b></div></div>
+        <div class="s seq"><em class="fw">F</em>CCTTGCTAAGCCAGGCTGTTTGC</div>
+        <div class="s seq"><em class="rv">R</em>GAACACCACTGAGAAGCGTGCAG</div>
+        <div class="db" title="Tm forward y reverse sobre la escala 57–63 °C; la línea es el objetivo (60 °C)"><div class="ax"></div><div class="tg"></div><div class="ln" style="left:30.0%;width:8.3%"></div><div class="f" style="left:38.3%"></div><div class="r" style="left:30.0%"></div></div>
+        <div class="dbl"><span>57 °C</span><span>Tm F 59,3 · R 58,8</span><span>63 °C</span></div>
+        <div class="fp"><div>%GC<b>57 / 57</b></div><div>ΔG dímero<b>−1,9</b></div><div>Especif.<b>única</b></div><div>Amplicón<b>208 pb</b></div></div>
       </article>
       <article class="pair" role="option" aria-selected="false" tabindex="0">
         <div class="ph"><span class="n">Par #2</span><span class="badge b-warn">⚠ Dímero F·R</span></div>
-        <div class="s seq"><em class="fw">F</em>AGCTGTGTTTGCTGGATCGA</div>
-        <div class="s seq"><em class="rv">R</em>GGTCCTTCAGAGGCAGATTG</div>
-        <div class="db"><div class="ax"></div><div class="tg"></div><div class="ln" style="left:46.6%;width:3.4%"></div><div class="f" style="left:46.6%"></div><div class="r" style="left:50%"></div></div>
-        <div class="dbl"><span>57 °C</span><span>Tm F 59,8 · R 60,0</span><span>63 °C</span></div>
-        <div class="fp"><div>%GC<b>50 / 55</b></div><div class="w">ΔG dímero<b>−6,9</b></div><div>Especif.<b>única</b></div><div>Amplicón<b>212 pb</b></div></div>
+        <div class="s seq"><em class="fw">F</em>ATGGCTGGGTGCAATGGCTCAG</div>
+        <div class="s seq"><em class="rv">R</em>AAGCCACTGCGTCCAGCCATTC</div>
+        <div class="db"><div class="ax"></div><div class="tg"></div><div class="ln" style="left:51.7%;width:3.3%"></div><div class="f" style="left:51.7%"></div><div class="r" style="left:55.0%"></div></div>
+        <div class="dbl"><span>57 °C</span><span>Tm F 60,1 · R 60,3</span><span>63 °C</span></div>
+        <div class="fp"><div>%GC<b>59 / 59</b></div><div class="w">ΔG dímero<b>−9,0</b></div><div>Especif.<b>única</b></div><div>Amplicón<b>159 pb</b></div></div>
       </article>
       <article class="pair" role="option" aria-selected="false" tabindex="0">
         <div class="ph"><span class="n">Par #3</span><span class="badge b-warn">⚠ 2 advertencias</span></div>
-        <div class="s seq"><em class="fw">F</em>CAGCCACAGGAACAACACAC</div>
-        <div class="s seq"><em class="rv">R</em>TTCTGGAGCAGAGGTTGCAG</div>
-        <div class="db"><div class="ax"></div><div class="tg"></div><div class="ln" style="left:60%;width:38.3%;background:var(--warn)"></div><div class="f" style="left:60%"></div><div class="r" style="left:98.3%"></div></div>
-        <div class="dbl"><span>57 °C</span><span style="color:var(--warn);font-weight:700">Tm F 60,6 · R 62,9 (Δ 2,3)</span><span>63 °C</span></div>
-        <div class="fp"><div>%GC<b>55 / 55</b></div><div>ΔG dímero<b>−2,5</b></div><div class="w">Especif.<b>2 sitios</b></div><div>Amplicón<b>156 pb</b></div></div>
+        <div class="s seq"><em class="fw">F</em>TGAGCCGAGATTGCGCCATTGC</div>
+        <div class="s seq"><em class="rv">R</em>TGAGCCATGTTTGTGCCACTGC</div>
+        <div class="db"><div class="ax"></div><div class="tg"></div><div class="ln" style="left:31.7%;width:35.0%;background:var(--warn)"></div><div class="f" style="left:66.7%"></div><div class="r" style="left:31.7%"></div></div>
+        <div class="dbl"><span>57 °C</span><span style="color:var(--warn);font-weight:700">Tm F 61,0 · R 58,9 (Δ 2,1)</span><span>63 °C</span></div>
+        <div class="fp"><div>%GC<b>59 / 55</b></div><div>ΔG dímero<b>−0,3</b></div><div class="w">Especif.<b>2 sitios</b></div><div>Amplicón<b>145 pb</b></div></div>
       </article>
       <article class="pair" role="option" aria-selected="false" tabindex="0">
-        <div class="ph"><span class="n">Par #4</span><span class="badge b-err">✖ Horquilla F</span></div>
-        <div class="s seq"><em class="fw">F</em>GAAGACTGCGAAATCCTGGA</div>
-        <div class="s seq"><em class="rv">R</em>ATTTGGCTCCAAAGGGTCTC</div>
-        <div class="db"><div class="ax"></div><div class="tg"></div><div class="ln" style="left:43.3%;width:10%"></div><div class="f" style="left:43.3%"></div><div class="r" style="left:53.3%"></div></div>
-        <div class="dbl"><span>57 °C</span><span>Tm F 59,6 · R 60,2</span><span>63 °C</span></div>
-        <div class="fp"><div>%GC<b>50 / 50</b></div><div>ΔG dímero<b>−2,9</b></div><div>Especif.<b>única</b></div><div>Amplicón<b>240 pb</b></div></div>
+        <div class="ph"><span class="n">Par #4</span><span class="badge b-err">✖ Horquilla R</span></div>
+        <div class="s seq"><em class="fw">F</em>AATCCACTCTCCCACGCCAGTACC</div>
+        <div class="s seq"><em class="rv">R</em>TCCGTGGCAACGGAAAAGCG</div>
+        <div class="db"><div class="ax"></div><div class="tg"></div><div class="ln" style="left:30.0%;width:25.0%"></div><div class="f" style="left:55.0%"></div><div class="r" style="left:30.0%"></div></div>
+        <div class="dbl"><span>57 °C</span><span>Tm F 60,3 · R 58,8</span><span>63 °C</span></div>
+        <div class="fp"><div>%GC<b>58 / 60</b></div><div>ΔG dímero<b>−4,9</b></div><div>Especif.<b>única</b></div><div>Amplicón<b>231 pb</b></div></div>
       </article>
       <p class="hint" style="text-align:center">Mostrando 4 de 24 · <a href="#">Ver más</a></p>
     </div>
@@ -689,36 +689,36 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
         <span class="badge b-ok" style="font-size:13px;padding:6px 12px">✓ Todas las métricas dentro de los umbrales</span>
       </div>
       <div class="primers">
-        <div class="pr"><span class="badge fw">Forward 5'→3'</span><span class="seq"><span class="T">T</span><span class="G">GG</span><span class="A">AA</span><span class="C">C</span><span class="A">A</span><span class="G">G</span><span class="A">AA</span><span class="G">G</span><span class="A">AAA</span><span class="G">G</span><span class="C">CC</span><span class="G">G</span><span class="T">T</span><span class="C">C</span></span><button class="copy">Copiar</button></div>
-        <div class="pr"><span class="badge rv">Reverse 5'→3'</span><span class="seq"><span class="C">C</span><span class="T">T</span><span class="C">CC</span><span class="A">A</span><span class="G">G</span><span class="T">TTT</span><span class="C">C</span><span class="A">A</span><span class="C">CC</span><span class="T">T</span><span class="C">C</span><span class="T">TT</span><span class="G">GGG</span></span><button class="copy">Copiar</button></div>
+        <div class="pr"><span class="badge fw">Forward 5'→3'</span><span class="seq"><span class="C">CC</span><span class="T">TT</span><span class="G">G</span><span class="C">C</span><span class="T">T</span><span class="A">AA</span><span class="G">G</span><span class="C">CC</span><span class="A">A</span><span class="G">GG</span><span class="C">C</span><span class="T">T</span><span class="G">G</span><span class="T">TTT</span><span class="G">G</span><span class="C">C</span></span><button class="copy">Copiar</button></div>
+        <div class="pr"><span class="badge rv">Reverse 5'→3'</span><span class="seq"><span class="G">G</span><span class="A">AA</span><span class="C">C</span><span class="A">A</span><span class="C">CC</span><span class="A">A</span><span class="C">C</span><span class="T">T</span><span class="G">G</span><span class="A">A</span><span class="G">G</span><span class="A">AA</span><span class="G">G</span><span class="C">C</span><span class="G">G</span><span class="T">T</span><span class="G">G</span><span class="C">C</span><span class="A">A</span><span class="G">G</span></span><button class="copy">Copiar</button></div>
       </div>
       <div class="metrics">
-        <div class="m ok"><div class="k">Tm F / R</div><div class="v">60,1 / 60,4 <small>°C</small></div><div class="th">Δ 0,3 °C · umbral ≤ 2 °C</div></div>
-        <div class="m ok"><div class="k">%GC F / R</div><div class="v">50 / 55 <small>%</small></div><div class="th">GC clamp 3' en F y R</div></div>
-        <div class="m ok"><div class="k">ΔG horquilla F / R</div><div class="v">−0,8 / −1,1</div><div class="th">kcal/mol · umbral &gt; −3</div></div>
-        <div class="m ok"><div class="k">ΔG heterodímero</div><div class="v">−3,2</div><div class="th">kcal/mol · umbral &gt; −6</div></div>
-        <div class="m ok"><div class="k">Homodímero F / R</div><div class="v">−2,1 / −1,7</div><div class="th">kcal/mol</div></div>
+        <div class="m ok"><div class="k">Tm F / R</div><div class="v">59,3 / 58,8 <small>°C</small></div><div class="th">Δ 0,5 °C · umbral ≤ 2 °C</div></div>
+        <div class="m ok"><div class="k">%GC F / R</div><div class="v">57 / 57 <small>%</small></div><div class="th">GC clamp 3' en F y R</div></div>
+        <div class="m ok"><div class="k">ΔG horquilla F / R</div><div class="v">0,0 / 0,0</div><div class="th">kcal/mol · umbral &gt; −3</div></div>
+        <div class="m ok"><div class="k">ΔG heterodímero</div><div class="v">−1,9</div><div class="th">kcal/mol · umbral &gt; −6</div></div>
+        <div class="m ok"><div class="k">Homodímero F / R</div><div class="v">−3,3 / −3,1</div><div class="th">kcal/mol</div></div>
         <div class="m ok"><div class="k">Repeticiones</div><div class="v">Ninguna</div><div class="th">sin runs ≥ 4 nt</div></div>
-        <div class="m ok"><div class="k">Especificidad <span class="badge b-mute" style="font-size:10px;padding:1px 6px">simulada</span></div><div class="v">1 sitio</div><div class="th">en el genoma</div></div>
-        <div class="m ok"><div class="k">Amplicón</div><div class="v">184 <small>pb</small></div><div class="th">43 082 410 – 43 082 593</div></div>
+        <div class="m ok"><div class="k">Especificidad <span class="badge b-mute" style="font-size:10px;padding:1px 6px">simulada</span></div><div class="v">1 sitio</div><div class="th">en la región del gen</div></div>
+        <div class="m ok"><div class="k">Amplicón</div><div class="v">208 <small>pb</small></div><div class="th">43 094 586 – 43 094 793</div></div>
       </div>
 
       <div class="tabs"><span class="on">Ubicación y amplicón</span><span>Estructuras secundarias</span></div>
       <div class="locus">
         <svg viewBox="0 0 700 90" role="img" aria-label="Ubicación del par dentro de BRCA1">
           <rect x="10" y="38" width="680" height="14" rx="7" fill="color-mix(in srgb,var(--primary) 16%,transparent)" stroke="var(--primary)"/>
-          <rect x="325" y="30" width="60" height="30" rx="4" fill="color-mix(in srgb,var(--primary) 35%,transparent)"/>
-          <path d="M325 22 h22 l-6 -5 M347 22 l-6 5" stroke="var(--fwd)" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M385 68 h-22 l6 -5 M363 68 l6 5" stroke="var(--rev)" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <text x="355" y="12" text-anchor="middle">amplicón 184 pb</text>
+          <rect x="401" y="30" width="60" height="30" rx="4" fill="color-mix(in srgb,var(--primary) 35%,transparent)"/>
+          <path d="M401 22 h22 l-6 -5 M423 22 l-6 5" stroke="var(--fwd)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M461 68 h-22 l6 -5 M439 68 l6 5" stroke="var(--rev)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <text x="431" y="12" text-anchor="middle">amplicón 208 pb</text>
           <text x="10" y="84">43 044 295</text><text x="690" y="84" text-anchor="end">43 125 483</text>
         </svg>
       </div>
-      <div class="amp"><span class="f">TGGAACAGAAGAAAGCCGTC</span>ATTTTCCACCTCGATTCTGAAGGCATTTACTCAGAGGAAGTACAAGAAGCTATTTGAGTTGGTCTCTCACAGCCAAATCATTTTGACCCTTTGAATTCAATTAAAGAGATAAAGACAATTACTTTGGACAAGTAGTCAAGCTGA<span class="r">CCCAAGAGGTGAAACTGGAG</span></div>
+      <div class="amp"><span class="f">CCTTGCTAAGCCAGGCTGTTTGC</span>TTTTATTACAGAATTCAGCCTTTTCTACATTCATTCTGTCTTTAGTGAGTAATAAACTGCTGTTCTCATGCTGTAATGAGCTGGCATGAGTATTTGTGCCACATGGCTCCACATGCAAGTTTGAAACAGAACTACCCTGATACTTTTCTGGATGCCTCTCAG<span class="r">CTGCACGCTTCTCAGTGGTGTTC</span></div>
       <p class="hint">Vista del heterodímero F·R (pestaña "Estructuras secundarias"):</p>
-      <div class="dimer">5'-TGGAACAGAAGAAAG<span class="bond">CC</span>GTC-3'
-                  <span class="bond">||</span>
-               3'-<span class="bond">GG</span>GTTCTCCACTTTGACCTC-5'      ΔG −3,2 kcal/mol</div>
+      <div class="dimer">5'-CCT<span class="bond">T</span><span class="bond">G</span><span class="bond">C</span>TAAGCCAGGCTGTTTGC-3'
+         <span class="bond">|||</span>
+     3'-G<span class="bond">A</span><span class="bond">C</span><span class="bond">G</span>TGCGAAGAGTCACCACAAG-5'      ΔG −1,9 kcal/mol</div>
     </section>
   </div>
   </div>
@@ -785,7 +785,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   PC.link = (a, url, extra) => { if (!a) return; a.addEventListener('click', (e) => { e.preventDefault(); PC.go(url || a.getAttribute('href'), typeof extra === 'function' ? extra() : extra); }); };
 
   /* ---------- Formato ---------- */
-  // miles con espacio fino (43 082 410), decimales con coma: la convención de la maqueta
+  // miles con espacio fino (43 094 586), decimales con coma: la convención de la maqueta
   PC.num = (n, d = 0) => Number(n).toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/\./g, '\u202f');
   PC.esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   PC.debounce = (fn, ms = 200) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
@@ -914,11 +914,11 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   PC.bases = (s) => s.replace(/(A+|C+|G+|T+|[^ACGT]+)/g, (r) => (/[ACGT]/.test(r[0]) ? `<span class="${r[0]}">${r}</span>` : PC.esc(r)));
 
   /* ---------- Hibridación sobre la región de referencia de la maqueta (UI-2 y UI-5) ----------
-     Región de BRCA1 en la hebra + de NC_000017.11, desde 43 082 405. Criterio: ≥ n−2
+     Región real de BRCA1 (exón 10 de NM_007294.4) en la hebra + de NC_000017.11 (GRCh38), desde 43 094 581. Criterio: ≥ n−2
      coincidencias y los 5 nt del extremo 3' sin errores. */
-  PC.REF = 'CAACT' + 'TGGAACAGAAGAAAGCCGTCATTTTCCACCTCGATTCTGAAGGCATTTACTCAGAGGAAGTACAAGAAGCTATTTGAGTTGGTCTCTCACAGCCAAATCATTTTGACCCTTTGAATTCAATTAAAGAGATAAAGACAATTACTTTGGACAAGTAGTCAAGCTGACCCAAGAGGTGAAACTGGAG' + 'TTCAAC';
-  PC.REF_INI = 43082405;
-  PC.F0 = 'TGGAACAGAAGAAAGCCGTC'; PC.R0 = 'CTCCAGTTTCACCTCTTGGG';
+  PC.REF = 'TGGCT' + 'CCTTGCTAAGCCAGGCTGTTTGCTTTTATTACAGAATTCAGCCTTTTCTACATTCATTCTGTCTTTAGTGAGTAATAAACTGCTGTTCTCATGCTGTAATGAGCTGGCATGAGTATTTGTGCCACATGGCTCCACATGCAAGTTTGAAACAGAACTACCCTGATACTTTTCTGGATGCCTCTCAGCTGCACGCTTCTCAGTGGTGTTC' + 'AAATCA';
+  PC.REF_INI = 43094581;
+  PC.F0 = 'CCTTGCTAAGCCAGGCTGTTTGC'; PC.R0 = 'GAACACCACTGAGAAGCGTGCAG';
   const ubicar = (s) => {
     let best = { i: 0, ok: -1 };
     for (let i = 0; i + s.length <= PC.REF.length; i++) {
@@ -1016,42 +1016,67 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   if (D.resultado === 'sin-candidatos' && !PC.fixed) { PC.state(2, { focus: false }); return; }
   if (!v1) return;
 
-  /* ---------- Datos: 4 pares del TP (los de la maqueta) + 20 generados de forma reproducible ---------- */
-  let semilla = 7;
-  const rnd = () => { semilla = (semilla * 1103515245 + 12345) % 2147483648; return semilla / 2147483648; };
-  const entre = (a, b) => a + rnd() * (b - a);
+  /* ---------- Datos: 24 pares reales de BRCA1 (NC_000017.11, GRCh38) ----------
+     Secuencias tomadas de la referencia; F en la hebra + y R en la hebra −. Tm por Nearest-Neighbor
+     (SantaLucia 1998) con 50 mM Na+, 1,5 mM Mg2+, 0,6 mM dNTP y 50 nM de oligo; ΔG a 37 °C, estimados
+     con el mismo modelo (mejor tramo apareado). 'spec' cuenta los sitios del extremo 3' (15 nt) en la
+     región del gen: es la especificidad simulada del MVP, no un BLAST contra el genoma. */
   const r1 = (x) => Math.round(x * 10) / 10;
   const gcDe = (s) => Math.round((s.replace(/[AT]/g, '').length / s.length) * 100);
-  const secuencia = (n, gcObj) => {
-    for (;;) {
-      let s = '';
-      for (let i = 0; i < n - 1; i++) s += rnd() * 100 < gcObj ? 'GC'[Math.floor(rnd() * 2)] : 'AT'[Math.floor(rnd() * 2)];
-      s += 'GC'[Math.floor(rnd() * 2)]; // GC clamp en el extremo 3'
-      const gc = gcDe(s);
-      if (gc >= 40 && gc <= 60) return s; // coherente con una Tm cercana a 60 °C
-    }
-  };
   const pares = [
-    { f: 'TGGAACAGAAGAAAGCCGTC', r: 'CTCCAGTTTCACCTCTTGGG', tmF: 60.1, tmR: 60.4, hpF: -0.8, hpR: -1.1, het: -3.2, hoF: -2.1, hoR: -1.7, spec: 1, amp: 184, ini: 43082410, rep: 'Ninguna' },
-    { f: 'AGCTGTGTTTGCTGGATCGA', r: 'GGTCCTTCAGAGGCAGATTG', tmF: 59.8, tmR: 60.0, hpF: -1.2, hpR: -0.6, het: -6.9, hoF: -3.4, hoR: -2.2, spec: 1, amp: 212, ini: 43071230, rep: 'Ninguna' },
-    { f: 'CAGCCACAGGAACAACACAC', r: 'TTCTGGAGCAGAGGTTGCAG', tmF: 60.6, tmR: 62.9, hpF: -0.4, hpR: -1.4, het: -2.5, hoF: -1.9, hoR: -2.6, spec: 2, amp: 156, ini: 43095880, rep: 'Ninguna' },
-    { f: 'GAAGACTGCGAAATCCTGGA', r: 'ATTTGGCTCCAAAGGGTCTC', tmF: 59.6, tmR: 60.2, hpF: -3.8, hpR: -0.9, het: -2.9, hoF: -2.4, hoR: -1.5, spec: 1, amp: 240, ini: 43057610, rep: 'AAA en F (3 nt)' },
+    { f: 'CCTTGCTAAGCCAGGCTGTTTGC', r: 'GAACACCACTGAGAAGCGTGCAG', tmF: 59.3, tmR: 58.8, hpF: 0, hpR: 0, het: -1.9, hoF: -3.3, hoR: -3.1, spec: 1, amp: 208, ini: 43094586, rep: 'Ninguna',
+      medio: 'TTTTATTACAGAATTCAGCCTTTTCTACATTCATTCTGTCTTTAGTGAGTAATAAACTGCTGTTCTCATGCTGTAATGAGCTGGCATGAGTATTTGTGCCACATGGCTCCACATGCAAGTTTGAAACAGAACTACCCTGATACTTTTCTGGATGCCTCTCAG' },
+    { f: 'ATGGCTGGGTGCAATGGCTCAG', r: 'AAGCCACTGCGTCCAGCCATTC', tmF: 60.1, tmR: 60.3, hpF: 0, hpR: 0, het: -9.0, hoF: -3.1, hoR: -0.8, spec: 1, amp: 159, ini: 43122624, rep: 'Ninguna',
+      medio: 'GCCTGTAATCCCAGCACCTTGAGAGGCCAAGGGAGGGTAGATCACTTGAGGTCAGGAGTTTGAGACCAGCATGGCCAACATAGCAAAACCCTATCTCTACAACAGAAAAATACAA' },
+    { f: 'TGAGCCGAGATTGCGCCATTGC', r: 'TGAGCCATGTTTGTGCCACTGC', tmF: 61.0, tmR: 58.9, hpF: 0, hpR: 0, het: -0.3, hoF: -4.7, hoR: -1.8, spec: 2, amp: 145, ini: 43072332, rep: 'Ninguna',
+      medio: 'ACTCCAGCCTGGGCAACAAGAGTGAAACTCCGTCTCAAAAAAGAGTACGGGTAATATTTTTTTTTTTGAGAAGGGTCTCGGTCTGTCATCCAGGCTGCAGT' },
+    { f: 'AATCCACTCTCCCACGCCAGTACC', r: 'TCCGTGGCAACGGAAAAGCG', tmF: 60.3, tmR: 58.8, hpF: 0, hpR: -3.2, het: -4.9, hoF: -1.5, hoR: -4.7, spec: 1, amp: 231, ini: 43125200, rep: 'AAAA en R (4 nt)',
+      medio: 'CCAGAGCATCACTTGGGCCCCCTGTCCCTTTCCCGGGACTCTACTACCTTTACCCAGAGCAGAGGGTGAAGGCCTCCTGAGCGCAGGGGCCCAGTTATCTGAGAAACCCCACAGCCTGTCCCCCGTCCAGGAAGTCTCAGCGAGCTCACGCCGCGCAGTCGCAGTTTTAATTTATCTGTAATTCCCG' },
+    { f: 'GTCACCACAGGTGCCTCACACATC', r: 'ATCACACTCTAGCCTCGGCGACAG', tmF: 60.1, tmR: 60.5, hpF: -1.2, hpR: 0, het: -2.1, hoF: -2.8, hoR: -2.1, spec: 1, amp: 212, ini: 43045769, rep: 'Ninguna',
+      medio: 'TGCCCAATTGCTGGAGACAGAGAACACAAGCAGAGATTAGTGTCAATTCATTCTCCTGGACTAGGCTCTAATCAATCGACTCCAGGGTCCTGGTTGTATGAGTTCTTAGGATTAATGAGGTAGAAGCTAATTTTTTTTTTTTTTTTTTGAGACGGAGTCTTGCT' },
+    { f: 'TCAGCCCGTTTCTGGGAATTGCTG', r: 'GGTCACAGGCAGATGAGTGACAGC', tmF: 60.1, tmR: 59.9, hpF: -0.4, hpR: -1.1, het: -3.0, hoF: -3.0, hoR: -3.7, spec: 1, amp: 248, ini: 43049857, rep: 'Ninguna',
+      medio: 'AGGTGCTCCTGTCTGTCTGACTGAACGAAGGTTGACTAACTCACCCCCAAAATAATACTTTCTGGCAACCCTGGTTTCCACTATACCAAAGTAAAAAAACACTGAGAAATCCTTGAGTGGAACTTGGAAATTTCATAAAAATCCAATTGATAACTAATAAAGAGGATGGAAACAAAATTACATTGCAGCCAGGTTTTCTT' },
+    { f: 'TCTGCCTGTCTTGGCCTTCCAAAG', r: 'TGAGGAGAGGCAGAACCTGGCTTC', tmF: 59.5, tmR: 60.3, hpF: -0.8, hpR: 0, het: -7.4, hoF: -3.9, hoR: -1.1, spec: 1, amp: 191, ini: 43051875, rep: 'Ninguna',
+      medio: 'TGCTGGGATTACAGGCATAAGCCACTGCGCCCGGCCCTCTCTGACTTTCTTCTAGCCCCCTAAACATCTGTTCCTTCCTTCTCACTACTCTGAGAATGGCCATTGTATCTTTAGGCCACCTAAGCAGTTTTTAATCTAGAAGT' },
+    { f: 'TCCCTCCGTGAAGCCTTCAACAAC', r: 'ATCTCCTGGCCTCCAGTGATCCAC', tmF: 59.5, tmR: 59.9, hpF: 0, hpR: -1.1, het: -2.1, hoF: -3.1, hoR: -3.9, spec: 1, amp: 147, ini: 43055298, rep: 'Ninguna',
+      medio: 'TTTTCAAGAAACTATAGTATTGTTGTTAAGAGTTTAGAATTGGAGGCCGGGTGCAGTGGCTCATGCTTGTAATCCCAGCACTTTGGGAAGCCAAGGCGG' },
+    { f: 'ACCTGCAATCCCAGCACTTTGGG', r: 'TACAGGCACCTGCCACAATGCC', tmF: 60.0, tmR: 60.0, hpF: -1.1, hpR: -0.9, het: -2.6, hoF: -3.1, hoR: -3.5, spec: 41, amp: 142, ini: 43059202, rep: 'Ninguna',
+      medio: 'AGGCCGAGGTGGGTGGATTACCTGAGGTCAGGAGTTTAAGACCAGCCTGGCCAACATGGTAAAACCCCATCTCTACTAAAAATACAAGTATTAGCCA' },
+    { f: 'TCGCTCTGTTGCCAGGTTGGAG', r: 'AGGCCAAGACAGGCAGATTGCC', tmF: 59.4, tmR: 59.7, hpF: 0, hpR: -2.0, het: -3.5, hoF: -1.3, hoR: -3.9, spec: 1, amp: 226, ini: 43062628, rep: 'Ninguna',
+      medio: 'TGCAGTGGCACGATCTTGGCTCATTGCAACCTCCACCTCCCGGGTTCAAGAGATTCTCCTGCCTCAGCCTCCTGAGTAGCTGGAACTAAAGGCGCATGCCACCACGCTGAGTAATTTTTTGTATTTTAGTAGAGACAGGGTTTCACCATGTTGCCCAGGCTGATCTCGAACTCCTGAGCTCA' },
+    { f: 'GGGAGGTTGCAGCAAGCCAAGATC', r: 'GCTCCAGAAAGCAGACGAGTGC', tmF: 60.6, tmR: 58.5, hpF: 0, hpR: 0, het: -2.5, hoF: -3.1, hoR: -1.7, spec: 1, amp: 218, ini: 43065595, rep: 'Ninguna',
+      medio: 'GTGCCATTGCACTCCAGCAGCCTGGGCAACAAGAGTGAAAAACTACACCTCAAAAACAAAAACAAAAACAAAAGAATCATCATCAAGTGAACTGGAACACATCCAGAGAACTAATTTTGTTAGAAAGATTTTAGAGTTGAGCCACACAATCTGCATCTTCTGCGTCCTCCAT' },
+    { f: 'CATAGCCACAGCCACTCACACCAG', r: 'AATGATCCTGGCGGAGGGTGGTAG', tmF: 59.9, tmR: 60.2, hpF: 0, hpR: 0, het: -3.5, hoF: -0.3, hoR: -1.5, spec: 1, amp: 176, ini: 43069021, rep: 'Ninguna',
+      medio: 'TATTTACGTGTTGCACAATACTGCCATGAAGGTCAGGCCATCTTTCTTTCATGTTGCCTCACTCCATACTGCCACAGGGCACTGAAAAAAGGCAGGCTAGAGAAGCTAATGACATCCTCCCCCTTTTG' },
+    { f: 'GTGCCACTGCCTTCTAGGAAGTGG', r: 'GCAGAGAGGTTGTGGTGAGCCAAG', tmF: 59.6, tmR: 60.1, hpF: -1.4, hpR: 0, het: -3.0, hoF: -4.0, hoR: -1.3, spec: 1, amp: 146, ini: 43077678, rep: 'Ninguna',
+      medio: 'CTTAAAGGCAGAAGTACTTATTTATTTATTTTTATTTATTTATTTTTTTTGAGATGGAGTTTGCTCTTGTTGCCCAGGCTGCAGTGCAATGGCATGAT' },
+    { f: 'AGCCAAGACAGCTTCCTGAAACGC', r: 'GCTCAGGCTCCTTCCCATTGGTTC', tmF: 60.3, tmR: 59.9, hpF: 0, hpR: 0, het: -3.9, hoF: -2.8, hoR: -1.3, spec: 1, amp: 148, ini: 43079598, rep: 'Ninguna',
+      medio: 'GTGAAGGAAAATGATCAGAAAAAGAAAGAAGCCAAAGAGAAAGGTACGTGGGTTCAACTGAAGCACCAGCCTGCTCCACCCAGAGAAGCACACTTTGTGA' },
+    { f: 'ACCAGGCGCTGTCCTAGTACTGAG', r: 'TCCTTCCCTCTCACAGGTCCTTGC', tmF: 59.9, tmR: 60.0, hpF: 0, hpR: 0, het: -2.2, hoF: -4.7, hoR: -1.1, spec: 1, amp: 121, ini: 43083551, rep: 'Ninguna',
+      medio: 'GATATAGCCCTCATGGTGCTGCCATTCTAGACAGGGACATCTCATCTAGAATGTGTCCACCTAGAGATCATTA' },
+    { f: 'TCACCACGGCCTCAACTTGCTG', r: 'ACTGCACTCTGTTCTGGGCAACC', tmF: 59.9, tmR: 59.7, hpF: 0, hpR: 0, het: -2.7, hoF: -3.9, hoR: -3.1, spec: 1, amp: 138, ini: 43087807, rep: 'Ninguna',
+      medio: 'GGATCAAGCAATCCTACCCCAGCCACTCAAGTAGCTGAGACTACAGGTGTGCACCACTAAGCCTCACTAATTTTTTTTTTTTTCCCAGACAGG' },
+    { f: 'CTGTACCTGGCTGTGTGGCCTTAG', r: 'GGAGGTTGCACTGAGCTGGGATTG', tmF: 59.3, tmR: 60.1, hpF: -0.1, hpR: 0, het: -2.5, hoF: -3.9, hoR: -3.1, spec: 1, amp: 262, ini: 43090198, rep: 'Ninguna',
+      medio: 'GCAGTTTGCTTACCTTCTCTGACCTGCAGTAGGCATATTCTTAAAATGGAGCTATGCAGAGTCCCTTGAATCATCCTGCTGTGGCTCCTTTTTCTCACCTCTCTTGATACAGTAAGTGCCGTCATGTTTTTGCTATAGGGGAAATGATGTGTTTTTGTTTGTTTGTTTTTGAGATGGAGTCTCACTTTGTCACCCAGGCTGGAGTGCAGTGGTA' },
+    { f: 'CGGTAGCAACGGTGCTATGCCTAG', r: 'AGCAGGAGTCCTAGCCCTTTCACC', tmF: 59.8, tmR: 60.0, hpF: -2.1, hpR: 0, het: -2.9, hoF: -3.5, hoR: -2.4, spec: 1, amp: 190, ini: 43091783, rep: 'Ninguna',
+      medio: 'TAGACTGAGAAGGTATATTGTTTACTTTACCAAATAACAAGTGTTGGAAGCAGGGAAGCTCTTCATCCTCACTAGATAAGTTCTCTTCTGAGGACTCTAATTTCTTGGCCCCTCTTCGGTAACCCTGAGCCAAATGTGTATG' },
+    { f: 'CGTTGCGGAGAGGTGAGATCACAC', r: 'TTGCCCTGTTGCCAGGATGGAG', tmF: 59.9, tmR: 59.4, hpF: 0, hpR: -1.1, het: -1.1, hoF: -2.2, hoR: -2.6, spec: 1, amp: 248, ini: 43096312, rep: 'Ninguna',
+      medio: 'CTCTGTACTCCAGCCTGGGCAACAGAGCAAGACTCTGTCTCAAAAAAAAAAAAAAAAAAGAGAGAAAGAAAGAAATGGAATGGTCAATTAACCGGGCGTGGTGGTGTATACCTGTAGTCCCAGCTACTCGTGAGATTGAGACAGGAGAATCGCTTGAACCAGGGAGTTGGAGATTGCAGTGAGCCGAGATGGCGCCACTACA' },
+    { f: 'CCTTCTGCCTCGGTCTTCCAAAGC', r: 'TGAACCCAGGAAGCAGAGGTTGC', tmF: 60.1, tmR: 59.4, hpF: 0, hpR: -0.4, het: -4.3, hoF: -0.3, hoR: -2.3, spec: 1, amp: 169, ini: 43098749, rep: 'Ninguna',
+      medio: 'GTTAGGATTACAGGCACGAGCCATCCTGCCCAGCCAAGATTCAGCTCTTTTTTTTTTTTTTTGAGATGGAGTTTCACTCTTGTTGCCTAGGCTGGAGTGCAATGGTGCGATCTTGGCTCACT' },
+    { f: 'TTAGCCAGGTCTGGTGTCGTACCC', r: 'TGGAGCGCAGTGACACGATGTC', tmF: 60.0, tmR: 59.8, hpF: 0, hpR: -0.7, het: -3.7, hoF: -2.6, hoR: -4.7, spec: 1, amp: 120, ini: 43103318, rep: 'Ninguna',
+      medio: 'CTGTAGTCCCAACTACTCAGGAGGCTGAGGCAGGAGAATCACTTGAACCTGGGAGGCGGAGGTTGCAGTGAGCT' },
+    { f: 'GCCATTGCGCTGGGCTACTTTC', r: 'AGGCCAGGCTTGATGGCTCATG', tmF: 59.4, tmR: 59.6, hpF: 0, hpR: -1.3, het: -4.4, hoF: -4.7, hoR: -3.9, spec: 1, amp: 155, ini: 43109143, rep: 'Ninguna',
+      medio: 'TATCTTTATTTTTGTACAGATGTGGTTTCACTATATTGCCCAGTCTGGTCTCGAACTCCTGACCTCAAGTGATCCTCCTGCCTTGGCATCCCAACGTGCTGGGATTACAGG' },
+    { f: 'TGGGCTCAAAGCACCTCAGCATC', r: 'AAGGTCCAAGAGGAGGCAGAAGGG', tmF: 59.8, tmR: 60.0, hpF: -0.0, hpR: 0, het: -2.5, hoF: -1.5, hoR: -1.1, spec: 1, amp: 132, ini: 43113132, rep: 'Ninguna',
+      medio: 'TTCCTGTAGAATTACTCTCCTTTTCCTTCATTACTGTTTATGAGTAATAATCAACTCTTTCTTACATCCTTTTTCTATTTCCAAT' },
+    { f: 'AGCAATCTTCCTGCTTCGGCTTCC', r: 'TGAGCCAAGACCACACCACTGC', tmF: 59.9, tmR: 59.6, hpF: -0.8, hpR: 0, het: -3.3, hoF: -2.9, hoR: -0.3, spec: 1, amp: 167, ini: 43118672, rep: 'Ninguna',
+      medio: 'CAAAGTGCTGGGATTACAGGTGTGAGCTACTATACCCGGCCTTTAGCTTTCTTCTGAATGTGAACCTTTTTTTTTTTTTTTGGAGATGGAGTCTCACTCACTCTGCTGCTCAGGCTGGAGT' },
   ];
-  const conProblema = { 6: 'het', 11: 'dtm', 15: 'spec', 19: 'hp' };
-  for (let i = 4; i < 24; i++) {
-    const f = secuencia(20, entre(45, 58)), r = secuencia(20, entre(45, 58));
-    const p = { f, r, tmF: r1(entre(59.3, 60.8)), tmR: r1(entre(59.3, 60.8)), hpF: r1(entre(-2.4, -0.2)), hpR: r1(entre(-2.4, -0.2)), het: r1(entre(-5.2, -1.4)), hoF: r1(entre(-3.5, -1.2)), hoR: r1(entre(-3.5, -1.2)), spec: 1, amp: Math.round(entre(118, 268)), ini: Math.round(entre(G0 + 800, G1 - 1200)), rep: 'Ninguna' };
-    const k = conProblema[i];
-    if (k === 'het') p.het = -7.4; if (k === 'dtm') p.tmR = r1(p.tmF + 2.6); if (k === 'spec') p.spec = 3; if (k === 'hp') p.hpR = -3.5;
-    pares.push(p);
-  }
-  const BASES = 'ACGT';
   pares.forEach((p, i) => {
     p.n = i + 1;
     p.gcF = gcDe(p.f); p.gcR = gcDe(p.r);
     p.fin = p.ini + p.amp - 1;
-    if (i === 0) p.medio = 'ATTTTCCACCTCGATTCTGAAGGCATTTACTCAGAGGAAGTACAAGAAGCTATTTGAGTTGGTCTCTCACAGCCAAATCATTTTGACCCTTTGAATTCAATTAAAGAGATAAAGACAATTACTTTGGACAAGTAGTCAAGCTGA';
-    else { let m = ''; for (let j = 0; j < p.amp - 40; j++) m += BASES[Math.floor(rnd() * 4)]; p.medio = m; }
     p.dTm = r1(Math.abs(p.tmF - p.tmR));
     const av = [];
     if (p.hpF <= U.hp) av.push({ n: 'e', t: 'Horquilla F' }); if (p.hpR <= U.hp) av.push({ n: 'e', t: 'Horquilla R' });
@@ -1173,7 +1198,8 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
     $('.seq', prs[0]).innerHTML = PC.bases(p.f); $('.seq', prs[1]).innerHTML = PC.bases(p.r);
     const c = (ok, mal) => (mal ? 'e' : ok ? 'ok' : 'w');
     mTxt(ms[0], 'Tm F / R', `${PC.num(p.tmF, 1)} / ${PC.num(p.tmR, 1)} <small>°C</small>`, `Δ ${PC.num(p.dTm, 1)} °C · umbral ≤ ${U.dTm} °C`, c(p.dTm <= U.dTm));
-    mTxt(ms[1], '%GC F / R', `${p.gcF} / ${p.gcR} <small>%</small>`, "GC clamp 3' en F y R", 'ok');
+    const clamp = (q) => /[GC]$/.test(q);
+    mTxt(ms[1], '%GC F / R', `${p.gcF} / ${p.gcR} <small>%</small>`, clamp(p.f) && clamp(p.r) ? "GC clamp 3' en F y R" : `GC clamp 3' ${clamp(p.f) ? '✓' : '✗'} F · ${clamp(p.r) ? '✓' : '✗'} R`, clamp(p.f) && clamp(p.r) ? 'ok' : 'w');
     mTxt(ms[2], 'ΔG horquilla F / R', `${PC.num(p.hpF, 1)} / ${PC.num(p.hpR, 1)}`, `kcal/mol · umbral > ${U.hp}`, c(true, p.hpF <= U.hp || p.hpR <= U.hp));
     mTxt(ms[3], 'ΔG heterodímero', PC.num(p.het, 1), `kcal/mol · umbral > ${U.het}`, c(p.het > U.het));
     mTxt(ms[4], 'Homodímero F / R', `${PC.num(p.hoF, 1)} / ${PC.num(p.hoR, 1)}`, 'kcal/mol', 'ok');

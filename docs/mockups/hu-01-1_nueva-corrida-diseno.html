@@ -794,7 +794,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   PC.link = (a, url, extra) => { if (!a) return; a.addEventListener('click', (e) => { e.preventDefault(); PC.go(url || a.getAttribute('href'), typeof extra === 'function' ? extra() : extra); }); };
 
   /* ---------- Formato ---------- */
-  // miles con espacio fino (43 082 410), decimales con coma: la convención de la maqueta
+  // miles con espacio fino (43 094 586), decimales con coma: la convención de la maqueta
   PC.num = (n, d = 0) => Number(n).toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/\./g, '\u202f');
   PC.esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   PC.debounce = (fn, ms = 200) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
@@ -923,11 +923,11 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   PC.bases = (s) => s.replace(/(A+|C+|G+|T+|[^ACGT]+)/g, (r) => (/[ACGT]/.test(r[0]) ? `<span class="${r[0]}">${r}</span>` : PC.esc(r)));
 
   /* ---------- Hibridación sobre la región de referencia de la maqueta (UI-2 y UI-5) ----------
-     Región de BRCA1 en la hebra + de NC_000017.11, desde 43 082 405. Criterio: ≥ n−2
+     Región real de BRCA1 (exón 10 de NM_007294.4) en la hebra + de NC_000017.11 (GRCh38), desde 43 094 581. Criterio: ≥ n−2
      coincidencias y los 5 nt del extremo 3' sin errores. */
-  PC.REF = 'CAACT' + 'TGGAACAGAAGAAAGCCGTCATTTTCCACCTCGATTCTGAAGGCATTTACTCAGAGGAAGTACAAGAAGCTATTTGAGTTGGTCTCTCACAGCCAAATCATTTTGACCCTTTGAATTCAATTAAAGAGATAAAGACAATTACTTTGGACAAGTAGTCAAGCTGACCCAAGAGGTGAAACTGGAG' + 'TTCAAC';
-  PC.REF_INI = 43082405;
-  PC.F0 = 'TGGAACAGAAGAAAGCCGTC'; PC.R0 = 'CTCCAGTTTCACCTCTTGGG';
+  PC.REF = 'TGGCT' + 'CCTTGCTAAGCCAGGCTGTTTGCTTTTATTACAGAATTCAGCCTTTTCTACATTCATTCTGTCTTTAGTGAGTAATAAACTGCTGTTCTCATGCTGTAATGAGCTGGCATGAGTATTTGTGCCACATGGCTCCACATGCAAGTTTGAAACAGAACTACCCTGATACTTTTCTGGATGCCTCTCAGCTGCACGCTTCTCAGTGGTGTTC' + 'AAATCA';
+  PC.REF_INI = 43094581;
+  PC.F0 = 'CCTTGCTAAGCCAGGCTGTTTGC'; PC.R0 = 'GAACACCACTGAGAAGCGTGCAG';
   const ubicar = (s) => {
     let best = { i: 0, ok: -1 };
     for (let i = 0; i + s.length <= PC.REF.length; i++) {

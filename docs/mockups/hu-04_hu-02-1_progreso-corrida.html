@@ -775,13 +775,13 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
         <rect x="200" y="96" width="40" height="22" rx="2" class="exon"/><rect x="290" y="96" width="12" height="22" rx="2" class="exon"/>
         <rect x="350" y="96" width="18" height="22" rx="2" class="exon"/><rect x="430" y="96" width="9" height="22" rx="2" class="exon"/>
         <rect x="500" y="96" width="24" height="22" rx="2" class="exon"/><rect x="590" y="96" width="16" height="22" rx="2" class="exon"/>
-        <path d="M318 84 h22 l-6 -5 M340 84 l-6 5" stroke="var(--fwd)" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <path d="M354 132 h-22 l6 -5 M332 132 l6 5" stroke="var(--rev)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M419 84 h22 l-6 -5 M441 84 l-6 5" stroke="var(--fwd)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M455 132 h-22 l6 -5 M433 132 l6 5" stroke="var(--rev)" stroke-width="3" fill="none" stroke-linecap="round"/>
         <text x="640" y="84" text-anchor="end" style="fill:var(--primary)">◀ hebra −</text>
         <text x="60" y="156">43 044 295</text><text x="350" y="156" text-anchor="middle" class="lbl">BRCA1</text><text x="640" y="156" text-anchor="end">43 125 483</text>
       </svg>
       <div class="stats">
-        <div class="stat"><div class="k">Forward</div><div class="v" style="font-size:18px;color:var(--ok)">Ubicado</div><div class="hint mono" style="margin:0">43 082 410 · 20/20</div></div>
+        <div class="stat"><div class="k">Forward</div><div class="v" style="font-size:18px;color:var(--ok)">Ubicado</div><div class="hint mono" style="margin:0">43 094 586 · 23/23</div></div>
         <div class="stat"><div class="k">Reverse</div><div class="v" style="font-size:18px;color:var(--primary)">Buscando…</div><div class="hint" style="margin:0">en la región del gen</div></div>
         <div class="stat"><div class="k">Tiempo transcurrido</div><div class="v mono">00:04</div></div>
       </div>
@@ -846,7 +846,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   PC.link = (a, url, extra) => { if (!a) return; a.addEventListener('click', (e) => { e.preventDefault(); PC.go(url || a.getAttribute('href'), typeof extra === 'function' ? extra() : extra); }); };
 
   /* ---------- Formato ---------- */
-  // miles con espacio fino (43 082 410), decimales con coma: la convención de la maqueta
+  // miles con espacio fino (43 094 586), decimales con coma: la convención de la maqueta
   PC.num = (n, d = 0) => Number(n).toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/\./g, '\u202f');
   PC.esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   PC.debounce = (fn, ms = 200) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
@@ -975,11 +975,11 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   PC.bases = (s) => s.replace(/(A+|C+|G+|T+|[^ACGT]+)/g, (r) => (/[ACGT]/.test(r[0]) ? `<span class="${r[0]}">${r}</span>` : PC.esc(r)));
 
   /* ---------- Hibridación sobre la región de referencia de la maqueta (UI-2 y UI-5) ----------
-     Región de BRCA1 en la hebra + de NC_000017.11, desde 43 082 405. Criterio: ≥ n−2
+     Región real de BRCA1 (exón 10 de NM_007294.4) en la hebra + de NC_000017.11 (GRCh38), desde 43 094 581. Criterio: ≥ n−2
      coincidencias y los 5 nt del extremo 3' sin errores. */
-  PC.REF = 'CAACT' + 'TGGAACAGAAGAAAGCCGTCATTTTCCACCTCGATTCTGAAGGCATTTACTCAGAGGAAGTACAAGAAGCTATTTGAGTTGGTCTCTCACAGCCAAATCATTTTGACCCTTTGAATTCAATTAAAGAGATAAAGACAATTACTTTGGACAAGTAGTCAAGCTGACCCAAGAGGTGAAACTGGAG' + 'TTCAAC';
-  PC.REF_INI = 43082405;
-  PC.F0 = 'TGGAACAGAAGAAAGCCGTC'; PC.R0 = 'CTCCAGTTTCACCTCTTGGG';
+  PC.REF = 'TGGCT' + 'CCTTGCTAAGCCAGGCTGTTTGCTTTTATTACAGAATTCAGCCTTTTCTACATTCATTCTGTCTTTAGTGAGTAATAAACTGCTGTTCTCATGCTGTAATGAGCTGGCATGAGTATTTGTGCCACATGGCTCCACATGCAAGTTTGAAACAGAACTACCCTGATACTTTTCTGGATGCCTCTCAGCTGCACGCTTCTCAGTGGTGTTC' + 'AAATCA';
+  PC.REF_INI = 43094581;
+  PC.F0 = 'CCTTGCTAAGCCAGGCTGTTTGC'; PC.R0 = 'GAACACCACTGAGAAGCGTGCAG';
   const ubicar = (s) => {
     let best = { i: 0, ok: -1 };
     for (let i = 0; i + s.length <= PC.REF.length; i++) {
@@ -1070,7 +1070,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   const tituloBase = document.title;
 
   PC.demo(B
-    ? '<ul><li>El par de ejemplo (<code>TGGAACAG…</code> / <code>CTCCAGTT…</code>) hibrida → UI-5 "Hibrida".</li><li>Cualquier otro par → UI-5 "No hibrida" (CU-03 A1).</li><li><code>NM_999999</code> → no existe en NCBI.</li><li>La pastilla de estados frena la simulación.</li></ul>'
+    ? '<ul><li>El par de ejemplo (<code>CCTTGCTA…</code> / <code>GAACACCA…</code>) hibrida → UI-5 "Hibrida".</li><li>Cualquier otro par → UI-5 "No hibrida" (CU-03 A1).</li><li><code>NM_999999</code> → no existe en NCBI.</li><li>La pastilla de estados frena la simulación.</li></ul>'
     : '<ul><li>Llegar desde UI-1 con <code>NM_007294</code> → corrida completa.</li><li><code>NM_999999</code> → no existe en NCBI (CU-04 E1).</li><li><code>NM_007294</code> con otro organismo → no coinciden (CU-04 E2).</li><li><code>NC_000017.11</code> → gen no localizado (CU-02 A1).</li><li>Tm ≥ 70 °C o %GC ≥ 68 % → corrida sin candidatos (CU-02 E1).</li><li>La pastilla de estados frena la simulación.</li></ul>');
 
   /* ---------- Resultado que corresponde a los datos (guion de la demo) ---------- */

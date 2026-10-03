@@ -610,8 +610,8 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   <div class="view v1">
   <section class="hero good">
     <div class="ic">✓</div>
-    <div><h1>El par hibrida en BRCA1 y amplifica 184 pb</h1>
-      <div class="lede">Forward y reverse coinciden 20/20 con la referencia, están enfrentados y todas sus métricas están dentro de los umbrales.</div>
+    <div><h1>El par hibrida en BRCA1 y amplifica 208 pb</h1>
+      <div class="lede">Forward y reverse coinciden 23/23 y 23/23 con la referencia, están enfrentados y todas sus métricas están dentro de los umbrales.</div>
       <div class="checks"><span class="badge b-ok">✓ Posición dentro del gen</span><span class="badge b-ok">✓ Orientación correcta</span><span class="badge b-ok">✓ Caracterización sin advertencias</span></div></div>
     <div style="margin-left:auto"><svg viewBox="0 0 300 96" width="280" role="img" aria-label="Ilustración: par de primers hibridado sobre el ADN molde, delimitando el amplicón">
 <rect x="92" y="26" width="116" height="44" rx="8" fill="color-mix(in srgb,var(--primary) 12%,transparent)"/>
@@ -621,33 +621,33 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
 <path d="M92 22h52" stroke="var(--fwd)" stroke-width="7" stroke-linecap="round"/><path d="M144 22l-9 -6v12z" fill="var(--fwd)"/>
 <path d="M208 76h-52" stroke="var(--rev)" stroke-width="7" stroke-linecap="round"/><path d="M156 76l9 -6v12z" fill="var(--rev)"/>
 <text x="92" y="12" style="font:700 11px var(--mono)" fill="var(--fwd)">F</text><text x="200" y="93" style="font:700 11px var(--mono)" fill="var(--rev)">R</text>
-<text x="150" y="93" text-anchor="middle" style="font:600 10px var(--mono)" fill="var(--muted)">184 pb</text></svg></div>
+<text x="150" y="93" text-anchor="middle" style="font:600 10px var(--mono)" fill="var(--muted)">208 pb</text></svg></div>
   </section>
 
   <div class="split" style="grid-template-columns:minmax(0,1fr) 420px">
     <section class="card">
       <div class="card-h"><h2>Dónde hibridan</h2><span class="hint" style="margin:0">Posiciones sobre la hebra + de <span class="mono">NC_000017.11</span> · BRCA1 está en la hebra −</span></div>
-      <div class="aln"><span class="lbl">Ref</span>  5' ...CAACTTGGAACAGAAGAAAGCCGTCATTTTCC... 3'   <span class="lbl">43 082 405</span>
-                <span class="bar">||||||||||||||||||||</span>
-<span class="lbl">F</span>            5' <span class="f">TGGAACAGAAGAAAGCCGTC</span> 3' <span class="f">→</span>   <span class="lbl">20/20</span>
+      <div class="aln"><span class="lbl">Ref</span>  5' ...TGGCTCCTTGCTAAGCCAGGCTGTTTGCTTTTATT... 3'   <span class="lbl">43 094 581</span>
+                <span class="bar">|||||||||||||||||||||||</span>
+<span class="lbl">F</span>            5' <span class="f">CCTTGCTAAGCCAGGCTGTTTGC</span> 3' <span class="f">→</span>   <span class="lbl">23/23</span>
 
-<span class="lbl">Ref</span>  5' ...GTCAAGCTGA<span class="hl-r">CCCAAGAGGTGAAACTGGAG</span>TTCAAC... 3' <span class="lbl">43 082 564</span>
-                     <span class="bar">||||||||||||||||||||</span>
-<span class="lbl">R</span>                 3' <span class="r">GGGTTCTCCACTTTGACCTC</span> 5' <span class="r">←</span>   <span class="lbl">20/20</span></div>
+<span class="lbl">Ref</span>  5' ...TGCCTCTCAG<span class="hl-r">CTGCACGCTTCTCAGTGGTGTTC</span>AAATCA... 3' <span class="lbl">43 094 761</span>
+                     <span class="bar">|||||||||||||||||||||||</span>
+<span class="lbl">R</span>                 3' <span class="r">GACGTGCGAAGAGTCACCACAAG</span> 5' <span class="r">←</span>   <span class="lbl">23/23</span></div>
       <table class="tbl">
         <thead><tr><th>Primer</th><th>Posición</th><th>Hebra</th><th>Orientación</th><th>Coincidencia</th></tr></thead>
         <tbody>
-          <tr><td><span class="badge" style="background:color-mix(in srgb,var(--fwd) 18%,transparent);color:var(--fwd)">Forward</span></td><td class="mono">43 082 410 – 43 082 429</td><td>+</td><td><span class="badge b-ok">✓ esperada</span></td><td class="mono">20/20</td></tr>
-          <tr><td><span class="badge" style="background:var(--rev-soft);color:var(--rev)">Reverse</span></td><td class="mono">43 082 574 – 43 082 593</td><td>−</td><td><span class="badge b-ok">✓ esperada</span></td><td class="mono">20/20</td></tr>
+          <tr><td><span class="badge" style="background:color-mix(in srgb,var(--fwd) 18%,transparent);color:var(--fwd)">Forward</span></td><td class="mono">43 094 586 – 43 094 608</td><td>+</td><td><span class="badge b-ok">✓ esperada</span></td><td class="mono">23/23</td></tr>
+          <tr><td><span class="badge" style="background:var(--rev-soft);color:var(--rev)">Reverse</span></td><td class="mono">43 094 771 – 43 094 793</td><td>−</td><td><span class="badge b-ok">✓ esperada</span></td><td class="mono">23/23</td></tr>
         </tbody>
       </table>
       <div class="locus">
         <svg viewBox="0 0 700 80" role="img" aria-label="Posición del par dentro de BRCA1">
           <rect x="10" y="32" width="680" height="14" rx="7" fill="color-mix(in srgb,var(--primary) 16%,transparent)" stroke="var(--primary)"/>
-          <rect x="325" y="26" width="60" height="26" rx="4" fill="color-mix(in srgb,var(--primary) 35%,transparent)"/>
-          <path d="M325 16 h22 l-6 -5 M347 16 l-6 5" stroke="var(--fwd)" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M385 62 h-22 l6 -5 M363 62 l6 5" stroke="var(--rev)" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <text x="10" y="78">43 044 295</text><text x="355" y="78" text-anchor="middle">BRCA1 · amplicón 184 pb</text><text x="690" y="78" text-anchor="end">43 125 483</text>
+          <rect x="401" y="26" width="60" height="26" rx="4" fill="color-mix(in srgb,var(--primary) 35%,transparent)"/>
+          <path d="M401 16 h22 l-6 -5 M423 16 l-6 5" stroke="var(--fwd)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M461 62 h-22 l6 -5 M439 62 l6 5" stroke="var(--rev)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <text x="10" y="78">43 044 295</text><text x="355" y="78" text-anchor="middle">BRCA1 · amplicón 208 pb</text><text x="690" y="78" text-anchor="end">43 125 483</text>
         </svg>
       </div>
     </section>
@@ -655,14 +655,14 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
     <section class="card sticky">
       <h3>Caracterización del par</h3>
       <div class="metrics" style="grid-template-columns:1fr 1fr">
-        <div class="m"><div class="k">Tm F / R</div><div class="v">60,1 / 60,4 <small>°C</small></div><div class="th">Δ 0,3 °C · umbral ≤ 2</div></div>
-        <div class="m"><div class="k">%GC F / R</div><div class="v">50 / 55 <small>%</small></div><div class="th">GC clamp 3' ✓ F y R</div></div>
-        <div class="m"><div class="k">ΔG horquilla F / R</div><div class="v">−0,8 / −1,1</div><div class="th">kcal/mol · umbral &gt; −3</div></div>
-        <div class="m"><div class="k">ΔG heterodímero</div><div class="v">−3,2</div><div class="th">kcal/mol · umbral &gt; −6</div></div>
-        <div class="m"><div class="k">Homodímero F / R</div><div class="v">−2,1 / −1,7</div><div class="th">kcal/mol</div></div>
+        <div class="m"><div class="k">Tm F / R</div><div class="v">59,3 / 58,8 <small>°C</small></div><div class="th">Δ 0,5 °C · umbral ≤ 2</div></div>
+        <div class="m"><div class="k">%GC F / R</div><div class="v">57 / 57 <small>%</small></div><div class="th">GC clamp 3' ✓ F y R</div></div>
+        <div class="m"><div class="k">ΔG horquilla F / R</div><div class="v">0,0 / 0,0</div><div class="th">kcal/mol · umbral &gt; −3</div></div>
+        <div class="m"><div class="k">ΔG heterodímero</div><div class="v">−1,9</div><div class="th">kcal/mol · umbral &gt; −6</div></div>
+        <div class="m"><div class="k">Homodímero F / R</div><div class="v">−3,3 / −3,1</div><div class="th">kcal/mol</div></div>
         <div class="m"><div class="k">Repeticiones</div><div class="v">Ninguna</div><div class="th">sin runs ≥ 4 nt</div></div>
         <div class="m"><div class="k">Especificidad</div><div class="v">1 sitio</div><div class="th">simulada en el MVP</div></div>
-        <div class="m"><div class="k">Amplicón</div><div class="v">184 <small>pb</small></div><div class="th">43 082 410 – 43 082 593</div></div>
+        <div class="m"><div class="k">Amplicón</div><div class="v">208 <small>pb</small></div><div class="th">43 094 586 – 43 094 793</div></div>
       </div>
     </section>
   </div>
@@ -674,16 +674,16 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   <section class="hero bad">
     <div class="ic">✖</div>
     <div><h1>El reverse no hibrida dentro de BRCA1</h1>
-      <div class="lede">El forward se ubicó sin problemas, pero para el reverse la mejor coincidencia en el gen es 13/20: no alcanza para amplificar.</div>
-      <div class="checks"><span class="badge b-ok">✓ Forward: 20/20</span><span class="badge b-err">✖ Reverse: 13/20</span><span class="badge b-mute">— Caracterización no ejecutada</span></div></div>
+      <div class="lede">El forward se ubicó sin problemas, pero para el reverse la mejor coincidencia en el gen es 15/23: no alcanza para amplificar.</div>
+      <div class="checks"><span class="badge b-ok">✓ Forward: 23/23</span><span class="badge b-err">✖ Reverse: 15/23</span><span class="badge b-mute">— Caracterización no ejecutada</span></div></div>
   </section>
   <div class="split" style="grid-template-columns:minmax(0,1fr) 380px">
     <section class="card">
-      <div class="card-h"><h2>Mejor coincidencia del reverse</h2><span class="badge b-err">7 posiciones no coinciden</span></div>
-      <div class="aln"><span class="lbl">Ref</span>  5' ...TCATAAGCTGGACAACACGGGCCT... 3'
-              <span class="bar">|</span><span class="mm">x</span><span class="bar">||</span><span class="mm">x</span><span class="bar">|||</span><span class="mm">xx</span><span class="bar">||||</span><span class="mm">x</span><span class="bar">||</span><span class="mm">xx</span><span class="bar">|</span>
-<span class="lbl">R</span>          3' <span class="r">AGTCAACCGATTGTACCTAG</span> 5' <span class="r">←</span>   <span class="lbl">13/20</span></div>
-      <p class="hint" style="margin-top:12px"><span class="mm" style="color:var(--err);font-weight:800">x</span> = base que no coincide. Umbral para considerar que hibrida: ≥ 18/20 y los últimos 5 nt del extremo 3' sin errores.</p>
+      <div class="card-h"><h2>Mejor coincidencia del reverse</h2><span class="badge b-err">8 posiciones no coinciden</span></div>
+      <div class="aln"><span class="lbl">Ref</span>  5' ...CTGCACGCTTCTCAGTGGTGTTC... 3'   <span class="lbl">43 094 771</span>
+              <span class="mm">x</span><span class="bar">|</span><span class="mm">x</span><span class="bar">||</span><span class="mm">x</span><span class="bar">||</span><span class="mm">x</span><span class="bar">||</span><span class="mm">x</span><span class="bar">||</span><span class="mm">x</span><span class="bar">|||</span><span class="mm">x</span><span class="bar">||</span><span class="mm">x</span><span class="bar">|</span>
+<span class="lbl">R</span>          3' <span class="r">AATGTCCGTAGCGTTACCGCATG</span> 5' <span class="r">←</span>   <span class="lbl">15/23</span></div>
+      <p class="hint" style="margin-top:12px"><span class="mm" style="color:var(--err);font-weight:800">x</span> = base que no coincide. Umbral para considerar que hibrida: como máximo 2 bases que no coinciden (≥ n − 2) y los últimos 5 nt del extremo 3' sin errores.</p>
       <div class="callout c-warn" style="margin-top:14px"><div class="ic">i</div><div><strong>¿Qué revisar?</strong>Que el reverse esté escrito 5'→3' (no invertido ni complementado) y que el par corresponda a este gen y a este organismo.</div></div>
     </section>
     <aside class="sticky">
@@ -738,7 +738,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   PC.link = (a, url, extra) => { if (!a) return; a.addEventListener('click', (e) => { e.preventDefault(); PC.go(url || a.getAttribute('href'), typeof extra === 'function' ? extra() : extra); }); };
 
   /* ---------- Formato ---------- */
-  // miles con espacio fino (43 082 410), decimales con coma: la convención de la maqueta
+  // miles con espacio fino (43 094 586), decimales con coma: la convención de la maqueta
   PC.num = (n, d = 0) => Number(n).toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/\./g, '\u202f');
   PC.esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   PC.debounce = (fn, ms = 200) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
@@ -867,11 +867,11 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   PC.bases = (s) => s.replace(/(A+|C+|G+|T+|[^ACGT]+)/g, (r) => (/[ACGT]/.test(r[0]) ? `<span class="${r[0]}">${r}</span>` : PC.esc(r)));
 
   /* ---------- Hibridación sobre la región de referencia de la maqueta (UI-2 y UI-5) ----------
-     Región de BRCA1 en la hebra + de NC_000017.11, desde 43 082 405. Criterio: ≥ n−2
+     Región real de BRCA1 (exón 10 de NM_007294.4) en la hebra + de NC_000017.11 (GRCh38), desde 43 094 581. Criterio: ≥ n−2
      coincidencias y los 5 nt del extremo 3' sin errores. */
-  PC.REF = 'CAACT' + 'TGGAACAGAAGAAAGCCGTCATTTTCCACCTCGATTCTGAAGGCATTTACTCAGAGGAAGTACAAGAAGCTATTTGAGTTGGTCTCTCACAGCCAAATCATTTTGACCCTTTGAATTCAATTAAAGAGATAAAGACAATTACTTTGGACAAGTAGTCAAGCTGACCCAAGAGGTGAAACTGGAG' + 'TTCAAC';
-  PC.REF_INI = 43082405;
-  PC.F0 = 'TGGAACAGAAGAAAGCCGTC'; PC.R0 = 'CTCCAGTTTCACCTCTTGGG';
+  PC.REF = 'TGGCT' + 'CCTTGCTAAGCCAGGCTGTTTGCTTTTATTACAGAATTCAGCCTTTTCTACATTCATTCTGTCTTTAGTGAGTAATAAACTGCTGTTCTCATGCTGTAATGAGCTGGCATGAGTATTTGTGCCACATGGCTCCACATGCAAGTTTGAAACAGAACTACCCTGATACTTTTCTGGATGCCTCTCAGCTGCACGCTTCTCAGTGGTGTTC' + 'AAATCA';
+  PC.REF_INI = 43094581;
+  PC.F0 = 'CCTTGCTAAGCCAGGCTGTTTGC'; PC.R0 = 'GAACACCACTGAGAAGCGTGCAG';
   const ubicar = (s) => {
     let best = { i: 0, ok: -1 };
     for (let i = 0; i + s.length <= PC.REF.length; i++) {

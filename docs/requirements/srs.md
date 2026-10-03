@@ -7,13 +7,13 @@ nav_order: 1
 # SRS — PrimerCraft Pro
 
 **Especificación de Requerimientos del Software**
-Ingeniería de Software 2026 · FIUNER · TP1 — Instancia 1
+Ingeniería de Software 2026 · FIUNER · TP1 y TP2
 
 | | |
 |---|---|
 | **Proyecto** | PrimerCraft Pro |
 | **Integrantes** | Sara Barbará, Emilia Vergara, Matias Rios |
-| **Versión del documento** | 1.0.0 (línea base TP1) |
+| **Versión del documento** | 1.1.0 (TP2: se agregan los requerimientos no funcionales; la línea base del TP1 es la 1.0.0) |
 
 
 ---
@@ -171,7 +171,7 @@ El sistema, en su alcance actual, maneja **únicamente datos biológicos públic
 | **RF-10** | Ante un gen target de interés, el sistema debe localizar información específica desde la anotación del genoma de referencia (coordenadas de inicio y fin, hebra, etc.). |
 ---
 
-## 6. Elección del modelo de procesos
+## 4. Elección del modelo de procesos
 
 Para el desarrollo prioritario en lo que resta del cuatrimestre se seleccionaron el **Proceso 1 (Preparar target y secuencia de referencia)** y el **Proceso 2 (Generar y caracterizar candidatos de primers)**.
 
@@ -180,7 +180,7 @@ Esta elección se fundamenta en que el Proceso 1 establece la puerta de entrada 
 En contraste, se decidió no priorizar el **Proceso 3** debido a su fuerte dependencia de servicios de terceros como bases de variantes poblacionales, sujetos a restricciones de tiempos de respuesta. La profundización del **Proceso 4** se postergó para una etapa posterior, ya que su función principal es aplicar el esquema de scoring y orquestar el ciclo de reintentos basándose en los resultados de especificidad y variantes que genera el Proceso 3, lo que hace indispensable tener consolidadas las etapas previas antes de abordar su lógica completa.
 
 ---
-## 7. Casos de uso / Historias de usuario
+## 5. Casos de uso / Historias de usuario
 
 ### Actores
 
@@ -476,15 +476,15 @@ Escenario: Candidatos caracterizados
 ```
 
 ---
-## 8. Requerimientos no funcionales
+## 6. Requerimientos no funcionales
 
-### 8.1. Taxonomía elegida
+### 6.1. Taxonomía elegida
 
 
 El grupo utiliza la taxonomía **ISO/IEC 25010:2023** (modelo de calidad del producto) para clasificar los atributos de calidad. Esta taxonomía define características y subcaracterísticas estandarizadas que evalúan la calidad del producto de software y da un vocabulario común y estructurado para definir qué se espera del sistema más allá de su funcionalidad básica.
 
 
-### 8.2. Significado de los cinco atributos elegidos
+### 6.2. Significado de los cinco atributos elegidos
 
 
 | # | Característica ISO/IEC 25010:2023 | Subcaracterística(s) que se ponen a prueba | Significado para el grupo |
@@ -496,14 +496,14 @@ El grupo utiliza la taxonomía **ISO/IEC 25010:2023** (modelo de calidad del pro
 | 5 | **Fiabilidad** | Tolerancia a fallos · Capacidad de recuperación | Grado en que el sistema mantiene un nivel especificado de desempeño y sigue funcionando pese a fallas de servicios externos o interrupciones de red, preservando el estado y permitiendo su recuperación. |
 
 
-### 8.3. Justificación de la selección
+### 6.3. Justificación de la selección
 
 
 La selección responde a los riesgos y necesidades del dominio de PrimerCraft Pro:
 
 
-- **Pertinencia Funcional y Protección frente a errores del usuario** se priotizaron para resolver el dolor principal del investigador: la fragmentación de herramientas, la pérdida de tiempo en planillas/pestañas y el riesgo de invalidar corridas por errores de formato.
-- **Fiabilidad y Capacidad de recuperación** se priorizaron debido a la dependencia crítica de APIs públicas externas (NCBI Entrez, NCBI BLAST, dbSNP/Ensembl) que imponen límites de uso, fallas de red y esquemas de datos dinámicos .
+- **Pertinencia Funcional y Protección frente a errores del usuario** se priorizaron para resolver el dolor principal del investigador: la fragmentación de herramientas, la pérdida de tiempo en planillas/pestañas y el riesgo de invalidar corridas por errores de formato.
+- **Fiabilidad** (tolerancia a fallos y capacidad de recuperación) y **Compatibilidad** (interoperabilidad) se priorizaron debido a la dependencia crítica de APIs públicas externas (NCBI Entrez, NCBI BLAST, dbSNP/Ensembl): Fiabilidad, porque esos servicios imponen límites de uso y fallan por red; Compatibilidad, porque cambian sus esquemas de datos sin aviso y el sistema depende de interpretarlos correctamente.
 - **Modificabilidad** se priorizó para respaldar el ciclo de vida **iterativo e incremental** elegido: se dejan explícitamente fuera algunos procesos para extensiones posteriores el cruce con variantes (dbSNP/Ensembl) y los perfiles de scoring, que habrá que incorporar sin rehacer lo ya construido.
 
 
@@ -517,7 +517,16 @@ La selección responde a los riesgos y necesidades del dominio de PrimerCraft Pr
 ---
 
 
-### 8.4. Escenarios
+### 6.4. Escenarios
 
 
-Los podemos encontrar en :Link a escenarios que estan en docs/requirements/quality-scenarios/
+Los escenarios de cada atributo, con sus seis componentes y su trazabilidad a los RF, CU e HU de este documento, están en [`quality-scenarios/quality-scenarios.md`](quality-scenarios/quality-scenarios.md). El registro de uso de IA de esta parte está en [`quality-scenarios/registro-uso-ia.md`](quality-scenarios/registro-uso-ia.md).
+
+| ID | Atributo | Subcaracterística | Entorno | RF / CU relacionados |
+|---|---|---|---|---|
+| AF-1 | Adecuación funcional | Pertinencia funcional | Degradado | RF-10 · CU-02 |
+| CI-1 | Capacidad de interacción | Protección frente a errores del usuario | Degradado | RF-01, RF-08 · CU-01, CU-03 |
+| MA-1 | Mantenibilidad | Modificabilidad | Normal (desarrollo) | RF-03 · CU-04 |
+| CO-1 | Compatibilidad | Interoperabilidad | Degradado | RF-03 · CU-04 |
+| FI-1 | Fiabilidad | Tolerancia a fallos | Degradado | RF-06 · CU-05 |
+| FI-2 | Fiabilidad | Capacidad de recuperación | Degradado | RF-03, RF-09 · CU-04 |

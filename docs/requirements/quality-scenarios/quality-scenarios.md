@@ -14,7 +14,7 @@ nav_order: 2
 > Entornos: 5 de 6 escenarios ocurren en **entorno degradado**; el de mantenibilidad ocurre en un entorno normal de desarrollo porque el atributo se manifiesta en tiempo de desarrollo, no de ejecución.
 
 
-### 1.1 Adecuación funcional (Característica ISO de la que proviene: Adecuación Funcional)
+### 1.1 Pertinencia Funcional (Característica ISO de la que proviene: Adecuación Funcional)
 
 
 **Qué le exige a la solución y por qué es crítico:** exige que PrimerCraft Pro incorpore el conjunto de funciones indispensables para que el investigador complete todo el flujo de diseño y caracterización de primers dentro de la misma herramienta, evitando que deba recurrir a software externo o realizar ediciones/recortes manuales de secuencias por limitaciones del sistema. Es crítico porque el mayor problema actual es la fragmentación del flujo de trabajo entre múltiples herramientas y pestañas
@@ -22,7 +22,7 @@ nav_order: 2
 
 
 
-#### Escenario AF-1 — Registro sin anotación del gen
+#### Escenario AF-1 
 
 
 | Componente | Descripción |
@@ -35,7 +35,6 @@ nav_order: 2
 | **Entorno** | Degradado (la consulta recupera la secuencia del genoma/cromosoma de referencia, pero el registro carece de tabla de anotación con las coordenadas delimitadoras del gen de interés). |
 | **Respuesta** | El sistema ejecuta de forma autónoma una función interna de localización para identificar las coordenadas del blanco dentro del genoma de referencia, acota la región objetivo y ejecuta la generación de candidatos por ventana deslizante con su caracterización, sin que el usuario haga búsquedas o recortes manuales en herramientas externas. Solo si esa localización interna tampoco encuentra el gen, informa que no se pudo localizar (CU-02 E1) y no genera candidatos. |
 | **Medida de la respuesta** | **0** herramientas externas de navegación genómica y **0** pasos manuales de extracción de coordenadas requeridos al usuario para obtener el reporte final de primers caracterizados. |
-| **Trazabilidad** | RF-10 · CU-02 (Slice 1 y E1) · HU-02.1 |
 
 
 
@@ -49,7 +48,7 @@ nav_order: 2
 **Qué le exige a la solución y por qué es crítico:** Exige una interfaz que sea comprensible para un biólogo molecular sin formación en programación, mostrando el scoring como algo transparente (no una "caja negra") y protegiendo al usuario de cometer errores de formato. Es crítico para garantizar la adopción de la herramienta y evitar llamadas inútiles a las APIs externas que consuman la cuota de uso.
 
 
-#### Escenario CI-1 — Entrada inválida
+#### Escenario CI-1 
 
 
 | Componente | Descripción |
@@ -62,7 +61,7 @@ nav_order: 2
 | **Entorno** | Degradado: ingreso de datos erróneos o corruptos (p. ej., secuencia pegada desde un PDF con caracteres extraños). |
 | **Respuesta** | El sistema intercepta el error en el momento del ingreso, **no** inicia la consulta a NCBI y muestra una alerta que indica qué campo y qué caracteres son inválidos, permitiendo corregirlo **sin perder** el resto de los parámetros ya cargados. |
 | **Medida de la respuesta** | **0** peticiones HTTP enviadas a NCBI ante entradas con formato/IUPAC inválido; **100 %** de los demás campos conservados tras el error; tiempo de corrección del usuario **< 10 s** (medido en prueba con usuario). |
-| **Trazabilidad** | RF-01 · RF-08 · CU-01 E1 · CU-03 E1 · HU-01.1 (esc. 2) · HU-03.1 |
+
 
 
 ---
@@ -74,7 +73,7 @@ nav_order: 2
 **Qué le exige a la solución y por qué es crítico:** Exige una arquitectura modular donde el núcleo termodinámico esté desacoplado de las fuentes de información genómica. Es fundamental debido al ciclo de vida Iterativo e Incremental elegido, dado que integraciones como el cruce de variantes (dbSNP/Ensembl) y los perfiles de scoring se dejaron explícitamente para etapas posteriores o de extensión.
 
 
-#### Escenario MA-1 — Nuevo proveedor de datos genómicos
+#### Escenario MA-1 
 
 
 | Componente | Descripción |
@@ -87,9 +86,7 @@ nav_order: 2
 | **Entorno** | Normal: entorno de desarrollo/mantenimiento. |
 | **Respuesta** | El equipo implementa el nuevo conector y lo integra **sin modificar** el Gestor de Diseño de Candidatos (P2) ni el cálculo termodinámico Nearest-Neighbor. |
 | **Medida de la respuesta** | **< 15 horas/persona** para incorporar y validar la nueva fuente; **0** líneas modificadas en el motor de diseño (P2); **0** regresiones en las pruebas existentes. |
-| **Trazabilidad** | RF-03 · CU-04 · SRS §2.6 (extensiones: dbSNP/Ensembl) · DFD nivel 1 (P1, P3) |
 
-> *Impacto sobre la arquitectura (opcional, consigna §3.3):* condiciona a separar el motor de diseño de los conectores a fuentes externas mediante patrones de desacoplamiento (una interfaz común para todos los conectores).
 
 
 
@@ -103,7 +100,7 @@ nav_order: 2
 **Qué le exige a la solución y por qué es crítico:** Exige que PrimerCraft Pro se comunique e intercambie datos de forma transparente con servicios bioinformáticos externos (NCBI Entrez/BLAST y dbSNP/Ensembl) mediante sus APIs web y formatos estándar (FASTA, VCF, JSON/XML). Es crítico porque el sistema no genera secuencias de referencia ni variantes de forma aislada, sino que su propuesta de valor depende del consumo e interpretación de datos producidos por repositorios públicos externos.
 
 
-#### Escenario CO-1 — Cambio de esquema en la respuesta de NCBI Entrez
+#### Escenario CO-1 
 
 
 | Componente | Descripción |
@@ -116,7 +113,7 @@ nav_order: 2
 | **Entorno** | Degradado: incompatibilidad parcial de esquema tras una actualización del servicio externo. |
 | **Respuesta** | El sistema procesa la respuesta, extrae la secuencia nucleotídica requerida e ignora los campos no reconocidos, sin interrumpir la corrida. |
 | **Medida de la respuesta** | **100 %** de las respuestas que contienen la secuencia solicitada se convierten al formato interno sin excepciones de lectura/deserialización; **0** corridas interrumpidas por campos desconocidos. |
-| **Trazabilidad** | RF-03 · CU-04 · HU-04 (esc. 1) |
+
 
 
 
@@ -132,7 +129,7 @@ nav_order: 2
 **Qué le exige a la solución y por qué es crítico:** Exige que el software sea resiliente ante caídas de red, timeouts o límites de cuota de las APIs públicas, preservando el trabajo ya realizado (los candidatos generados). Es altamente crítico porque NCBI BLAST es un recurso compartido con "límites estrictos" (100 corridas/24hs) que el grupo no controla, lo que representa el principal riesgo técnico del proyecto.
 
 
-#### Escenario FI-1 — Cuota de BLAST excedida
+#### Escenario FI-1 
 
 
 | Componente | Descripción |
@@ -145,11 +142,11 @@ nav_order: 2
 | **Entorno** | Degradado: límite de uso excedido en la API pública. |
 | **Respuesta** | El sistema informa el error o la saturación de forma clara, guarda el estado de los candidatos (con su Tm y estructuras ya calculadas) y los pone en una cola para reintentar la verificación de especificidad automáticamente más tarde. |
 | **Medida de la respuesta** | **0 %** de pérdida de candidatos ya calculados tras un error HTTP 429 (Too Many Requests) o 500 (Internal Server Error) de NCBI; **100 %** de los candidatos en cola reintentados sin que el usuario vuelva a cargar la corrida. |
-| **Trazabilidad** | RF-06 · CU-05 (paso 2) · HU-05 · SRS §2.7 (riesgo técnico) |
 
-> *Nota:* en el MVP la especificidad usa una simulación local (mock, SRS §2.6); el escenario queda como requisito para la integración real.
 
-#### Escenario FI-2 — Caída de NCBI Entrez durante la obtención de la referencia
+> *Nota:* en el MVP la especificidad usa una simulación local ; el escenario queda como requisito para la integración real.
+
+#### Escenario FI-2 
 
 | Componente | Descripción |
 |---|---|
@@ -161,7 +158,7 @@ nav_order: 2
 | **Entorno** | Degradado: servicio externo no disponible temporalmente. |
 | **Respuesta** | El sistema conserva los datos de entrada ya validados, informa que NCBI no está disponible (distinguiéndolo de un "identificador inexistente") y reintenta la consulta; al restablecerse el servicio, continúa la corrida desde la obtención de la referencia. |
 | **Medida de la respuesta** | **0** datos de entrada que el usuario deba volver a cargar; la corrida se reanuda en **< 1 min** tras restablecerse el servicio (meta fijada por el grupo, no definida en el SRS); **0** casos en que una caída se informe como "identificador inexistente". |
-| **Trazabilidad** | RF-03 · RF-09 · CU-04 · HU-04 (esc. 2) |
+
 
 ---
 

@@ -158,7 +158,7 @@ nav_order: 2
 | **Entorno** | Degradado: servicio externo no disponible temporalmente. |
 | **Respuesta** | El sistema conserva los datos de entrada ya validados, informa que NCBI no está disponible (distinguiéndolo de un "identificador inexistente") y reintenta la consulta; al restablecerse el servicio, continúa la corrida desde la obtención de la referencia. |
 | **Medida de la respuesta** | **0** datos de entrada que el usuario deba volver a cargar; la corrida se reanuda en **< 1 min** tras restablecerse el servicio (meta fijada por el grupo, no definida en el SRS); **0** casos en que una caída se informe como "identificador inexistente". |
-
+g
 
 ---
 

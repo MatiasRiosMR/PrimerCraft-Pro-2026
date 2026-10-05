@@ -110,7 +110,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line-2);border
 /* Selector de estados de la maqueta (no es parte de la interfaz) */
 .st{position:absolute;opacity:0;pointer-events:none}
 .view{display:none}
-#st1:checked~.app .v1,#st2:checked~.app .v2,#st3:checked~.app .v3,#st4:checked~.app .v4,#st5:checked~.app .v5{display:block}
+#st1:checked~.app .v1,#st2:checked~.app .v2,#st3:checked~.app .v3,#st4:checked~.app .v4,#st5:checked~.app .v5,#st7:checked~.app .v7{display:block}
 #st6:checked~.app .v6{display:block}
 #st6:checked~.mock label[for=st6]{background:var(--primary-soft);color:var(--primary-2)}
 /* Llegada desde UI-4 (href="…#flujo-b"): muestra el estado 6 sin JavaScript */
@@ -124,7 +124,8 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line-2);border
 .mock em{font-style:normal;opacity:.6;margin-right:6px}
 .mock label{padding:6px 11px;border-radius:999px;cursor:pointer;font-weight:600}
 .mock label:hover{background:var(--surface-2)}
-#st1:checked~.mock label[for=st1],#st2:checked~.mock label[for=st2],#st3:checked~.mock label[for=st3],#st4:checked~.mock label[for=st4],#st5:checked~.mock label[for=st5]{background:var(--primary-soft);color:var(--primary-2)}
+#st1:checked~.mock label[for=st1],#st2:checked~.mock label[for=st2],#st3:checked~.mock label[for=st3],#st4:checked~.mock label[for=st4],#st5:checked~.mock label[for=st5],#st7:checked~.mock label[for=st7]{background:var(--primary-soft);color:var(--primary-2)}
+.retry{margin:14px 0 0;padding:10px 14px;border-radius:10px;background:var(--warn-soft);color:var(--warn);font-size:14px}
 
 @media (max-width:1100px){.split{grid-template-columns:1fr}.sticky{position:static}.page{padding:24px 24px 120px}.actionbar{padding:12px 24px}}
 
@@ -348,7 +349,7 @@ div.l{display:block;font-weight:650;font-size:13.5px;margin-bottom:7px}
   .stepper span{padding:5px 12px}
   /* la vista activa llena el alto disponible y deja lugar para la barra de acción */
   .app div.view{flex-direction:column;flex:1;min-height:0;padding-bottom:88px}
-  #st1:checked~.app div.v1,#st2:checked~.app div.v2,#st3:checked~.app div.v3,#st4:checked~.app div.v4,#st5:checked~.app div.v5,#st6:checked~.app div.v6{display:flex}
+  #st1:checked~.app div.v1,#st2:checked~.app div.v2,#st3:checked~.app div.v3,#st4:checked~.app div.v4,#st5:checked~.app div.v5,#st6:checked~.app div.v6,#st7:checked~.app div.v7{display:flex}
   #st1:checked~#flujo-b:target~.app div.v6{display:flex}
   #st1:checked~#flujo-b:target~.app div.v1{display:none}
   .split,.res{flex:1;min-height:0;gap:18px;align-items:stretch}
@@ -606,8 +607,9 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
 <input class="st" type="radio" name="st" id="st4">
 <input class="st" type="radio" name="st" id="st5">
 <input class="st" type="radio" name="st" id="st6">
+<input class="st" type="radio" name="st" id="st7">
 <i id="flujo-b" class="st"></i>
-<div class="mock"><em>Estado de la maqueta</em><label for="st1">En curso</label><label for="st2">ID inexistente</label><label for="st3">ID ≠ organismo</label><label for="st5">Gen no localizado</label><label for="st4">Completa</label><label for="st6">Flujo B</label></div>
+<div class="mock"><em>Estado de la maqueta</em><label for="st1">En curso</label><label for="st2">ID inexistente</label><label for="st7">NCBI no disponible</label><label for="st3">ID ≠ organismo</label><label for="st5">Gen no localizado</label><label for="st4">Completa</label><label for="st6">Flujo B</label></div>
 
 <div class="app">
 <nav class="rail" aria-label="Navegación principal"><div class="logo" title="PrimerCraft Pro"><svg viewBox="40 20 560 700" width="34" height="42" role="img" aria-label="PrimerCraft Pro"><defs><linearGradient id="pcP-a" x1="0" y1="45" x2="0" y2="705" gradientUnits="userSpaceOnUse">
@@ -697,6 +699,29 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
     </ul>
     <p class="hint" style="margin-top:14px">Tus parámetros (20 nt · 50 %GC · Tm 60 °C) quedan guardados al volver.</p>
     <div style="display:flex;gap:10px;margin-top:18px"><a class="btn btn-p btn-lg" href="hu-01-1_nueva-corrida-diseno.html">← Corregir identificador</a></div>
+  </section>
+  </div>
+
+  <!-- ================= ESTADO 7 · NCBI NO DISPONIBLE (escenario de calidad FI-2) ================= -->
+  <div class="view v7">
+  <div class="top"><div class="eyebrow">Corrida en pausa</div><div class="stepper" role="list" aria-label="Pasos del flujo"><span class="done"><b>✓</b>Target</span><span class="cur" style="color:var(--warn);background:var(--warn-soft)" aria-current="step"><b style="background:var(--warn)">⟳</b>Obtención y diseño</span><span><b>3</b>Resultados</span></div></div>
+  <section class="card big">
+    <svg viewBox="0 0 160 110" width="150" role="img" aria-label="Ilustración: NCBI no responde">
+<ellipse cx="60" cy="22" rx="42" ry="12" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="3"/>
+<path d="M18 22v56c0 7 19 12 42 12s42-5 42-12V22" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="3"/>
+<path d="M18 50c0 7 19 12 42 12s42-5 42-12" fill="none" stroke="var(--warn)" stroke-width="3" opacity=".5"/>
+<text x="60" y="80" text-anchor="middle" style="font:700 12px var(--mono)" fill="var(--warn)">NCBI</text>
+<circle cx="122" cy="72" r="24" fill="#fff" stroke="var(--warn)" stroke-width="4"/><path d="M132 64a12 12 0 1 0 2 12" fill="none" stroke="var(--warn)" stroke-width="4" stroke-linecap="round"/><path d="M127 58l6 6-8 3" fill="none" stroke="var(--warn)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h1 style="font-size:24px">NCBI no responde en este momento</h1>
+    <p class="lede">No es un problema de tus datos. NCBI Entrez no respondió a la consulta (error 503, servicio no disponible), así que todavía no se sabe si <span class="mono">NM_007294</span> existe. PrimerCraft vuelve a intentar solo y, cuando NCBI responda, sigue la corrida desde la obtención de la referencia.</p>
+    <ul class="checks">
+      <li><span style="color:var(--ok)">✓</span> Formato del identificador: válido</li>
+      <li><span style="color:var(--warn)">!</span> Conexión con NCBI Entrez: sin respuesta (503)</li>
+      <li><span style="color:var(--muted)">–</span> Registro: todavía sin consultar</li>
+    </ul>
+    <p class="retry" role="status"><b>Próximo reintento automático en <span class="mono cd">0:15</span></b> · intento 2 de 5</p>
+    <p class="hint" style="margin-top:14px">Tus datos (NM_007294 · <i>Homo sapiens</i> · 20 nt · 50 %GC · Tm 60 °C) quedan guardados: no hace falta volver a cargarlos.</p>
+    <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap"><button type="button" class="btn btn-p btn-lg reintentar">⟳ Reintentar ahora</button><a class="btn btn-lg" href="hu-01-1_nueva-corrida-diseno.html">← Modificar datos</a></div>
   </section>
   </div>
 
@@ -1071,17 +1096,19 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   const tituloBase = document.title;
 
   PC.demo(B
-    ? '<ul><li>El par de ejemplo (<code>CCTTGCTA…</code> / <code>GAACACCA…</code>) hibrida → UI-5 "Hibrida".</li><li>Cualquier otro par → UI-5 "No hibrida" (CU-03 A1).</li><li><code>NM_999999</code> → no existe en NCBI.</li><li>La pastilla de estados frena la simulación.</li></ul>'
-    : '<ul><li>Llegar desde UI-1 con <code>NM_007294</code> → corrida completa.</li><li><code>NM_999999</code> → no existe en NCBI (CU-04 E1).</li><li><code>NM_007294</code> con otro organismo → no coinciden (CU-04 E2).</li><li><code>NC_000017.11</code> → gen no localizado (CU-02 A1).</li><li>Tm ≥ 70 °C o %GC ≥ 68 % → corrida sin candidatos (CU-02 E1).</li><li>La pastilla de estados frena la simulación.</li></ul>');
+    ? '<ul><li>El par de ejemplo (<code>CCTTGCTA…</code> / <code>GAACACCA…</code>) hibrida → UI-5 "Hibrida".</li><li>Cualquier otro par → UI-5 "No hibrida" (CU-03 A1).</li><li><code>NM_999999</code> → no existe en NCBI.</li><li><code>NM_503503</code> → NCBI no responde y se reintenta (escenario FI-2).</li><li>La pastilla de estados frena la simulación.</li></ul>'
+    : '<ul><li>Llegar desde UI-1 con <code>NM_007294</code> → corrida completa.</li><li><code>NM_999999</code> → no existe en NCBI (CU-04 E1).</li><li><code>NM_503503</code> → NCBI no responde y se reintenta (escenario FI-2).</li><li><code>NM_007294</code> con otro organismo → no coinciden (CU-04 E2).</li><li><code>NC_000017.11</code> → gen no localizado (CU-02 A1).</li><li>Tm ≥ 70 °C o %GC ≥ 68 % → corrida sin candidatos (CU-02 E1).</li><li>La pastilla de estados frena la simulación.</li></ul>');
 
   /* ---------- Resultado que corresponde a los datos (guion de la demo) ---------- */
-  const destino = (() => {
+  let reintento = false; // FI-2: la caída de NCBI se simula solo en el primer intento
+  const destino = () => {
     if (/999999/.test(D.id)) return 'inexistente';
+    if (/503503/.test(D.id) && !reintento) return 'caido';
     if (!B && /^NC_/.test(D.id)) return 'no-localizado';
     if (D.id === 'NM_007294' && D.org && D.org !== 'Homo sapiens') return 'no-coincide';
     if (B) return aF.hibrida && aR.hibrida ? 'hibrida' : 'no-hibrida';
     return D.tm >= 70 || D.gc >= 68 ? 'sin-candidatos' : 'ok';
-  })();
+  };
 
   /* ---------- Contexto de la corrida ---------- */
   const fmt = (x) => PC.num(x, x % 1 ? 1 : 0);
@@ -1166,6 +1193,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
     after(100, () => {
       paso(li[0], 'ok', '0,1 s'); paso(li[1], 'run'); anunciar(2, 'Consultando NCBI Entrez…');
       after(2300, () => {
+        if (fin === 'caido') { paso(li[1], 'err', '5,0 s'); anunciar(2, 'NCBI Entrez no responde'); return after(900, () => { clearInterval(tic); caida(); }); }
         if (fin === 'inexistente' || fin === 'no-coincide') { paso(li[1], 'err', '2,3 s'); anunciar(2, 'La consulta a NCBI no se pudo completar'); return after(900, () => { clearInterval(tic); PC.state(fin === 'inexistente' ? 2 : 3); document.title = tituloBase; }); }
         paso(li[1], 'ok', '2,3 s'); paso(li[2], 'run'); anunciar(3, 'Localizando el gen en la anotación…');
         after(450, () => {
@@ -1246,6 +1274,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
     after(100, () => {
       paso(li[0], 'ok', '0,1 s'); paso(li[1], 'run'); anunciar(2, 'Consultando NCBI Entrez…');
       after(2300, () => {
+        if (fin === 'caido') { paso(li[1], 'err', '5,0 s'); return after(900, () => { clearInterval(tic); caida(); }); }
         if (fin === 'inexistente') { paso(li[1], 'err', '2,3 s'); return after(900, () => { clearInterval(tic); PC.state(2); }); }
         paso(li[1], 'ok', '2,3 s'); paso(li[2], 'run'); anunciar(3, 'Localizando el gen…');
         after(450, () => {
@@ -1280,8 +1309,37 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
     else { PC.state(1, { focus: false }); correrA(fin); }
   }
 
+  /* ---------- NCBI no disponible (escenario de calidad FI-2) ----------
+     Conserva los datos, lo distingue de un identificador inexistente y reintenta:
+     solo, con una cuenta regresiva, o con "Reintentar ahora". Al responder NCBI,
+     la corrida sigue desde la obtención de la referencia. */
+  const v7 = $('.v7');
+  let cuenta = 0;
+  const reanudar = () => { clearInterval(cuenta); reintento = true; iniciar(destino()); };
+  function caida() {
+    PC.state(7);
+    document.title = tituloBase;
+    const cd = $('.cd', v7); let s = 15;
+    clearInterval(cuenta);
+    cuenta = setInterval(() => {
+      if (parado) return clearInterval(cuenta);
+      s -= 1; cd.textContent = `0:${String(s).padStart(2, '0')}`;
+      if (s <= 0) reanudar();
+    }, 1000);
+    timers.push(cuenta);
+  }
+  if (v7) {
+    const l = $('.lede', v7); if (l) l.innerHTML = l.innerHTML.replace('NM_007294', PC.esc(D.id));
+    const h = $('.hint', v7);
+    if (h) h.innerHTML = B
+      ? `Tus datos (<span class="mono">${PC.esc(D.id)}</span> · forward y reverse) quedan guardados: no hace falta volver a cargarlos.`
+      : `Tus datos (<span class="mono">${PC.esc(D.id)}</span> · <i>${PC.esc(D.org)}</i> · ${fmt(D.len)} nt · ${fmt(D.gc)} %GC · Tm ${fmt(D.tm)} °C) quedan guardados: no hace falta volver a cargarlos.`;
+    $('.reintentar', v7).addEventListener('click', reanudar);
+    PC.link($('a.btn', v7), origen);
+  }
+
   PC.onMock(frenar);
-  if (!PC.fixed) iniciar(destino);
+  if (!PC.fixed) iniciar(destino());
   else PC.$$('.actionbar a.btn-p').forEach((a) => { if (/hu-05/.test(a.getAttribute('href'))) PC.link(a, 'hu-05_resultados-candidatos.html'); });
 })();
 </script>

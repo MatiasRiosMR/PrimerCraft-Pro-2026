@@ -299,3 +299,17 @@ Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 10 h
 **Archivo resultante.** Se modificó el mismo archivo; la versión evaluada por Gemini queda en el historial de git (commit `bdb0b7e`). La evaluación heurística no se repitió porque la interfaz no cambió.
 
 **Error detectado en la IA.** En la primera selección de pares, la IA dejó como "sin advertencias" pares con homodímeros por debajo de −6 kcal/mol, que la pestaña "Estructuras secundarias" marcaba en rojo. Se detectó al revisar los datos y se rehízo la selección exigiendo homodímeros mayores que −5 kcal/mol.
+
+### Ciclo 4 (05/10) — Aplicación de los hallazgos aceptados
+
+**Motivo.** En la revisión crítica se aceptaron H4 de esta pantalla y H5 de UI-5 (que también aplica acá), pero la maqueta seguía igual que la evaluada.
+
+**Pedido (Claude Code).** Aplicar a las maquetas los hallazgos aceptados en la revisión crítica (UI-3 H4, UI-2 H8 y UI-5 H5, que también aplica a UI-3), sin cambiar el resto del diseño ni del comportamiento, y regenerar las capturas afectadas.
+
+**Qué se hizo.**
+
+- **H4.** El estado con candidatos ahora tiene barra de acciones, igual que las demás pantallas: "¿Ningún par te convence?" y el botón "← Ajustar parámetros", que vuelve a UI-1 con el identificador, el organismo y los parámetros de la corrida cargados. Es el mismo comportamiento que ya tenía el estado sin candidatos.
+- **H5 de UI-5.** Debajo de las métricas del par seleccionado se agregó la nota con las condiciones de cálculo: "Tm y ΔG por Nearest-Neighbor (SantaLucia 1998) con 50 mM Na⁺, 1,5 mM Mg²⁺, 0,6 mM dNTP y 50 nM de oligo (valores por defecto de Primer3); ΔG a 37 °C. Para comparar con otra herramienta, usá las mismas condiciones."
+- Se regeneraron las capturas del estado con candidatos (escritorio y teléfono).
+
+**Archivo resultante.** Se modificó el mismo archivo; la versión anterior queda en el historial de git. No se repitió la evaluación heurística completa, porque los cambios se limitan a los hallazgos aceptados y no modifican el resto de la pantalla.

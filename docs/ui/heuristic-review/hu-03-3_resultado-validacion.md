@@ -274,3 +274,16 @@ Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 5 ha
 ### Ciclo 3 (03/10) — Datos de ejemplo reales de BRCA1
 
 Se reemplazó el par de ejemplo por uno real de BRCA1 (`CCTTGCTAAGCCAGGCTGTTTGC` / `GAACACCACTGAGAAGCGTGCAG`, 208 pb, exón 10 de NM_007294.4), porque el anterior no existía en el gen. En UI-5 cambian la alineación, las posiciones, las métricas y el amplicón; el ejemplo de "No hibrida" ahora es un reverse con 8 bases distintas (15/23) cuya mejor coincidencia se calcula sobre la referencia real. El umbral se expresa como "≥ n − 2" porque los primers ya no miden siempre 20 nt. La interfaz no cambió. Motivo, procedimiento y verificación en el [ciclo 3 de UI-3](hu-05_resultados-candidatos.md#ciclos-adicionales).
+
+### Ciclo 4 (05/10) — Aplicación de los hallazgos aceptados
+
+**Motivo.** En la revisión crítica se aceptó H5, pero la maqueta seguía igual que la evaluada.
+
+**Pedido (Claude Code).** Aplicar a las maquetas los hallazgos aceptados en la revisión crítica (UI-3 H4, UI-2 H8 y UI-5 H5, que también aplica a UI-3), sin cambiar el resto del diseño ni del comportamiento, y regenerar las capturas afectadas.
+
+**Qué se hizo.**
+
+- **H5.** Debajo de la tarjeta "Caracterización del par" se agregó la nota con las condiciones de cálculo: "Tm y ΔG por Nearest-Neighbor (SantaLucia 1998) con 50 mM Na⁺, 1,5 mM Mg²⁺, 0,6 mM dNTP y 50 nM de oligo (valores por defecto de Primer3); ΔG a 37 °C. Para comparar con otra herramienta, usá las mismas condiciones." La misma nota se agregó en UI-3 ([ciclo 4 de UI-3](hu-05_resultados-candidatos.md#ciclos-adicionales)).
+- Se regeneraron las capturas del estado "Hibrida" (escritorio y teléfono).
+
+**Archivo resultante.** Se modificó el mismo archivo; la versión anterior queda en el historial de git. No se repitió la evaluación heurística completa, porque los cambios se limitan a los hallazgos aceptados y no modifican el resto de la pantalla.

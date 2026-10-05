@@ -282,4 +282,4 @@ Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 5 ha
 
 ## Ciclos adicionales
 
-> _Completar solo si, a partir de los hallazgos aceptados, se ajusta la pantalla: cambios pedidos (H…), prompt, archivo resultante (`…_v2.html`, sin pisar la v1) y reevaluación con la misma tabla._
+No hubo ciclos adicionales: no se aceptó ningún hallazgo de la evaluación y la pantalla no muestra primers, así que tampoco la afectó el cambio de datos del ciclo 3.

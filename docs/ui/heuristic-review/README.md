@@ -8,7 +8,7 @@ permalink: /ui/heuristic-review/
 
 # Evaluación heurística
 
-Una evaluación por pantalla, con las 10 heurísticas de Nielsen. Cada documento tiene el prompt de generación (ciclo 1), las capturas de la maqueta, el prompt y la respuesta completa de la IA evaluadora (ciclo 2) y la revisión crítica del grupo, hallazgo por hallazgo.
+Una evaluación por pantalla, con las 10 heurísticas de Nielsen. Cada documento tiene el prompt de generación (ciclo 1), las capturas de la maqueta, el prompt y la respuesta completa de la IA evaluadora (ciclo 2) la revisión crítica del grupo, hallazgo por hallazgo, y los ciclos adicionales de ajuste.
 
 | Pantalla | HU | Evaluación |
 |---|---|---|

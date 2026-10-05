@@ -209,3 +209,15 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Resultado** | El par de ejemplo anterior y los 24 pares de UI-3 no existían en BRCA1. Se reemplazaron por pares tomados de NC_000017.11 (GRCh38), con Tm por Nearest-Neighbor (SantaLucia 1998) en las condiciones por defecto de Primer3, y se verificó cada amplicón contra la secuencia de NCBI. El par principal (208 pb) queda en el exón 10 de NM_007294.4. Detalle en el ciclo 3 de `docs/ui/heuristic-review/hu-05_resultados-candidatos.md`. |
 | **Modificado/descartado** | Se descartaron los primers derivados de elementos Alu. La especificidad se mantiene como simulada (SRS §2.6) y se aclaró en la maqueta que se cuenta en la región del gen, no en el genoma. |
 | **Error detectado** | La primera selección dejó como "sin advertencias" pares con homodímeros < −6 kcal/mol; se rehízo la selección. La IA había marcado antes como "GC clamp" pares cuyo forward terminaba en A. |
+
+---
+
+## [TP2] Aplicación de los hallazgos aceptados en las maquetas (ciclo 4)
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code |
+| **Tarea** | Aplicar a las maquetas los hallazgos aceptados en la revisión crítica (UI-3 H4, UI-2 H8 y UI-5 H5) y regenerar las capturas. En la misma sesión, mover el material de interfaz a las rutas de la consigna (§5): `docs/ui/user-profiles/`, `docs/ui/mockups/` y `docs/ui/heuristic-review/`. |
+| **Resultado** | UI-3 tiene un botón "← Ajustar parámetros" en el estado con candidatos; UI-2 avisa cuando una etapa tarda más de lo habitual; UI-3 y UI-5 muestran las condiciones con las que se calculan la Tm y el ΔG. Se actualizaron los enlaces del sitio y de los README a las rutas nuevas. Detalle en el ciclo 4 de cada evaluación en `docs/ui/heuristic-review/`. |
+| **Modificado/descartado** | No se repitió la evaluación heurística completa, porque los cambios se limitan a los hallazgos aceptados. |
+| **Error detectado** | Ninguno. |

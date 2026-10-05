@@ -313,3 +313,17 @@ Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 8 ha
 ### Ciclo 3 (03/10) — Datos de ejemplo reales de BRCA1
 
 Se reemplazó el par de ejemplo por uno real de BRCA1 (`CCTTGCTAAGCCAGGCTGTTTGC` / `GAACACCACTGAGAAGCGTGCAG`, 208 pb, exón 10 de NM_007294.4), porque el anterior no existía en el gen. En UI-2 cambian la posición del forward en el flujo B (43 094 586 · 23/23) y la región de referencia sobre la que se ubican los primers. La interfaz no cambió. Motivo, procedimiento y verificación en el [ciclo 3 de UI-3](hu-05_resultados-candidatos.md#ciclos-adicionales).
+
+### Ciclo 4 (05/10) — Aplicación de los hallazgos aceptados
+
+**Motivo.** En la revisión crítica se aceptó H8 (prioridad baja), pero la maqueta seguía igual que la evaluada.
+
+**Pedido (Claude Code).** Aplicar a las maquetas los hallazgos aceptados en la revisión crítica (UI-3 H4, UI-2 H8 y UI-5 H5, que también aplica a UI-3), sin cambiar el resto del diseño ni del comportamiento, y regenerar las capturas afectadas.
+
+**Qué se hizo.**
+
+- **H8.** Si una etapa sigue en curso más tiempo del habitual, aparece un aviso dentro de esa misma etapa, en la lista de pasos. En la consulta a NCBI Entrez (más de 5 s) dice: "NCBI Entrez está respondiendo más lento de lo habitual (suele tardar 2–3 s). Es un servicio público con cola de espera: la corrida sigue y no hace falta recargar ni volver a enviar." En las demás etapas (más de 8 s) dice que la etapa tarda más de lo habitual y que la corrida sigue en curso. El aviso desaparece cuando la etapa termina.
+- La captura del estado "En curso" muestra el aviso en la etapa "Generando candidatos" (11 s). En la simulación de la maqueta las etapas terminan antes del umbral, así que el aviso no aparece al recorrer el flujo.
+- Se regeneraron las capturas del estado "En curso" (escritorio y teléfono).
+
+**Archivo resultante.** Se modificó el mismo archivo; la versión anterior queda en el historial de git. No se repitió la evaluación heurística completa, porque los cambios se limitan a los hallazgos aceptados y no modifican el resto de la pantalla.

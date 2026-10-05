@@ -63,8 +63,6 @@ Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir l
 | | [`docs/ux/heuristic-review/`](docs/ux/README.md#pantallas) | Evaluación heurística de cada pantalla (UI-1 a UI-5) |
 | Maquetas | `docs/mockups/` | Maquetas HTML de las 5 pantallas y sus capturas de escritorio y móvil. Para usarlas en el navegador: [UI-1](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-01-1_nueva-corrida-diseno.html), [UI-2](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-04_hu-02-1_progreso-corrida.html), [UI-3](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-05_resultados-candidatos.html), [UI-4](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-03-1_validar-primer.html), [UI-5](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-03-3_resultado-validacion.html) |
 | Marca | `docs/marca/` | Isotipo y logotipo del grupo |
-| Instructivos | [`docs/instructivos/git-github-y-documentacion.md`](docs/instructivos/git-github-y-documentacion.md) | Git, GitHub y documentación técnica |
-| | [`docs/instructivos/diagrama-de-contexto-dfd.md`](docs/instructivos/diagrama-de-contexto-dfd.md) | Cómo armar el diagrama de contexto (DFD) |
 | Uso de IA | [`uso_de_ia/uso_de_ia.md`](uso_de_ia/uso_de_ia.md) | Registro general de uso de IA generativa, actualizado TP a TP |
 
 ## Estructura del repositorio
@@ -76,8 +74,7 @@ PrimerCraft-Pro-2026/
 │   ├── architecture/   # diagrama de contexto y modelo de dominio
 │   ├── ux/             # perfil, criterios y evaluaciones heurísticas
 │   ├── mockups/        # maquetas HTML y capturas (capturas/, capturas/movil/)
-│   ├── marca/          # isotipo y logotipo
-│   └── instructivos/   # guías de la cátedra
+│   └── marca/          # isotipo y logotipo
 ├── src/                # código fuente
 ├── tests/              # pruebas
 └── uso_de_ia/          # registro de uso de IA

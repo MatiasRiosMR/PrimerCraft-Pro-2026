@@ -19,4 +19,3 @@ Modelos del sistema: diagrama de contexto y modelo de dominio. Los diagramas est
 ## Relacionado
 
 - Requerimientos que modelan estos diagramas: [`../requirements/srs.md`](../requirements/srs.md)
-- Cómo armar el diagrama de contexto: [`../instructivos/diagrama-de-contexto-dfd.md`](../instructivos/diagrama-de-contexto-dfd.md)

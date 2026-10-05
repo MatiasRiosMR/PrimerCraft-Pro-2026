@@ -43,11 +43,6 @@ permalink: /
     <h3>Experiencia de usuario</h3>
     <p>Perfil, criterios de generación, maquetas interactivas y evaluación heurística con revisión crítica.</p>
   </a>
-  <a class="pc-card rev" href="{{ '/instructivos/' | relative_url }}">
-    <div class="ic">✎</div><span class="go">→</span>
-    <h3>Instructivos</h3>
-    <p>Guías de la cátedra para Git, GitHub, Markdown, Mermaid y el diagrama de contexto.</p>
-  </a>
 </div>
 
 <h2 class="pc-section-title">Maquetas interactivas</h2>

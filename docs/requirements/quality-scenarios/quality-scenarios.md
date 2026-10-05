@@ -6,7 +6,7 @@ nav_order: 2
 
 # Escenarios de calidad — PrimerCraft Pro
 
-> Requerimientos no funcionales del [SRS](../srs.md) (§6). La taxonomía, el significado de cada atributo y la justificación de la selección están en el SRS §6.1–6.3. Cada escenario indica los RF, CU e HU con los que se relaciona. Registro de uso de IA: [`registro-uso-ia.md`](registro-uso-ia.md).
+> Requerimientos no funcionales del [SRS](../srs.md) (§6). La taxonomía, el significado de cada atributo y la justificación de la selección están en el SRS §6.1–6.3. La tabla resumen (§2) indica los RF y CU con los que se relaciona cada escenario. Registro de uso de IA: [`registro-uso-ia.md`](registro-uso-ia.md).
 
 ## 1. Escenarios
 
@@ -144,7 +144,7 @@ nav_order: 2
 | **Medida de la respuesta** | **0 %** de pérdida de candidatos ya calculados tras un error HTTP 429 (Too Many Requests) o 500 (Internal Server Error) de NCBI; **100 %** de los candidatos en cola reintentados sin que el usuario vuelva a cargar la corrida. |
 
 
-> *Nota:* en el MVP la especificidad usa una simulación local ; el escenario queda como requisito para la integración real.
+> *Nota:* en el MVP la especificidad usa una simulación local; el escenario queda como requisito para la integración real.
 
 #### Escenario FI-2 
 

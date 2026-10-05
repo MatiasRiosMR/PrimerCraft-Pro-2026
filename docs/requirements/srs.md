@@ -26,7 +26,7 @@ Este documento especifica los requerimientos de PrimerCraft Pro para la primera 
 
 ### 1.2 Propuesta
 
-PrimerCraft Pro diseña, puntúa y valida primers para PCR/qPCR en un flujo único e integrado, teniendo enc uenta información que se encuentra presente en bases y motores que ya usa la comunidad (NCBI Entrez, NCBI BLAST, dbSNP/Ensembl). No reemplaza la termodinámica ni la lógica del diseño existente, sino que **cierra los huecos de las herramientas actuales**: la fragmentación entre pestañas, la falta de claridad en como se descompone el scoring (funciona como caja engra en al que solo se expone la métrica) y la falta de trazabilidad de las decisiones de diseño.
+PrimerCraft Pro diseña, puntúa y valida primers para PCR/qPCR en un flujo único e integrado, teniendo en cuenta información que se encuentra presente en bases y motores que ya usa la comunidad (NCBI Entrez, NCBI BLAST, dbSNP/Ensembl). No reemplaza la termodinámica ni la lógica del diseño existente, sino que **cierra los huecos de las herramientas actuales**: la fragmentación entre pestañas, la falta de claridad en como se descompone el scoring (funciona como caja engra en al que solo se expone la métrica) y la falta de trazabilidad de las decisiones de diseño.
 
 ### 1.3 Definiciones, acrónimos y abreviaturas
 
@@ -520,7 +520,7 @@ La selección responde a los riesgos y necesidades del dominio de PrimerCraft Pr
 ### 6.4. Escenarios
 
 
-Los escenarios de cada atributo, con sus seis componentes y su trazabilidad a los RF, CU e HU de este documento, están en [`quality-scenarios/quality-scenarios.md`](quality-scenarios/quality-scenarios.md). El registro de uso de IA de esta parte está en [`quality-scenarios/registro-uso-ia.md`](quality-scenarios/registro-uso-ia.md).
+Los escenarios de cada atributo, con sus seis componentes, están en [`quality-scenarios/quality-scenarios.md`](quality-scenarios/quality-scenarios.md). El registro de uso de IA de esta parte está en [`quality-scenarios/registro-uso-ia.md`](quality-scenarios/registro-uso-ia.md).
 
 | ID | Atributo | Subcaracterística | Entorno | RF / CU relacionados |
 |---|---|---|---|---|

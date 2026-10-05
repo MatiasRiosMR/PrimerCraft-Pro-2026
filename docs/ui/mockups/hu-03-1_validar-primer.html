@@ -959,7 +959,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
   const F0 = PC.F0, R0 = PC.R0;
   const estado = { fwd: D.fwd || F0, rev: D.rev || R0, id: D.id, org: D.org };
 
-  PC.demo('<ul><li>Pegá <code>ctc cag ttt cac ctc ttg gg</code> → se ignoran espacios y minúsculas.</li><li>Escribí una <code>X</code> o una <code>U</code> → error IUPAC marcado en la posición.</li><li>El par de ejemplo hibrida; si se cambia una base del reverse, UI-5 muestra "No hibrida".</li><li><code>Ctrl + Enter</code> valida.</li></ul>');
+  PC.demo('<ul><li>Pegá <code>ctc cag ttt cac ctc ttg gg</code> → se ignoran espacios y minúsculas.</li><li>Escribí una <code>X</code> o una <code>U</code> → error IUPAC marcado en la posición.</li><li>El par de ejemplo hibrida; si se cambia una base del reverse, UI-5 muestra "No hibrida".</li><li>Identificador <code>NM_503503</code> → en UI-2, NCBI no responde y se reintenta (FI-2).</li><li><code>Ctrl + Enter</code> valida.</li></ul>');
 
   /* ---------- Editores de secuencia ---------- */
   const eds = $$('.ed', v).map((ed, i) => {

@@ -574,6 +574,62 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
 @media (max-width:640px){.rail .kb{display:none}.toast-host{bottom:200px}}
 @media (prefers-reduced-motion:reduce){.toast,.errsum,.flash{animation:none}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 </style>
+<style id="ajustes-telefono">
+/* ===== Ajustes para teléfono =====
+   La barra "Estado de la maqueta" se pliega: muestra el estado actual y "Estados" despliega el resto.
+   El indicador de pasos muestra el texto solo en el paso actual. */
+.mock .mtog,.mock .mbr{display:none}
+@media (max-width:640px){
+  .mock{flex-wrap:wrap;white-space:normal;overflow:visible;gap:6px;padding:6px 8px;align-items:center}
+  .mock em{display:none}
+  .mock .mtog{display:inline-flex;align-items:center;gap:4px;order:0;border:1px solid var(--line-2);background:var(--surface-2);font:600 12px var(--sans);color:var(--ink-2);padding:6px 10px;border-radius:6px;cursor:pointer}
+  .mock .mtog::after{content:"▾";font-size:11px}
+  .mock.open .mtog::after{content:"▴"}
+  .mock label{order:1}
+  .mock:not(.open) label{display:none}
+  .mock:not(.open) :is(#st1:checked~.mock label[for=st1],#st2:checked~.mock label[for=st2],#st3:checked~.mock label[for=st3],#st4:checked~.mock label[for=st4],#st5:checked~.mock label[for=st5],#st6:checked~.mock label[for=st6],#st7:checked~.mock label[for=st7]){display:inline-flex}
+  #st1:checked~#flujo-b:target~.mock:not(.open) label[for=st1]{display:none}
+  #st1:checked~#flujo-b:target~.mock:not(.open) label[for=st6]{display:inline-flex}
+  .mock .demo{order:2;margin-left:auto;border-left:0}
+  .mock.open .mbr{display:block;order:3;flex-basis:100%;height:0}
+  .mock.open label{order:4;display:inline-flex}
+  .demo-pop{position:static;width:auto;margin:0 8px 8px}
+  .stepper{overflow:visible}
+  .stepper span:not(.cur){font-size:0;gap:0;padding:4px 6px}
+  .seg{flex-wrap:wrap;white-space:normal;overflow:visible}
+  .ed textarea{font-size:15px;letter-spacing:.06em}
+  .seg span{flex:1 1 auto;text-align:center}
+  .aln:not(.fin){-webkit-mask-image:linear-gradient(90deg,#000 78%,transparent);mask-image:linear-gradient(90deg,#000 78%,transparent)}
+  [data-pantalla=ui-5] .tbl,[data-pantalla=ui-5] .tbl tbody{display:block;white-space:normal}
+  [data-pantalla=ui-5] .tbl thead{display:none}
+  [data-pantalla=ui-5] .tbl tr{display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 10px;padding:10px 0;border-bottom:1px solid var(--line)}
+  [data-pantalla=ui-5] .tbl td{padding:0;border:0}
+  [data-pantalla=ui-5] .tbl td:nth-child(5){grid-column:2;grid-row:1;text-align:right;font-weight:700}
+  [data-pantalla=ui-5] .tbl td:nth-child(2){grid-column:1/-1}
+  [data-pantalla=ui-5] .tbl td:nth-child(3){color:var(--muted)}
+  [data-pantalla=ui-5] .tbl td:nth-child(3)::before{content:"Hebra "}
+  [data-pantalla=ui-5] .tbl td:nth-child(4){text-align:right}
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const m = document.querySelector('.mock');
+  if (m) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'mtog'; b.textContent = 'Estados'; b.setAttribute('aria-expanded', 'false');
+    const br = document.createElement('span'); br.className = 'mbr'; br.setAttribute('aria-hidden', 'true');
+    m.prepend(b); m.append(br);
+    const cerrar = () => { m.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); };
+    b.addEventListener('click', () => b.setAttribute('aria-expanded', String(m.classList.toggle('open'))));
+    document.querySelectorAll('input.st[type=radio]').forEach((r) => r.addEventListener('change', cerrar));
+  }
+  // alineaciones: el degradé del borde indica que se puede deslizar; desaparece al llegar al final
+  document.querySelectorAll('.aln').forEach((a) => {
+    const ver = () => a.classList.toggle('fin', a.scrollLeft + a.clientWidth >= a.scrollWidth - 2);
+    a.addEventListener('scroll', ver, { passive: true }); ver(); window.addEventListener('resize', ver);
+  });
+});
+</script>
 </head>
 <body data-pantalla="ui-5">
 <a class="skip" href="#contenido">Saltar al contenido</a>

@@ -9,7 +9,7 @@ permalink: /
   <h1>PrimerCraft <b>Pro</b></h1>
   <p class="pc-lede">Diseño y puntuación automática de primers para PCR/qPCR: del identificador NCBI a pares caracterizados —Tm, %GC, estructuras secundarias, especificidad y amplicón— en un solo flujo y con trazabilidad.</p>
   <div class="pc-actions">
-    <a class="pc-primary" href="{{ '/ux/' | relative_url }}#pantallas">Ver las maquetas →</a>
+    <a class="pc-primary" href="{{ '/ui/' | relative_url }}#pantallas">Ver las maquetas →</a>
     <a class="pc-ghost" href="{{ '/requirements/srs.html' | relative_url }}">Leer el SRS</a>
     <a class="pc-ghost" href="https://github.com/MatiasRiosMR/PrimerCraft-Pro-2026" target="_blank" rel="noopener">Repositorio</a>
   </div>
@@ -38,7 +38,7 @@ permalink: /
     <h3>Arquitectura</h3>
     <p>Diagrama de contexto (DFD nivel 0 y 1) y modelo de dominio, con diagramas que se pueden ampliar.</p>
   </a>
-  <a class="pc-card rev" href="{{ '/ux/' | relative_url }}">
+  <a class="pc-card rev" href="{{ '/ui/' | relative_url }}">
     <div class="ic">◉</div><span class="go">→</span>
     <h3>Experiencia de usuario</h3>
     <p>Perfil, criterios de generación, maquetas interactivas y evaluación heurística con revisión crítica.</p>
@@ -49,27 +49,27 @@ permalink: /
 <p class="pc-section-sub">Se abren en el navegador y funcionan: estados, validaciones en vivo y navegación entre pantallas.</p>
 
 <div class="pc-gallery" markdown="0">
-  <a class="pc-shot" href="{{ '/mockups/hu-01-1_nueva-corrida-diseno.html' | relative_url }}">
-    <img src="{{ '/mockups/capturas/hu-01-1_nueva-corrida-diseno__1-datos-validos.png' | relative_url }}" alt="Maqueta UI-1, nueva corrida de diseño" loading="lazy">
+  <a class="pc-shot" href="{{ '/ui/mockups/hu-01-1_nueva-corrida-diseno.html' | relative_url }}">
+    <img src="{{ '/ui/mockups/capturas/hu-01-1_nueva-corrida-diseno__1-datos-validos.png' | relative_url }}" alt="Maqueta UI-1, nueva corrida de diseño" loading="lazy">
     <div class="cap"><span class="k">UI-1 · HU-01.1</span><span class="t">Nueva corrida de diseño</span></div>
   </a>
-  <a class="pc-shot" href="{{ '/mockups/hu-04_hu-02-1_progreso-corrida.html' | relative_url }}">
-    <img src="{{ '/mockups/capturas/hu-04_hu-02-1_progreso-corrida__1-en-curso.png' | relative_url }}" alt="Maqueta UI-2, progreso de la corrida" loading="lazy">
+  <a class="pc-shot" href="{{ '/ui/mockups/hu-04_hu-02-1_progreso-corrida.html' | relative_url }}">
+    <img src="{{ '/ui/mockups/capturas/hu-04_hu-02-1_progreso-corrida__1-en-curso.png' | relative_url }}" alt="Maqueta UI-2, progreso de la corrida" loading="lazy">
     <div class="cap"><span class="k">UI-2 · HU-04 · HU-02.1</span><span class="t">Progreso de la corrida</span></div>
   </a>
-  <a class="pc-shot" href="{{ '/mockups/hu-05_resultados-candidatos.html' | relative_url }}">
-    <img src="{{ '/mockups/capturas/hu-05_resultados-candidatos__1-con-candidatos.png' | relative_url }}" alt="Maqueta UI-3, resultados de candidatos" loading="lazy">
+  <a class="pc-shot" href="{{ '/ui/mockups/hu-05_resultados-candidatos.html' | relative_url }}">
+    <img src="{{ '/ui/mockups/capturas/hu-05_resultados-candidatos__1-con-candidatos.png' | relative_url }}" alt="Maqueta UI-3, resultados de candidatos" loading="lazy">
     <div class="cap"><span class="k">UI-3 · HU-05</span><span class="t">Resultados de candidatos</span></div>
   </a>
-  <a class="pc-shot" href="{{ '/mockups/hu-03-1_validar-primer.html' | relative_url }}">
-    <img src="{{ '/mockups/capturas/hu-03-1_validar-primer__1-datos-validos.png' | relative_url }}" alt="Maqueta UI-4, validar primer existente" loading="lazy">
+  <a class="pc-shot" href="{{ '/ui/mockups/hu-03-1_validar-primer.html' | relative_url }}">
+    <img src="{{ '/ui/mockups/capturas/hu-03-1_validar-primer__1-datos-validos.png' | relative_url }}" alt="Maqueta UI-4, validar primer existente" loading="lazy">
     <div class="cap"><span class="k">UI-4 · HU-03.1</span><span class="t">Validar primer existente</span></div>
   </a>
-  <a class="pc-shot" href="{{ '/mockups/hu-03-3_resultado-validacion.html' | relative_url }}">
-    <img src="{{ '/mockups/capturas/hu-03-3_resultado-validacion__1-hibrida.png' | relative_url }}" alt="Maqueta UI-5, resultado de validación" loading="lazy">
+  <a class="pc-shot" href="{{ '/ui/mockups/hu-03-3_resultado-validacion.html' | relative_url }}">
+    <img src="{{ '/ui/mockups/capturas/hu-03-3_resultado-validacion__1-hibrida.png' | relative_url }}" alt="Maqueta UI-5, resultado de validación" loading="lazy">
     <div class="cap"><span class="k">UI-5 · HU-03.3</span><span class="t">Resultado de validación</span></div>
   </a>
-  <a class="pc-card" href="{{ '/mockups/' | relative_url }}">
+  <a class="pc-card" href="{{ '/ui/mockups/' | relative_url }}">
     <div class="ic">▦</div><span class="go">→</span>
     <h3>Galería completa</h3>
     <p>Todos los estados de cada pantalla, versión de escritorio y de teléfono.</p>

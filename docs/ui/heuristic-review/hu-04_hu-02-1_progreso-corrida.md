@@ -10,9 +10,9 @@ nav_order: 2
 | | |
 |---|---|
 | **HU** | Pantalla compartida: HU-04 · Obtener la secuencia de referencia · HU-02.1 · Localización del gen · HU-02.2 · Generación automática de candidatos (sin pantalla propia: se ve como un paso) · HU-03.2 · Localización del gen en el flujo B |
-| **Perfil** | [`user_profile.md`](../user_profile.md) |
+| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
 | **Escenario de uso** | Escenario A — Diseñar primers para un gen (y Escenario B, paso intermedio de la validación) |
-| **Maqueta** | [`hu-04_hu-02-1_progreso-corrida.html`](../../mockups/hu-04_hu-02-1_progreso-corrida.html) |
+| **Maqueta** | [`hu-04_hu-02-1_progreso-corrida.html`](../mockups/hu-04_hu-02-1_progreso-corrida.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -57,33 +57,33 @@ también ese estado, con los pasos "Primers y target / Obtención y localizació
 
 ### Respuesta obtenida
 
-HTML: [`../../mockups/hu-04_hu-02-1_progreso-corrida.html`](../../mockups/hu-04_hu-02-1_progreso-corrida.html) (v1, iteración 2).
+HTML: [`../mockups/hu-04_hu-02-1_progreso-corrida.html`](../mockups/hu-04_hu-02-1_progreso-corrida.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **En curso**
 
-![En curso](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__1-en-curso.png)
+![En curso](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__1-en-curso.png)
 
 **ID inexistente (HU-04 esc. 2 · CU-04 E1)**
 
-![ID inexistente (HU-04 esc. 2 · CU-04 E1)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__2-id-inexistente.png)
+![ID inexistente (HU-04 esc. 2 · CU-04 E1)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__2-id-inexistente.png)
 
 **ID y organismo no coinciden (CU-04 E2)**
 
-![ID y organismo no coinciden (CU-04 E2)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__3-id-vs-organismo.png)
+![ID y organismo no coinciden (CU-04 E2)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__3-id-vs-organismo.png)
 
 **Completa (HU-04 esc. 1 · HU-02.1)**
 
-![Completa (HU-04 esc. 1 · HU-02.1)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__4-completa.png)
+![Completa (HU-04 esc. 1 · HU-02.1)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__4-completa.png)
 
 **Gen no localizado en la anotación (CU-02 E1)**
 
-![Gen no localizado en la anotación (CU-02 E1)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__5-gen-no-localizado.png)
+![Gen no localizado en la anotación (CU-02 E1)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__5-gen-no-localizado.png)
 
 **Validación en curso — flujo B (HU-03.2)**
 
-![Validación en curso — flujo B (HU-03.2)](../../mockups/capturas/hu-04_hu-02-1_progreso-corrida__6-validacion-flujo-b.png)
+![Validación en curso — flujo B (HU-03.2)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__6-validacion-flujo-b.png)
 
 > Al llegar desde UI-4 (botón "Validar primers") el enlace termina en `#flujo-b` y la maqueta muestra directamente este estado, sin JavaScript (selector `:target`).
 

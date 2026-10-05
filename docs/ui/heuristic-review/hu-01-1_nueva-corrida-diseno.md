@@ -10,9 +10,9 @@ nav_order: 1
 | | |
 |---|---|
 | **HU** | HU-01.1 · Iniciar diseño individual de primers (CU-01, Slice 1) |
-| **Perfil** | [`user_profile.md`](../user_profile.md) |
+| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
 | **Escenario de uso** | Escenario A — Diseñar primers para un gen |
-| **Maqueta** | [`hu-01-1_nueva-corrida-diseno.html`](../../mockups/hu-01-1_nueva-corrida-diseno.html) |
+| **Maqueta** | [`hu-01-1_nueva-corrida-diseno.html`](../mockups/hu-01-1_nueva-corrida-diseno.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -72,17 +72,17 @@ Además, RF-01 pide valores por defecto sugeridos.
 
 ### Respuesta obtenida
 
-El HTML generado es el archivo [`../../mockups/hu-01-1_nueva-corrida-diseno.html`](../../mockups/hu-01-1_nueva-corrida-diseno.html) (v1, iteración 2).
+El HTML generado es el archivo [`../mockups/hu-01-1_nueva-corrida-diseno.html`](../mockups/hu-01-1_nueva-corrida-diseno.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **Datos válidos**
 
-![Datos válidos](../../mockups/capturas/hu-01-1_nueva-corrida-diseno__1-datos-validos.png)
+![Datos válidos](../mockups/capturas/hu-01-1_nueva-corrida-diseno__1-datos-validos.png)
 
 **Errores de formato (HU-01.1 esc. 2 · CU-01 E1)**
 
-![Errores de formato (HU-01.1 esc. 2 · CU-01 E1)](../../mockups/capturas/hu-01-1_nueva-corrida-diseno__2-errores-de-formato.png)
+![Errores de formato (HU-01.1 esc. 2 · CU-01 E1)](../mockups/capturas/hu-01-1_nueva-corrida-diseno__2-errores-de-formato.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 
@@ -140,8 +140,8 @@ Ignorá la pastilla "Estado de la maqueta" y su botón "Guion demo": no son part
 interfaz. La pantalla tiene JavaScript: evaluá también su comportamiento, que está
 descrito en los comentarios de los bloques <script>.
 
-PERFIL: <pegar la tabla del perfil de user_profile.md §2>
-ESCENARIO: <pegar Escenario A de user_profile.md §3.1>
+PERFIL: <pegar la tabla del perfil de perfil-investigador.md §2>
+ESCENARIO: <pegar Escenario A de perfil-investigador.md §3.1>
 HISTORIA: <pegar HU-01.1 con sus criterios de aceptación y CU-01 E1>
 
 Para cada una de las 10 heurísticas indicá:

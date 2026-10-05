@@ -23,7 +23,7 @@ El isotipo es una "P" que encierra dos flechas enfrentadas, **forward →** y **
   <div><b style="background:#7c3aed"></b><span>Reverse<br><code>#7C3AED</code></span></div>
 </div>
 
-Son los colores de la interfaz. El isotipo usa tonos de la misma familia ajustados para la marca (degradé #0B6E6B → #0A3F5C, forward #0F8A80, hebra molde #0A445E, reverse #5B47D6). El criterio está en [Criterios de generación](../ux/criterios_generacion.md).
+Son los colores de la interfaz. El isotipo usa tonos de la misma familia ajustados para la marca (degradé #0B6E6B → #0A3F5C, forward #0F8A80, hebra molde #0A445E, reverse #5B47D6). El criterio está en [Criterios de generación](../ui/criterios_generacion.md).
 
 ## Tipografías
 

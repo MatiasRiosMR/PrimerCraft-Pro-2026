@@ -37,7 +37,7 @@ El SRS (§2.4) lo define como **stakeholder directo**, no como actor de ningún 
 
 ### Implicancias de diseño que se desprenden del perfil
 
-Estas implicancias se usan como **criterios** al pedir la generación de las pantallas (ver [`criterios_generacion.md`](criterios_generacion.md)).
+Estas implicancias se usan como **criterios** al pedir la generación de las pantallas (ver [`criterios_generacion.md`](../criterios_generacion.md)).
 
 1. **Lenguaje técnico sin simplificar**: usar Tm, ΔG, %GC, nt, pb tal cual. Explicarlos sería ruido para este usuario.
 2. **Valores por defecto sugeridos** en los parámetros (RF-01), editables.

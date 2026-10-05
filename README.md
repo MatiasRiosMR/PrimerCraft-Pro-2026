@@ -57,11 +57,11 @@ Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir l
 | | [`docs/requirements/quality-scenarios/registro-uso-ia.md`](docs/requirements/quality-scenarios/registro-uso-ia.md) | Registro de uso de IA de los escenarios de calidad |
 | Arquitectura | [`docs/architecture/contexto_inicial.md`](docs/architecture/contexto_inicial.md) | Diagrama de contexto (DFD nivel 0 y nivel 1) |
 | | [`docs/architecture/modelo-dominio-inicial.md`](docs/architecture/modelo-dominio-inicial.md) | Modelo de dominio |
-| UX | [`docs/ux/README.md`](docs/ux/README.md) | Índice del diseño de experiencia de usuario |
-| | [`docs/ux/user_profile.md`](docs/ux/user_profile.md) | Perfil de usuario, escenarios de uso y flujos de navegación |
-| | [`docs/ux/criterios_generacion.md`](docs/ux/criterios_generacion.md) | Criterios de generación de las maquetas |
-| | [`docs/ux/heuristic-review/`](docs/ux/README.md#pantallas) | Evaluación heurística de cada pantalla (UI-1 a UI-5) |
-| Maquetas | `docs/mockups/` | Maquetas HTML de las 5 pantallas y sus capturas de escritorio y móvil. Para usarlas en el navegador: [UI-1](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-01-1_nueva-corrida-diseno.html), [UI-2](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-04_hu-02-1_progreso-corrida.html), [UI-3](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-05_resultados-candidatos.html), [UI-4](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-03-1_validar-primer.html), [UI-5](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/mockups/hu-03-3_resultado-validacion.html) |
+| UX | [`docs/ui/README.md`](docs/ui/README.md) | Índice del diseño de experiencia de usuario |
+| | [`docs/ui/user-profiles/perfil-investigador.md`](docs/ui/user-profiles/perfil-investigador.md) | Perfil de usuario, escenarios de uso y flujos de navegación |
+| | [`docs/ui/criterios_generacion.md`](docs/ui/criterios_generacion.md) | Criterios de generación de las maquetas |
+| | [`docs/ui/heuristic-review/`](docs/ui/README.md#pantallas) | Evaluación heurística de cada pantalla (UI-1 a UI-5) |
+| Maquetas | `docs/ui/mockups/` | Maquetas HTML de las 5 pantallas y sus capturas de escritorio y móvil. Para usarlas en el navegador: [UI-1](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/ui/mockups/hu-01-1_nueva-corrida-diseno.html), [UI-2](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/ui/mockups/hu-04_hu-02-1_progreso-corrida.html), [UI-3](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/ui/mockups/hu-05_resultados-candidatos.html), [UI-4](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/ui/mockups/hu-03-1_validar-primer.html), [UI-5](https://matiasriosmr.github.io/PrimerCraft-Pro-2026/ui/mockups/hu-03-3_resultado-validacion.html) |
 | Marca | `docs/marca/` | Isotipo y logotipo del grupo |
 | Uso de IA | [`uso_de_ia/uso_de_ia.md`](uso_de_ia/uso_de_ia.md) | Registro general de uso de IA generativa, actualizado TP a TP |
 
@@ -72,8 +72,10 @@ PrimerCraft-Pro-2026/
 ├── docs/
 │   ├── requirements/   # SRS y escenarios de calidad
 │   ├── architecture/   # diagrama de contexto y modelo de dominio
-│   ├── ux/             # perfil, criterios y evaluaciones heurísticas
-│   ├── mockups/        # maquetas HTML y capturas (capturas/, capturas/movil/)
+│   ├── ui/
+│   │   ├── user-profiles/     # perfil de usuario, escenarios y flujos
+│   │   ├── mockups/           # maquetas HTML y capturas (capturas/, capturas/movil/)
+│   │   └── heuristic-review/  # evaluación heurística por pantalla
 │   └── marca/          # isotipo y logotipo
 ├── src/                # código fuente
 ├── tests/              # pruebas

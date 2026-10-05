@@ -6,7 +6,7 @@ nav_order: 2
 
 # Criterios de generación del maquetado (TP2 §4.3)
 
-> El grupo fija estos criterios **antes** de pedirle a la IA cualquier pantalla. Todos los prompts de generación (ver `docs/ux/heuristic-review/`) los incluyen.
+> El grupo fija estos criterios **antes** de pedirle a la IA cualquier pantalla. Todos los prompts de generación (ver `docs/ui/heuristic-review/`) los incluyen.
 >
 
 
@@ -15,7 +15,7 @@ nav_order: 2
 | **Tipo de sistema** | Aplicación web de escritorio (single-page por pantalla), sin login en esta instancia. | El SRS no define usuarios ni cuentas; el perfil usa navegador en computadora. |
 | **Lenguaje / tecnología** | HTML5 + CSS + **JavaScript**, en un **único archivo** por pantalla, **sin frameworks ni dependencias externas** (las tipografías también van embebidas). El JavaScript agrega el comportamiento: validación mientras se escribe, paso de los datos de una pantalla a la siguiente, progreso de la corrida, filtros y detalle de los candidatos, cálculo de la hibridación. Sin JavaScript, la maqueta se sigue viendo completa. Los estados alternativos se muestran con un selector ("Estado de la maqueta") y un "Guion demo" que **no son parte de la interfaz**. *(Antes: HTML + CSS sin JavaScript.)* | Un maquetado navegable deja evaluar la interfaz **y** su comportamiento (visibilidad del estado, prevención y recuperación de errores), que es lo que miran varias heurísticas. Sin dependencias, el archivo se abre con doble clic, se versiona en el repo y se puede pegar entero en la evaluación. |
 | **Idioma y tono** | Español rioplatense neutro, con **tono formal e impersonal** ("se obtiene", "el sistema verifica"), sin primera persona del plural ni preguntas retóricas en los títulos. Términos técnicos del dominio sin traducir ni simplificar (Tm, %GC, ΔG, nt, pb, forward/reverse). | Perfil: conocimiento de dominio alto. Es una herramienta científica: el tono coloquial le resta seriedad. |
-| **Usuario destino** | Perfil `user_profile.md`. **No** un usuario genérico. | Consigna §4.4. |
+| **Usuario destino** | Perfil `perfil-investigador.md`. **No** un usuario genérico. | Consigna §4.4. |
 | **Resolución** | **Escritorio como diseño principal**, en formato de **panel**: cada pantalla ocupa exactamente la ventana (probado en 1366×657, 1440×780, 1536×730 y 1920×950) y no se desplaza. Si una columna no entra, se desplaza solo esa columna (p. ej., la lista de 24 pares). En tablet (≤ 1100 px) las columnas se apilan y la página vuelve a desplazarse; en teléfono (≤ 640 px) el riel pasa a ser una barra inferior. No se agregan ni se quitan funciones por tamaño de pantalla. *(Antes: escritorio ≥ 1280 px con desplazamiento de página.)* | Perfil: escritorio / notebook (`[Supuesto]`). En el panel, el usuario ve de una vez los datos, el estado y la acción siguiente, sin buscar widgets más abajo. |
 | **Estados a mostrar** | Cada pantalla muestra el estado normal **y** los estados de error/alternativos que surgen de los Gherkin y slices secundarios de su HU. | Las HU del TP1 ya definen esos errores (formato inválido, ID inexistente, IUPAC, no hibrida). |
 | **Contenido** | Datos de ejemplo realistas y coherentes con el TP1 (`NM_007294`, *Homo sapiens*, Tm 60 °C, %GC 50 %, 20 nt). | Gherkin de HU-01.1. |

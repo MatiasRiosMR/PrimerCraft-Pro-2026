@@ -10,9 +10,9 @@ nav_order: 3
 | | |
 |---|---|
 | **HU** | HU-05 · Caracterización de candidatos (CU-05, incluido desde CU-02) |
-| **Perfil** | [`user_profile.md`](../user_profile.md) |
+| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
 | **Escenario de uso** | Escenario A — Diseñar primers para un gen |
-| **Maqueta** | [`hu-05_resultados-candidatos.html`](../../mockups/hu-05_resultados-candidatos.html) |
+| **Maqueta** | [`hu-05_resultados-candidatos.html`](../mockups/hu-05_resultados-candidatos.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -52,17 +52,17 @@ secundarias, así como el amplicón esperado, para disponer de candidatos adecua
 
 ### Respuesta obtenida
 
-HTML: [`../../mockups/hu-05_resultados-candidatos.html`](../../mockups/hu-05_resultados-candidatos.html) (v1, iteración 2).
+HTML: [`../mockups/hu-05_resultados-candidatos.html`](../mockups/hu-05_resultados-candidatos.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **Con candidatos**
 
-![Con candidatos](../../mockups/capturas/hu-05_resultados-candidatos__1-con-candidatos.png)
+![Con candidatos](../mockups/capturas/hu-05_resultados-candidatos__1-con-candidatos.png)
 
 **Sin candidatos (CU-02 E2)**
 
-![Sin candidatos (CU-02 E2)](../../mockups/capturas/hu-05_resultados-candidatos__2-sin-candidatos.png)
+![Sin candidatos (CU-02 E2)](../mockups/capturas/hu-05_resultados-candidatos__2-sin-candidatos.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 

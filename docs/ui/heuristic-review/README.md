@@ -3,7 +3,7 @@ title: Evaluación heurística
 parent: UX
 nav_order: 4
 has_children: true
-permalink: /ux/heuristic-review/
+permalink: /ui/heuristic-review/
 ---
 
 # Evaluación heurística

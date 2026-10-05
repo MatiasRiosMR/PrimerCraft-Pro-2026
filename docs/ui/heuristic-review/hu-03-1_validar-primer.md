@@ -10,9 +10,9 @@ nav_order: 4
 | | |
 |---|---|
 | **HU** | HU-03.1 · Ingreso y validación del primer (CU-03, Slice 1) |
-| **Perfil** | [`user_profile.md`](../user_profile.md) |
+| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
 | **Escenario de uso** | Escenario B — Validar un par diseñado por otro medio |
-| **Maqueta** | [`hu-03-1_validar-primer.html`](../../mockups/hu-03-1_validar-primer.html) |
+| **Maqueta** | [`hu-03-1_validar-primer.html`](../mockups/hu-03-1_validar-primer.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -45,17 +45,17 @@ sistema valide que los datos tienen un formato correcto antes de su verificació
 
 ### Respuesta obtenida
 
-HTML: [`../../mockups/hu-03-1_validar-primer.html`](../../mockups/hu-03-1_validar-primer.html) (v1, iteración 2).
+HTML: [`../mockups/hu-03-1_validar-primer.html`](../mockups/hu-03-1_validar-primer.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **Datos válidos**
 
-![Datos válidos](../../mockups/capturas/hu-03-1_validar-primer__1-datos-validos.png)
+![Datos válidos](../mockups/capturas/hu-03-1_validar-primer__1-datos-validos.png)
 
 **Caracteres fuera de IUPAC (CU-03 E1)**
 
-![Caracteres fuera de IUPAC (CU-03 E1)](../../mockups/capturas/hu-03-1_validar-primer__2-caracteres-no-iupac.png)
+![Caracteres fuera de IUPAC (CU-03 E1)](../mockups/capturas/hu-03-1_validar-primer__2-caracteres-no-iupac.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 

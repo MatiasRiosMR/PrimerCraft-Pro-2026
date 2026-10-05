@@ -10,9 +10,9 @@ nav_order: 5
 | | |
 |---|---|
 | **HU** | HU-03.3 · Verificación de hibridación y caracterización (CU-03, Slice 3) |
-| **Perfil** | [`user_profile.md`](../user_profile.md) |
+| **Perfil** | [`perfil-investigador.md`](../user-profiles/perfil-investigador.md) |
 | **Escenario de uso** | Escenario B — Validar un par diseñado por otro medio |
-| **Maqueta** | [`hu-03-3_resultado-validacion.html`](../../mockups/hu-03-3_resultado-validacion.html) |
+| **Maqueta** | [`hu-03-3_resultado-validacion.html`](../mockups/hu-03-3_resultado-validacion.html) |
 | **Herramienta IA** | Claude (generación) · Claude Code (iteración 2: JavaScript y panel) · Gemini (evaluación, en una conversación nueva) |
 
 ---
@@ -46,17 +46,17 @@ es adecuado para amplificar el target.
 
 ### Respuesta obtenida
 
-HTML: [`../../mockups/hu-03-3_resultado-validacion.html`](../../mockups/hu-03-3_resultado-validacion.html) (v1, iteración 2).
+HTML: [`../mockups/hu-03-3_resultado-validacion.html`](../mockups/hu-03-3_resultado-validacion.html) (v1, iteración 2).
 
 ### Vista previa (capturas de la versión actual)
 
 **El par hibrida**
 
-![El par hibrida](../../mockups/capturas/hu-03-3_resultado-validacion__1-hibrida.png)
+![El par hibrida](../mockups/capturas/hu-03-3_resultado-validacion__1-hibrida.png)
 
 **No hibrida (CU-03 A1)**
 
-![No hibrida (CU-03 A1)](../../mockups/capturas/hu-03-3_resultado-validacion__2-no-hibrida.png)
+![No hibrida (CU-03 A1)](../mockups/capturas/hu-03-3_resultado-validacion__2-no-hibrida.png)
 
 **Supuestos introducidos por la IA a revisar (iteración 1):**
 

@@ -159,6 +159,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line-2);border
 @keyframes pulse{50%{box-shadow:0 0 0 10px transparent}}
 .tl .t{font-weight:650;font-size:14px} .tl .d{font-size:12.5px;color:var(--muted)}
 .tl .time{font:600 12px var(--mono);color:var(--muted)}
+.tl .slow{margin-top:6px;padding:6px 10px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-size:12.5px;line-height:1.45}
 .wait .t{color:var(--muted)}
 .big{max-width:760px;margin:10px auto 0;text-align:left}
 .big .icon{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font-size:30px;font-weight:800;margin-bottom:16px}
@@ -669,7 +670,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
         <li class="ok"><div class="dot">✓</div><div><div class="t">Formato validado</div></div><span class="time">0,1 s</span></li>
         <li class="ok"><div class="dot">✓</div><div><div class="t">Referencia obtenida de NCBI Entrez</div><div class="d"><span class="mono">NC_000017.11</span> · región de 81 189 pb + anotación · sin descargas manuales</div></div><span class="time">2,3 s</span></li>
         <li class="ok"><div class="dot">✓</div><div><div class="t">Gen localizado</div><div class="d">43 044 295 – 43 125 483 · hebra −</div></div><span class="time">0,4 s</span></li>
-        <li class="run"><div class="dot">4</div><div><div class="t">Generando candidatos</div><div class="d">Ventana deslizante de 20 nt</div></div><span class="time">11 s</span></li>
+        <li class="run"><div class="dot">4</div><div><div class="t">Generando candidatos</div><div class="d">Ventana deslizante de 20 nt</div><div class="slow">Está tardando más de lo habitual (suele llevar menos de 8 s). La corrida sigue en curso: no hace falta recargar ni volver a enviar.</div></div><span class="time">11 s</span></li>
         <li class="wait"><div class="dot">5</div><div><div class="t">Caracterización</div><div class="d">Tm, %GC, ΔG, especificidad, amplicón</div></div><span class="time">—</span></li>
       </ol>
     </aside>
@@ -1111,8 +1112,24 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
 
   /* ---------- Simulación ---------- */
   const lista = (n) => $$(`.v${n} .tl li`);
+  /* Aviso de demora (ciclo 4, H8): si una etapa sigue en curso más de lo habitual, se avisa
+     en la misma etapa. En la de NCBI se aclara que es un servicio público con cola de espera. */
+  const LENTO = {
+    ncbi: [5000, 'NCBI Entrez está respondiendo más lento de lo habitual (suele tardar 2–3 s). Es un servicio público con cola de espera: la corrida sigue y no hace falta recargar ni volver a enviar.'],
+    otra: [8000, 'Está tardando más de lo habitual (suele llevar menos de 8 s). La corrida sigue en curso: no hace falta recargar ni volver a enviar.'],
+  };
+  const vigilar = (li) => {
+    const [ms, txt] = LENTO[/NCBI/.test($('.t', li).textContent) ? 'ncbi' : 'otra'];
+    timers.push(setTimeout(() => {
+      if (parado || li.className !== 'run' || $('.slow', li)) return;
+      const d = document.createElement('div'); d.className = 'slow'; d.textContent = txt;
+      li.children[1].appendChild(d);
+    }, ms));
+  };
   const paso = (li, clase, t) => {
     li.className = clase;
+    const lento = $('.slow', li); if (lento) lento.remove();
+    if (clase === 'run') vigilar(li);
     const dot = $('.dot', li);
     dot.textContent = clase === 'ok' ? '✓' : clase === 'err' ? '!' : String(lista(B ? 6 : 1).indexOf(li) + 1);
     if (t !== undefined) $('.time', li).textContent = t;

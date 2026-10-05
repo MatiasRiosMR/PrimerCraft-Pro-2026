@@ -703,6 +703,8 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
         <div class="m ok"><div class="k">Amplicón</div><div class="v">208 <small>pb</small></div><div class="th">43 094 586 – 43 094 793</div></div>
       </div>
 
+      <p class="hint cond" style="margin:-6px 0 18px">Tm y ΔG por Nearest-Neighbor (SantaLucia 1998) con 50 mM Na⁺, 1,5 mM Mg²⁺, 0,6 mM dNTP y 50 nM de oligo (valores por defecto de Primer3); ΔG a 37 °C. Para comparar con otra herramienta, usá las mismas condiciones.</p>
+
       <div class="tabs"><span class="on">Ubicación y amplicón</span><span>Estructuras secundarias</span></div>
       <div class="locus">
         <svg viewBox="0 0 700 90" role="img" aria-label="Ubicación del par dentro de BRCA1">
@@ -721,6 +723,7 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
      3'-G<span class="bond">A</span><span class="bond">C</span><span class="bond">G</span>TGCGAAGAGTCACCACAAG-5'      ΔG −1,9 kcal/mol</div>
     </section>
   </div>
+  <div class="actionbar"><div class="sum">¿Ningún par te convence? <span class="why">Volvés al formulario con el identificador, el organismo y los parámetros cargados</span></div><a class="btn btn-lg" href="hu-01-1_nueva-corrida-diseno.html">← Ajustar parámetros</a></div>
   </div>
 
   <!-- ================= ESTADO 2 · SIN CANDIDATOS (CU-02 E1) ================= -->
@@ -1013,6 +1016,8 @@ dialog.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;f
     if (u) u.innerHTML = `<span class="k">Parámetros usados</span><span class="mono">${PC.esc(D.id)}</span><span><i>${PC.esc(D.org)}</i></span><span>Longitud ${f(D.len)} nt</span><span>%GC ${f(D.gc)} %</span><span>Tm ${f(D.tm)} °C</span>`;
     PC.link($('a.btn-p', v2), 'hu-01-1_nueva-corrida-diseno.html', { aviso: 'sin-candidatos' });
   }
+  // con candidatos: volver a UI-1 con los datos de la corrida cargados (ciclo 4, H4)
+  PC.link($('.v1 .actionbar a.btn'), 'hu-01-1_nueva-corrida-diseno.html');
   if (D.resultado === 'sin-candidatos' && !PC.fixed) { PC.state(2, { focus: false }); return; }
   if (!v1) return;
 

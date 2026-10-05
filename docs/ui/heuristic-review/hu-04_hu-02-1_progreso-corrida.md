@@ -291,14 +291,14 @@ Respuesta de **Gemini** en una conversación nueva (02/10/2026), pegada sin edit
 
 ## Revisión crítica del grupo
 
-Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 8 hallazgos, 4 no coinciden con la maqueta (señalan un problema que el HTML no tiene); se acepta 1.
+Se verificó cada hallazgo contra el HTML y el JavaScript de la maqueta. De 8 hallazgos, 4 no coinciden con la maqueta (señalan un problema que el HTML no tiene); se aceptan 2 (H4, después de revisarlo en el ciclo 5).
 
 | Hallazgo | Heurística | Veredicto de la IA | Decisión | Justificación del grupo |
 |---|---|---|---|---|
 | H1 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Los estados de error mantienen el stepper ("✓ Target · ! Obtención y diseño · 3 Resultados") y muestran una lista de chequeo con el paso que falló (por ejemplo, "✓ Formato · ✓ Conexión con NCBI · ✖ Registro encontrado"). |
 | H2 | 1. Visibilidad del estado del sistema | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | Es una maqueta: el avance se simula a propósito. En el sistema real sale del backend, que es justo lo que sugiere el hallazgo. No hay nada que cambiar en la pantalla. |
 | H3 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** Abre un diálogo "¿Cancelar la corrida?" ("Seguir esperando" / "Cancelar corrida") y vuelve a UI-1 con los datos conservados. |
-| H4 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | Ningún caso de uso define una falla de conexión (CU-04 la pone como precondición). Los errores modelados (E1, E2, gen no localizado) no se resuelven reintentando. Si el grupo quiere, puede vincularse a un escenario de calidad de disponibilidad. |
+| H4 | 3. Control y libertad del usuario | CUMPLE PARCIALMENTE · severidad 2 | **Acepta** (revisado en el ciclo 5) | Al principio se rechazó: ningún caso de uso define una falla de conexión (CU-04 la pone como precondición) y los errores modelados (E1, E2, gen no localizado) no se resuelven reintentando. Se revisó al cruzarlo con el escenario de calidad **FI-2**, que exige reintentar ante una caída de NCBI sin perder los datos y sin informarla como "identificador inexistente". Se acepta para ese caso; E1, E2 y gen no localizado siguen sin "Reintentar", porque reintentar no los resuelve. |
 | H5 | 7. Flexibilidad y eficiencia de uso | CUMPLE PARCIALMENTE · severidad 1 | Rechaza | Avanzar automáticamente le quita el control al usuario (heurística 3). El botón "Ver resultados →" se habilita y aparece un aviso. |
 | H6 | 9. Reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE · severidad 3 | Rechaza | **No coincide con la maqueta.** Da la causa probable ("Suele pasar cuando se ingresa el accession de un cromosoma completo…"), detalla qué se buscó y aclara que los parámetros se conservan. |
 | H7 | 9. Reconocer, diagnosticar y recuperarse de errores | CUMPLE PARCIALMENTE · severidad 2 | Rechaza | **No coincide con la maqueta.** No existe `history.back()`. Los botones llevan a UI-1 con los datos cargados (`PC.link`) y un aviso del motivo. |
@@ -327,3 +327,20 @@ Se reemplazó el par de ejemplo por uno real de BRCA1 (`CCTTGCTAAGCCAGGCTGTTTGC`
 - Se regeneraron las capturas del estado "En curso" (escritorio y teléfono).
 
 **Archivo resultante.** Se modificó el mismo archivo; la versión anterior queda en el historial de git. No se repitió la evaluación heurística completa, porque los cambios se limitan a los hallazgos aceptados y no modifican el resto de la pantalla.
+
+### Ciclo 5 (05/10) — Reintento ante una caída de NCBI (H4 y escenario FI-2)
+
+**Motivo.** Al revisar la coherencia entre las dos partes del TP, el grupo notó que había rechazado H4 diciendo que ningún caso de uso define una falla de conexión, pero el escenario de calidad FI-2 (Capacidad de recuperación) pide justamente eso: ante una caída de NCBI Entrez, conservar los datos, informar que el servicio no está disponible (distinguiéndolo de un "identificador inexistente") y reintentar. La maqueta no tenía ese estado, así que se cambió la decisión sobre H4 a "Acepta".
+
+**Pedido (Claude Code).** Agregar a UI-2 un estado para la caída de NCBI que cumpla FI-2, con el mismo diseño que los demás estados de error, y regenerar las capturas.
+
+**Qué se hizo.**
+
+- Nuevo estado 7, **NCBI no disponible**: aclara que no es un problema de los datos y que todavía no se sabe si el identificador existe, muestra el paso que falló ("Conexión con NCBI Entrez: sin respuesta (503)") y usa el color de advertencia, no el de error, porque no hay nada que corregir.
+- Reintento automático con cuenta regresiva ("Próximo reintento automático en 0:15 · intento 2 de 5") y botón **"⟳ Reintentar ahora"**. Al reintentar, la corrida sigue desde la obtención de la referencia, como pide FI-2. También está "← Modificar datos", que vuelve a UI-1 o UI-4 con todo cargado.
+- Los datos de la corrida se muestran en la pantalla con la aclaración de que quedan guardados.
+- En la demo se llega con el identificador `NM_503503` (falla el primer intento y el reintento funciona) o desde la pastilla "Estado de la maqueta". Funciona igual en el flujo de validación (UI-4 → UI-2).
+
+![NCBI no disponible, con reintento (FI-2)](../mockups/capturas/hu-04_hu-02-1_progreso-corrida__7-ncbi-no-disponible.png)
+
+**Archivo resultante.** Se modificó el mismo archivo; la versión anterior queda en el historial de git. No se repitió la evaluación heurística completa: el cambio agrega un estado y no modifica los existentes.

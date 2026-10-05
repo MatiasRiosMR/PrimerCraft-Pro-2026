@@ -221,3 +221,15 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Resultado** | UI-3 tiene un botón "← Ajustar parámetros" en el estado con candidatos; UI-2 avisa cuando una etapa tarda más de lo habitual; UI-3 y UI-5 muestran las condiciones con las que se calculan la Tm y el ΔG. Se actualizaron los enlaces del sitio y de los README a las rutas nuevas. Detalle en el ciclo 4 de cada evaluación en `docs/ui/heuristic-review/`. |
 | **Modificado/descartado** | No se repitió la evaluación heurística completa, porque los cambios se limitan a los hallazgos aceptados. |
 | **Error detectado** | Ninguno. |
+
+---
+
+## [TP2] Reintento ante una caída de NCBI en UI-2 (ciclo 5)
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code |
+| **Tarea** | Revisar si las maquetas cumplen las heurísticas de Nielsen después del ciclo 4 y, a pedido del grupo, agregar a UI-2 el estado de caída de NCBI con reintento que pide el escenario de calidad FI-2. |
+| **Resultado** | La IA señaló que el rechazo de H4 de UI-2 contradecía FI-2. Se agregó a UI-2 el estado "NCBI no disponible", con reintento automático, botón "Reintentar ahora" y los datos conservados. Detalle en el ciclo 5 de `docs/ui/heuristic-review/hu-04_hu-02-1_progreso-corrida.md`. |
+| **Modificado/descartado** | El grupo cambió la decisión sobre H4 de "Rechaza" a "Acepta", solo para la caída de NCBI. Los demás errores de UI-2 siguen sin "Reintentar", porque reintentar no los resuelve. |
+| **Error detectado** | Ninguno. |

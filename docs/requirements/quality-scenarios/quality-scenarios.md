@@ -123,7 +123,7 @@ nav_order: 2
 ---
 
 
-### 1.5 Tolerancia a fallos y capacidad de recuperación (Característica ISO de la que proviene: Fiabilidad)
+### 1.5 Tolerancia a fallos (Característica ISO de la que proviene: Fiabilidad)
 
 
 **Qué le exige a la solución y por qué es crítico:** Exige que el software sea resiliente ante caídas de red, timeouts o límites de cuota de las APIs públicas, preservando el trabajo ya realizado (los candidatos generados). Es altamente crítico porque NCBI BLAST es un recurso compartido con "límites estrictos" (100 corridas/24hs) que el grupo no controla, lo que representa el principal riesgo técnico del proyecto.
@@ -143,24 +143,6 @@ nav_order: 2
 | **Respuesta** | El sistema informa el error o la saturación de forma clara, guarda el estado de los candidatos (con su Tm y estructuras ya calculadas) y los pone en una cola para reintentar la verificación de especificidad automáticamente más tarde. |
 | **Medida de la respuesta** | **0 %** de pérdida de candidatos ya calculados tras un error HTTP 429 (Too Many Requests) o 500 (Internal Server Error) de NCBI; **100 %** de los candidatos en cola reintentados sin que el usuario vuelva a cargar la corrida. |
 
-
-> *Nota:* en el MVP la especificidad usa una simulación local; el escenario queda como requisito para la integración real.
-
-#### Escenario FI-2 
-
-| Componente | Descripción |
-|---|---|
-| **Explicación de criticidad** | La obtención de la referencia es la puerta de entrada de todas las corridas (P1, proceso priorizado en el SRS §4). Si una caída de NCBI se informara como "identificador inexistente" (RF-09), el investigador creería que se equivocó y corregiría un dato que estaba bien. |
-| **Atributo / subcaracterística** | Fiabilidad / Capacidad de recuperación |
-| **Estímulo** | La conexión con NCBI Entrez se corta (timeout o error 5xx) mientras se descargan la secuencia y la anotación. |
-| **Fuente del estímulo** | Servicio externo NCBI Entrez / red. |
-| **Artefacto** | Conector con NCBI Entrez del Gestor de Preparación de Datos (P1). |
-| **Entorno** | Degradado: servicio externo no disponible temporalmente. |
-| **Respuesta** | El sistema conserva los datos de entrada ya validados, informa que NCBI no está disponible (distinguiéndolo de un "identificador inexistente") y reintenta la consulta; al restablecerse el servicio, continúa la corrida desde la obtención de la referencia. |
-| **Medida de la respuesta** | **0** datos de entrada que el usuario deba volver a cargar; la corrida se reanuda en **< 1 min** tras restablecerse el servicio (meta fijada por el grupo, no definida en el SRS); **0** casos en que una caída se informe como "identificador inexistente". |
-
----
-
 ## 2. Resumen
 
 | ID | Atributo | Subcaracterística | Entorno | RF / CU |
@@ -170,4 +152,4 @@ nav_order: 2
 | MA-1 | Mantenibilidad | Modificabilidad | Normal (desarrollo) | RF-03 · CU-04 |
 | CO-1 | Compatibilidad | Interoperabilidad | Degradado | RF-03 · CU-04 |
 | FI-1 | Fiabilidad | Tolerancia a fallos | Degradado | RF-06 · CU-05 |
-| FI-2 | Fiabilidad | Capacidad de recuperación | Degradado | RF-03, RF-09 · CU-04 |
+

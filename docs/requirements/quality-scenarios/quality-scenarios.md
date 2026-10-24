@@ -11,7 +11,7 @@ nav_order: 2
 ## 1. Escenarios
 
 
-> Entornos: 5 de 6 escenarios ocurren en **entorno degradado**; el de mantenibilidad ocurre en un entorno normal de desarrollo porque el atributo se manifiesta en tiempo de desarrollo, no de ejecución.
+> Entornos: 4 de 5 escenarios ocurren en **entorno degradado**; el de mantenibilidad ocurre en un entorno normal de desarrollo porque el atributo se manifiesta en tiempo de desarrollo, no de ejecución.
 
 
 ### 1.1 Pertinencia Funcional (Característica ISO de la que proviene: Adecuación Funcional)

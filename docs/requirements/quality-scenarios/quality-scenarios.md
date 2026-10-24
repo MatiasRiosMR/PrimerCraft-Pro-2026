@@ -22,7 +22,7 @@ nav_order: 2
 
 
 
-#### Escenario AF-1 
+#### Escenario EC-01
 
 
 | Componente | Descripción |
@@ -48,7 +48,7 @@ nav_order: 2
 **Qué le exige a la solución y por qué es crítico:** Exige una interfaz que sea comprensible para un biólogo molecular sin formación en programación, mostrando el scoring como algo transparente (no una "caja negra") y protegiendo al usuario de cometer errores de formato. Es crítico para garantizar la adopción de la herramienta y evitar llamadas inútiles a las APIs externas que consuman la cuota de uso.
 
 
-#### Escenario CI-1 
+#### Escenario EC-02
 
 
 | Componente | Descripción |
@@ -73,7 +73,7 @@ nav_order: 2
 **Qué le exige a la solución y por qué es crítico:** Exige una arquitectura modular donde el núcleo termodinámico esté desacoplado de las fuentes de información genómica. Es fundamental debido al ciclo de vida Iterativo e Incremental elegido, dado que integraciones como el cruce de variantes (dbSNP/Ensembl) y los perfiles de scoring se dejaron explícitamente para etapas posteriores o de extensión.
 
 
-#### Escenario MA-1 
+#### Escenario EC-03
 
 
 | Componente | Descripción |
@@ -100,7 +100,7 @@ nav_order: 2
 **Qué le exige a la solución y por qué es crítico:** Exige que PrimerCraft Pro se comunique e intercambie datos de forma transparente con servicios bioinformáticos externos (NCBI Entrez/BLAST y dbSNP/Ensembl) mediante sus APIs web y formatos estándar (FASTA, VCF, JSON/XML). Es crítico porque el sistema no genera secuencias de referencia ni variantes de forma aislada, sino que su propuesta de valor depende del consumo e interpretación de datos producidos por repositorios públicos externos.
 
 
-#### Escenario CO-1 
+#### Escenario EC-04
 
 
 | Componente | Descripción |
@@ -129,7 +129,7 @@ nav_order: 2
 **Qué le exige a la solución y por qué es crítico:** Exige que el software sea resiliente ante caídas de red, timeouts o límites de cuota de las APIs públicas, preservando el trabajo ya realizado (los candidatos generados). Es altamente crítico porque NCBI BLAST es un recurso compartido con "límites estrictos" (100 corridas/24hs) que el grupo no controla, lo que representa el principal riesgo técnico del proyecto.
 
 
-#### Escenario FI-1 
+#### Escenario EC-05
 
 
 | Componente | Descripción |

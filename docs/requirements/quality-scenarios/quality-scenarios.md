@@ -147,9 +147,9 @@ nav_order: 2
 
 | ID | Atributo | Subcaracterística | Entorno | RF / CU |
 |---|---|---|---|---|
-| AF-1 | Adecuación funcional | Pertinencia funcional | Degradado | RF-10 · CU-02 |
-| CI-1 | Capacidad de interacción | Protección frente a errores del usuario | Degradado | RF-01, RF-08 · CU-01, CU-03 |
-| MA-1 | Mantenibilidad | Modificabilidad | Normal (desarrollo) | RF-03 · CU-04 |
-| CO-1 | Compatibilidad | Interoperabilidad | Degradado | RF-03 · CU-04 |
-| FI-1 | Fiabilidad | Tolerancia a fallos | Degradado | RF-06 · CU-05 |
+| EC-01 | Adecuación funcional | Pertinencia funcional | Degradado | RF-10 · CU-02 |
+| EC-02 | Capacidad de interacción | Protección frente a errores del usuario | Degradado | RF-01, RF-08 · CU-01, CU-03 |
+| EC-03 | Mantenibilidad | Modificabilidad | Normal (desarrollo) | RF-03 · CU-04 |
+| EC-04 | Compatibilidad | Interoperabilidad | Degradado | RF-03 · CU-04 |
+| EC-05 | Fiabilidad | Tolerancia a fallos | Degradado | RF-06 · CU-05 |
 

@@ -41,6 +41,20 @@ Para profundizar más sobre esto, ir a: [`docs/requirements/srs.md`](docs/requir
 
 ---
 
+## Arquitectura en breve
+
+La arquitectura se deriva de un problema: NCBI BLAST limita las consultas (100 corridas cada 24 h) y puede rechazar pedidos durante horas, y el sistema no puede perder los candidatos ya calculados (escenario de calidad `EC-05`, driver principal).
+
+- **Estilo base: tuberías y filtros.** Una cadena de etapas independientes (Preparación de datos, Diseño de candidatos y Verificación de especificidad) conectadas por tuberías de mensajes que guardan el trabajo en disco, de modo que la espera de BLAST no frena al resto.
+- **Interfaz: cliente-servidor.** Una aplicación web que conversa con una API, que es la única que accede a la base de datos.
+- **Patrones por contenedor:** broker en las tuberías, hexagonal en las etapas con servicios externos (`EC-03`, `EC-04`), capas en la API y MVVM en la web.
+- **Despliegue:** una sola VPS privada con Docker, con reinicio automático de los contenedores, volúmenes en disco y backup de la base fuera de la VPS.
+- **Tecnologías propuestas:** TypeScript y React (web), Node.js y Fastify (API), Python (etapas de cálculo), NATS JetStream (tuberías) y PostgreSQL (base de datos).
+
+El detalle está en [`docs/architecture/arquitectura.md`](docs/architecture/arquitectura.md).
+
+---
+
 ## Modelo de ciclo de vida
 
 Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir la herramienta por etapas, entregando primero el núcleo útil del sistema y agregando valor funcional en cada entrega. De forma **incremental**, se puede poner a punto el cálculo básico de primers antes de sumar capacidades más avanzadas como la alerta por variantes poblacionales (SNPs) o el procesamiento automático de listas en lote. De forma **iterativa**, permite ajustar progresivamente aspectos complejos como la conexión con servicios externos (NCBI BLAST), probando primero con una versión simulada antes de implementar la integración definitiva.
@@ -57,6 +71,7 @@ Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir l
 | | [`docs/requirements/quality-scenarios/registro-uso-ia.md`](docs/requirements/quality-scenarios/registro-uso-ia.md) | Registro de uso de IA de los escenarios de calidad |
 | Arquitectura | [`docs/architecture/contexto_inicial.md`](docs/architecture/contexto_inicial.md) | Diagrama de contexto (DFD nivel 0 y nivel 1) |
 | | [`docs/architecture/modelo-dominio-inicial.md`](docs/architecture/modelo-dominio-inicial.md) | Modelo de dominio |
+| | [`docs/architecture/arquitectura.md`](docs/architecture/arquitectura.md) | Documento de especificación de arquitectura: drivers, estrategia de solución (tácticas, estilos y patrones), vistas C4 de contenedores, componentes y despliegue, historias de usuario sobre las vistas, decisiones `DA-xx`, trazabilidad y riesgos |
 | UX | [`docs/ui/README.md`](docs/ui/README.md) | Índice del diseño de experiencia de usuario |
 | | [`docs/ui/user-profiles/perfil-investigador.md`](docs/ui/user-profiles/perfil-investigador.md) | Perfil de usuario, escenarios de uso y flujos de navegación |
 | | [`docs/ui/criterios_generacion.md`](docs/ui/criterios_generacion.md) | Criterios de generación de las maquetas |
@@ -69,17 +84,26 @@ Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir l
 
 ```
 PrimerCraft-Pro-2026/
-├── docs/
-│   ├── requirements/   # SRS y escenarios de calidad
-│   ├── architecture/   # diagrama de contexto y modelo de dominio
-│   ├── ui/
-│   │   ├── user-profiles/     # perfil de usuario, escenarios y flujos
-│   │   ├── mockups/           # maquetas HTML y capturas (capturas/, capturas/movil/)
-│   │   └── heuristic-review/  # evaluación heurística por pantalla
-│   └── marca/          # isotipo y logotipo
-├── src/                # código fuente
-├── tests/              # pruebas
-└── uso_de_ia/          # registro de uso de IA
+├── README.md
+├── docs/                         # documentación; se publica como sitio web (GitHub Pages)
+│   ├── index.md                  # portada del sitio
+│   ├── _config.yml               # configuración del sitio (tema, menú, Mermaid)
+│   ├── _includes/, _sass/        # personalización del tema (estilos, scripts, diagramas)
+│   ├── requirements/             # TP1 y TP2: requerimientos y calidad
+│   │   ├── srs.md                # SRS
+│   │   └── quality-scenarios/    # escenarios de calidad y su registro de uso de IA
+│   ├── architecture/             # TP1 y TP3: modelos y arquitectura
+│   │   ├── contexto_inicial.md          # diagrama de contexto (DFD nivel 0 y 1)
+│   │   ├── modelo-dominio-inicial.md    # modelo de dominio
+│   │   └── arquitectura.md              # especificación de arquitectura (vistas C4, decisiones)
+│   ├── ui/                       # TP2: experiencia de usuario
+│   │   ├── user-profiles/        # perfil de usuario, escenarios y flujos
+│   │   ├── mockups/              # maquetas HTML y capturas (capturas/, capturas/movil/)
+│   │   └── heuristic-review/     # evaluación heurística por pantalla
+│   └── marca/                    # isotipo y logotipo
+├── src/                          # código fuente (todavía vacío)
+├── tests/                        # pruebas (todavía vacío)
+└── uso_de_ia/                    # registro general de uso de IA, actualizado TP a TP
 ```
 
 ---

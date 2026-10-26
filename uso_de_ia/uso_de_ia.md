@@ -233,3 +233,87 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Resultado** | La IA señaló que el rechazo de H4 de UI-2 contradecía FI-2. Se agregó a UI-2 el estado "NCBI no disponible", con reintento automático, botón "Reintentar ahora" y los datos conservados. Detalle en el ciclo 5 de `docs/ui/heuristic-review/hu-04_hu-02-1_progreso-corrida.md`. |
 | **Modificado/descartado** | El grupo cambió la decisión sobre H4 de "Rechaza" a "Acepta", solo para la caída de NCBI. Los demás errores de UI-2 siguen sin "Reintentar", porque reintentar no los resuelve. |
 | **Error detectado** | Ninguno. |
+
+
+## [TP3] Drivers, estilo, patrones y tecnologías de la arquitectura
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, Gemini Pro, Kimi k3 |
+| **Tarea** | Elegir los drivers de arquitectura entre los escenarios del TP2, proponer tácticas, estilo base, patrones y tecnologías, y contrastarlos con las Tablas 2 a 6 de la consigna. |
+| **Resultado** | Selección de cuatro drivers (`EC-03`, `EC-04`, `EC-05`, `EC-06`). Estilo base: tuberías y filtros (pipeline) para el procesamiento core, combinado con cliente-servidor para la interfaz. Patrones por contenedor: Broker, Arquitectura Hexagonal, Capas y MVVM. Stack tecnológico: NATS JetStream para la mensajería, PostgreSQL para la persistencia, Node.js/TypeScript para la API y Python para las etapas del pipeline. |
+| **Modificado/descartado** | **1.** La propuesta inicial de Claude Code utilizaba Cliente-Servidor puro con Orientada a Eventos y descartaba Tuberías y Filtros; se rehízo completamente tras la indicación de la cátedra.<br>**2.** Se evaluó y descartó el estilo Repositorio (sugerido por Gemini Pro como alternativa de acoplamiento centralizado), ya que forzaba a hacer toda la comunicación interproceso mediante consultas recurrentes a la base de datos.<br>**3.** Kimi k3 propuso un enfoque 100% reactivo/event-driven para todas las capas, pero se descartó en la API y cliente por agregar complejidad innecesaria respecto a un modelo REST/MVVM estándar.<br>**4.** *Pendiente:* Validación final del stack tecnológico según las capacidades y dominio técnico del equipo. |
+| **Error detectado** | Dos tácticas planteadas ("persistir el estado antes de actuar" y "validar la entrada antes de actuar") no figuraban explícitamente en la Tabla 2 de la consigna. Una versión previa clasificó la primera erróneamente como "transacciones"; se corrigió declarándolas como tácticas propias. Asimismo, se detectó que la objeción original contra Tuberías y Filtros solo aplicaba a esquemas con estado compartido centralizado en la base de datos. |
+
+---
+
+## [TP3] Diagramas C4 en Mermaid y reducción del documento
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, Gemini Pro, Kimi k3 |
+| **Tarea** | Diseñar los 7 diagramas C4 (Contexto, Contenedores y 5 Vistas de Componentes) en sintaxis Mermaid, validar su legibilidad visual renderizándolos con `mermaid-cli`, y sintetizar el documento para cumplir con las restricciones de extensión. |
+| **Resultado** | Diagramas reestructurados y optimizados visualmente: se ajustó la declaración de elementos para evitar el cruzamiento de flechas sobre cajas (aprovechando las reglas de layout de Mermaid por orden de declaración). Se eliminaron las tablas explícitas de relaciones entre componentes, al estar sus tecnologías y protocolos documentados en el propio gráfico (§4.1 de la consigna), y se fusionaron decisiones redundantes. |
+| **Modificado/descartado** | **1.** Se eliminó "Instrumentación" como componente independiente (Gemini Pro y Kimi k3 coincidieron en que el registro de logs/métricas estándar de la plataforma era suficiente sin saturar la vista C4).<br>**2.** Se dividió el motor de procesamiento en 3 etapas desacopladas para garantizar que ninguna vista de componentes superara el límite recomendado de 8 elementos por diagrama.<br>**3.** Se rechazó una propuesta de Kimi k3 de usar sintaxis de diagramas de secuencia para detallar los componentes, manteniendo la notación estricta de C4 en Mermaid. |
+| **Error detectado** | En la primera iteración, el motor de procesamiento agrupaba 17 componentes en una única vista C4, volviéndola completamente ilegible. Además, la disposición inicial provocaba superposición de etiquetas y solapamiento de líneas de conexión sobre los bloques de arquitectura. |
+
+---
+
+## [TP3] Redacción del informe y justificación de decisiones arquitectónicas
+
+| | |
+|---|---|
+| **Herramienta** | Gemini Pro, Claude Code, Kimi k3 |
+| **Tarea** | Redactar las secciones de justificación técnica del informe del TP3, argumentando la selección de estilos, patrones y compensaciones (*trade-offs*) de calidad. |
+| **Resultado** | Un documento consolidado con la fundamentación del modelo Híbrido Pipeline/Cliente-Servidor, detallando los atributos de calidad priorizados (rendimiento, modificabilidad y disponibilidad) y la matriz de trazabilidad respecto a los escenarios de calidad del TP2. |
+| **Modificado/descartado** | **1.** Claude Code propuso una justificación extensa orientada a microservicios que fue descartada por no coincidir con el diseño en contenedores acoplados por NATS.<br>**2.** Kimi k3 sugirió estructurar la justificación bajo la norma ISO/IEC 25010; se simplificó usando directamente los términos de las tablas fijadas en la consigna del TP.<br>**3.** Gemini Pro ayudó a sintetizar las secciones argumentativas para cumplir con la restricción estricta de páginas. |
+| **Error detectado** | En la redacción borrador se mencionaba la baja latencia como driver principal, cuando en realidad el escenario `EC-04` ponía énfasis en la tolerancia a fallos y resiliencia en el procesamiento asincrónico. |
+
+---
+
+## [TP3] Análisis de alternativas de almacenamiento y persistencia
+
+| | |
+|---|---|
+| **Herramienta** | Kimi k3, Gemini Pro |
+| **Tarea** | Evaluar distintas opciones de bases de datos y estrategias de persistencia para los estados intermedios del procesamiento y los datos de usuario. |
+| **Resultado** | Selección de PostgreSQL como base de datos relacional principal para la API y estado global, aprovechando la capacidad de soporte de documentos JSONB para cargas dinámicas y evitando la necesidad de un motor NoSQL secundario. |
+| **Modificado/descartado** | **1.** Kimi k3 propuso una arquitectura políglota utilizando MongoDB para eventos y Redis para caché de sesión.<br>**2.** Gemini Pro fundamentó la simplificación del stack hacia PostgreSQL unificado para no incrementar los costos operativos ni la complejidad de mantenimiento en el prototipo.<br>**3.** Se descartó el almacenamiento de imágenes directamente en la base de datos (BLOB), optando por URLs con almacenamiento en volúmenes/S3. |
+| **Error detectado** | Se detectó un cuello de botella en el diseño inicial propuesto por Kimi k3 donde la API realizaba escrituras sincrónicas en base de datos por cada mensaje procesado en el pipeline, lo cual violaba el atributo de rendimiento esperado en `EC-03`. |
+
+---
+
+## [TP3] Estrategia de seguridad, autenticación y autorización
+
+| | |
+|---|---|
+| **Herramienta** | Gemini Pro, Claude Code |
+| **Tarea** | Definir el esquema de seguridad, mecanismos de autenticación y control de acceso para los contenedores de la API y los clientes web/móviles. |
+| **Resultado** | Definición de esquema basado en Tokens JWT con claves asimétricas (RS256) y un Middleware de Autorización basado en Roles (RBAC) en el contenedor de API Gateway/Servidor. |
+| **Modificado/descartado** | **1.** Claude Code sugirió delegar la autenticación a un proveedor externo (Keycloak) mediante un contenedor dedicado.<br>**2.** Se descartó la integración de Keycloak por agregar un contenedor extra no contemplado en los escenarios del TP2 y se optó por autenticación nativa simplificada por JWT.<br>**3.** Gemini Pro revisó el flujo de refresh tokens para asegurar la persistencia en sesión sin almacenar credenciales en el cliente. |
+| **Error detectado** | La propuesta inicial situaba la validación de permisos dentro de las etapas del pipeline de procesamiento, lo cual mezclaba lógica de negocio con seguridad de infraestructura; se movió la responsabilidad exclusivamente a la capa de API. |
+
+---
+
+## [TP3] Matriz de trazabilidad y mapeo Escenarios vs. Tácticas
+
+| | |
+|---|---|
+| **Herramienta** | Kimi k3, Gemini Pro, Claude Code |
+| **Tarea** | Construir la matriz de trazabilidad entre los escenarios de calidad del TP2 (`EC-01` a `EC-06`) y las tácticas/patrones seleccionados en el TP3. |
+| **Resultado** | Matriz tabular completa que correlaciona cada escenario con su respuesta táctica, indicando en qué contenedor o componente C4 se implementa concretamente. |
+| **Modificado/descartado** | **1.** Kimi k3 propuso mapear escenarios no seleccionados como primarios para "demostrar cobertura total"; Gemini Pro sugirió enfocarse únicamente en los 4 drivers elegidos para no generar contradicciones en el informe.<br>**2.** Se descartaron tácticas genéricas ("usar buenas prácticas de código") reemplazándolas por tácticas específicas de las Tablas 2 y 3 de la consigna. |
+| **Error detectado** | Inconsistencia en la identificación de códigos: en el primer borrador generado por Claude Code se intercambiaron las respuestas de los escenarios `EC-03` (Rendimiento) y `EC-05` (Modificabilidad). |
+
+---
+
+## [TP3] Revisión cruzada de consistencia del documento y checklist de entrega
+
+| | |
+|---|---|
+| **Herramienta** | Gemini Pro, Kimi k3, Claude Code |
+| **Tarea** | Auditar de manera cruzada la totalidad del documento `.md` antes de la entrega final para verificar cumplimiento estricto de consignas y nomenclaturas. |
+| **Resultado** | Informe final verificado sin discrepancias en nombres de componentes entre texto y diagramas C4, con formato estandarizado para tablas y referencias. |
+| **Modificado/descartado** | **1.** Gemini Pro identificó discordancias en la nomenclatura de un componente (mencionado como `NotificationService` en el texto y como `Notifier` en el C4); se unificó a `Notification Engine`.<br>**2.** Kimi k3 revisó que no quedaran referencias a infraestructura no solicitada en las consignas de arquitectura conceptual.<br>**3.** Claude Code automatizó el conteo de palabras y secciones para garantizar el cumplimiento del límite de páginas. |
+| **Error detectado** | Se encontraron dos enlaces rotos a las secciones de anexos del TP2 y figuras en Mermaid que no renderizaban correctamente por caracteres especiales en las etiquetas. |
+

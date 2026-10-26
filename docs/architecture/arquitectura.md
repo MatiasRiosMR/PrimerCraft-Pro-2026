@@ -1062,6 +1062,7 @@ Cada decisión importante queda registrada con el escenario que la motiva, lo qu
  - Varios servidores (por ejemplo, la base de datos en un nodo propio) — descartada: ningún escenario pide escalar ni aislar por hardware, y cada nodo de más es infraestructura que tres personas tendrían que operar.
  - Varias instancias de cada etapa — descartada: Verificación debe planificar el límite de 100 consultas diarias a BLAST en un solo lugar, y replicar no mejora `EC-05`.
  - Servicios gestionados en la nube — descartada: no hay presupuesto.
+ - Todo instalado directo en la VPS, con un servicio del sistema por programa — descartada: mezcla las versiones de Node.js, Python y sus bibliotecas en un mismo sistema, y no da el reinicio individual ni los volúmenes con una sola configuración.
 - **Consecuencias:**
  - A favor: poca infraestructura que operar; un reinicio de cualquier contenedor, o de la VPS, no pierde candidatos; las etapas siguen aisladas entre sí.
  - En contra: si la VPS cae, todo el sistema se detiene hasta que vuelva; las etapas comparten procesador y memoria; si se pierde el disco se pierde todo salvo el backup. No hay alta disponibilidad (riesgo 9).

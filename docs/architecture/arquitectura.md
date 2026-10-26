@@ -28,10 +28,11 @@ parent: Arquitectura
 5. [Estrategia de solución](#5-estrategia-de-solución)
 6. [Vista de contenedores](#6-vista-de-contenedores)
 7. [Vista de componentes](#7-vista-de-componentes)
-8. [Historias de usuario sobre las vistas](#8-historias-de-usuario-sobre-las-vistas)
-9. [Decisiones de arquitectura](#9-decisiones-de-arquitectura)
-10. [Trazabilidad y riesgos](#10-trazabilidad-y-riesgos)
-11. [Glosario y bibliografía](#11-glosario-y-bibliografía)
+8. [Vista de despliegue](#8-vista-de-despliegue)
+9. [Historias de usuario sobre las vistas](#9-historias-de-usuario-sobre-las-vistas)
+10. [Decisiones de arquitectura](#10-decisiones-de-arquitectura)
+11. [Trazabilidad y riesgos](#11-trazabilidad-y-riesgos)
+12. [Glosario y bibliografía](#12-glosario-y-bibliografía)
 ---
  
  
@@ -841,7 +842,62 @@ C4Component
 —
  
  
-## 8. Historias de usuario sobre las vistas
+## 8. Vista de despliegue
+
+Un solo diagrama, del **entorno de producción**. Muestra en qué nodo se ejecuta cada uno de los ocho contenedores de la [sección 6](#6-vista-de-contenedores). Las personas y los sistemas externos (NCBI, bases de variantes) no se dibujan: ya están en la vista de contenedores.
+
+```mermaid
+C4Deployment
+    title Despliegue de PrimerCraft Pro - Producción
+
+    Deployment_Node(pc, "Computadora del investigador/a", "Navegador web") {
+        Container(web, "Aplicación web", "TypeScript / React", "Pantallas de la persona")
+    }
+
+    Deployment_Node(srv, "VPS privada", "Ubuntu Server") {
+        Deployment_Node(dk, "Entorno de ejecución", "Docker Engine") {
+            ContainerDb(bd, "Base de datos de corridas", "PostgreSQL", "Estado y resultados")
+            Container(api, "API", "Node.js / Fastify", "Puerta de entrada y registro")
+            Container(p34, "Variantes y puntaje", "Fuera de esta iteración", "Procesos 3 y 4 (caja negra)")
+            Container(prep, "Preparación de datos", "Python", "Filtro 1: localiza el gen")
+            ContainerQueue(tub, "Tuberías de mensajes", "NATS JetStream", "Guardan y entregan los mensajes")
+            Container(dis, "Diseño de candidatos", "Python", "Filtro 2: genera y caracteriza")
+            Container(ver, "Verificación de especificidad", "Python", "Filtro 3: agrega especificidad")
+        }
+    }
+
+    Rel_D(web, api, "Pide y consulta", "JSON/HTTPS")
+    Rel_L(api, bd, "Guarda y lee", "SQL")
+    Rel_D(api, tub, "Publica y copia", "NATS")
+    Rel_L(prep, tub, "Consume y publica", "NATS")
+    Rel_U(dis, tub, "Consume y publica", "NATS")
+    Rel_U(ver, tub, "Consume y publica", "NATS")
+    Rel_D(p34, tub, "Consumirá", "NATS")
+
+    UpdateRelStyle(web, api, $offsetX="-40", $offsetY="-60")
+    UpdateRelStyle(api, bd, $offsetX="-10", $offsetY="-25")
+    UpdateRelStyle(api, tub, $offsetX="-30", $offsetY="-60")
+    UpdateRelStyle(prep, tub, $offsetX="10", $offsetY="0")
+    UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
+```
+
+**Catálogo de nodos**
+
+| Nodo | Tipo o tecnología | Contenedores que ejecuta | Instancias | Escenario o decisión que lo justifica |
+|---|---|---|---|---|
+| Computadora del investigador/a | Navegador web | Aplicación web | Una por usuario | Es el cliente (`DA-06`): no depende de una decisión de infraestructura |
+| VPS privada | Ubuntu Server | (contiene el entorno de ejecución) | 1 | Restricción de la sección 2: sin presupuesto, todo en una sola máquina |
+| Entorno de ejecución | Docker Engine, dentro del servidor | API, Base de datos de corridas, Tuberías de mensajes, Preparación de datos, Diseño de candidatos, Verificación de especificidad, Variantes y puntaje | 1 de cada contenedor | `EC-05`: cada etapa es un proceso aislado, así que la espera de BLAST en Verificación no frena a Preparación ni a Diseño (`DA-01`). Las Tuberías guardan los mensajes en un volumen en disco, que sobrevive al reinicio de cualquier contenedor (`DA-02`). `EC-03`: cada etapa se puede reemplazar sin tocar a las demás |
+
+Las flechas son las mismas de la vista de contenedores, con el mismo protocolo. Las relaciones de Preparación y Verificación con NCBI no se dibujan porque NCBI es un sistema externo. "Variantes y puntaje" figura porque es un contenedor de la vista de contenedores, pero queda sin implementar en esta iteración.
+
+**Sacrificios asumidos.** Con una sola VPS, si cae se detiene todo el sistema, aunque los mensajes y la base quedan guardados en disco y las corridas continúan al volver (Docker reinicia los contenedores con `restart: unless-stopped`). Si se pierde el disco de la VPS se pierde todo, por eso se hace un backup de PostgreSQL en un lugar fuera de la VPS. Las etapas comparten procesador y memoria. La base de datos y las tuberías son puntos únicos de falla. Se acepta para no operar más infraestructura (restricción de tres personas y un cuatrimestre). Si el uso crece, el primer paso sería mover Verificación y Diseño a otra VPS. Verificación se mantiene en una sola instancia porque el límite de 100 consultas diarias a BLAST se planifica en un único lugar. Esta decisión de despliegue se registraría como una nueva decisión de arquitectura.
+ 
+ 
+---
+ 
+ 
+## 9. Historias de usuario sobre las vistas
  
 Para comprobar que la arquitectura sirve, recorremos cada historia de usuario sobre los diagramas, siguiendo su criterio de aceptación (*Given-When-Then*). Si un paso no tuviera dónde ocurrir, faltaría un contenedor o un componente.
  
@@ -863,7 +919,7 @@ Para comprobar que la arquitectura sirve, recorremos cada historia de usuario so
  
 — 
  
-## 9. Decisiones de arquitectura
+## 10. Decisiones de arquitectura
  
 Cada decisión importante queda registrada con el escenario que la motiva, lo que se eligió, lo que se descartó y lo que cuesta. Las decisiones siguen el mismo orden que la sección 5: primero las que resuelven el driver principal y después las demás.
  
@@ -995,9 +1051,9 @@ Cada decisión importante queda registrada con el escenario que la motiva, lo qu
 ---
  
  
-## 10. Trazabilidad y riesgos
+## 11. Trazabilidad y riesgos
  
-### 10.1 Escenario → táctica → estilo o patrón → decisión → elemento C4
+### 11.1 Escenario → táctica → estilo o patrón → decisión → elemento C4
  
 Esta tabla permite seguir cada escenario del TP2 hasta la pieza del sistema que lo atiende.
  
@@ -1009,10 +1065,10 @@ Esta tabla permite seguir cada escenario del TP2 hasta la pieza del sistema que 
 | `EC-02` | Usabilidad | Mantener el modelo de tarea, validar la entrada antes de actuar *(propia)* | Cliente-servidor; capas; MVVM | `DA-06`, `DA-07` | Reglas de formato, Modelo de vista de ingreso, Validación de entrada |
 | `EC-01` | Sin correspondencia (RF-10) | — | — | — | Localización de gen |
  
-La trazabilidad de cada historia de usuario hacia contenedores y componentes está en la [sección 8](#8-historias-de-usuario-sobre-las-vistas).
+La trazabilidad de cada historia de usuario hacia contenedores y componentes está en la [sección 9](#9-historias-de-usuario-sobre-las-vistas).
  
  
-### 10.2 Riesgos
+### 11.2 Riesgos
  
 | # | Riesgo | Qué hacemos |
 |---|---|---|
@@ -1029,7 +1085,7 @@ La trazabilidad de cada historia de usuario hacia contenedores y componentes est
 ---
  
  
-## 11. Glosario y bibliografía
+## 12. Glosario y bibliografía
  
 | Término o sigla | Significado |
 |---|---|

@@ -886,12 +886,12 @@ C4Deployment
 | Nodo | Tipo o tecnología | Contenedores que ejecuta | Instancias | Escenario o decisión que lo justifica |
 |---|---|---|---|---|
 | Computadora del investigador/a | Navegador web | Aplicación web | Una por usuario | Es el cliente (`DA-06`): no depende de una decisión de infraestructura |
-| VPS privada | Ubuntu Server | (contiene el entorno de ejecución) | 1 | Restricción de la sección 2: sin presupuesto, todo en una sola máquina |
+| VPS privada | Ubuntu Server | (contiene el entorno de ejecución) | 1 | Restricción de la sección 2: sin presupuesto, todo en una sola máquina (`DA-08`) |
 | Entorno de ejecución | Docker Engine, dentro del servidor | API, Base de datos de corridas, Tuberías de mensajes, Preparación de datos, Diseño de candidatos, Verificación de especificidad, Variantes y puntaje | 1 de cada contenedor | `EC-05`: cada etapa es un proceso aislado, así que la espera de BLAST en Verificación no frena a Preparación ni a Diseño (`DA-01`). Las Tuberías guardan los mensajes en un volumen en disco, que sobrevive al reinicio de cualquier contenedor (`DA-02`). `EC-03`: cada etapa se puede reemplazar sin tocar a las demás |
 
 Las flechas son las mismas de la vista de contenedores, con el mismo protocolo. Las relaciones de Preparación y Verificación con NCBI no se dibujan porque NCBI es un sistema externo. "Variantes y puntaje" figura porque es un contenedor de la vista de contenedores, pero queda sin implementar en esta iteración.
 
-**Sacrificios asumidos.** Con una sola VPS, si cae se detiene todo el sistema, aunque los mensajes y la base quedan guardados en disco y las corridas continúan al volver (Docker reinicia los contenedores con `restart: unless-stopped`). Si se pierde el disco de la VPS se pierde todo, por eso se hace un backup de PostgreSQL en un lugar fuera de la VPS. Las etapas comparten procesador y memoria. La base de datos y las tuberías son puntos únicos de falla. Se acepta para no operar más infraestructura (restricción de tres personas y un cuatrimestre). Si el uso crece, el primer paso sería mover Verificación y Diseño a otra VPS. Verificación se mantiene en una sola instancia porque el límite de 100 consultas diarias a BLAST se planifica en un único lugar. Esta decisión de despliegue se registraría como una nueva decisión de arquitectura.
+**Sacrificios asumidos.** Con una sola VPS, si cae se detiene todo el sistema, aunque los mensajes y la base quedan guardados en disco y las corridas continúan al volver (Docker reinicia los contenedores con `restart: unless-stopped`). Si se pierde el disco de la VPS se pierde todo, por eso se hace un backup de PostgreSQL en un lugar fuera de la VPS. Las etapas comparten procesador y memoria. La base de datos y las tuberías son puntos únicos de falla. Se acepta para no operar más infraestructura (restricción de tres personas y un cuatrimestre). Si el uso crece, el primer paso sería mover Verificación y Diseño a otra VPS. Verificación se mantiene en una sola instancia porque el límite de 100 consultas diarias a BLAST se planifica en un único lugar. Esta decisión de despliegue está registrada en `DA-08`.
  
  
 ---
@@ -932,6 +932,7 @@ Cada decisión importante queda registrada con el escenario que la motiva, lo qu
 | `DA-05` | Patrón hexagonal en las etapas con servicios externos | `EC-03` (y `EC-04`) |
 | `DA-06` | Interfaz: cliente-servidor, capas en la API y MVVM en la web | `EC-02` |
 | `DA-07` | API en TypeScript y etapas en Python | Restricciones del equipo |
+| `DA-08` | Despliegue en una sola VPS con Docker | `EC-05` y restricciones |
  
  
 ### DA-01 — Estilo base: tuberías y filtros con tres etapas
@@ -1048,6 +1049,23 @@ Cada decisión importante queda registrada con el escenario que la motiva, lo qu
  - A favor: cada parte usa la herramienta más adecuada.
  - En contra: dos lenguajes y dos conjuntos de herramientas; el formato de mensaje tiene que coincidir de los dos lados (riesgo 5).
 - **Elementos afectados:** API y las tres etapas.
+### DA-08 — Despliegue en una sola VPS con Docker
+ 
+- **Escenario que la motiva:** `EC-05` (0 % de candidatos perdidos aunque se reinicie un contenedor) y las restricciones de la sección 2 (sin presupuesto, una sola máquina, tres personas).
+- **Contexto:** cada contenedor necesita un lugar donde ejecutarse. Los mensajes guardados en las tuberías y los datos de la base tienen que sobrevivir a un reinicio, y la espera de BLAST en Verificación no puede frenar a las demás etapas.
+- **Decisión:**
+ - Tácticas: introducir concurrencia (Desempeño): cada contenedor corre como un proceso aislado; usar un intermediario (Modificabilidad): las tuberías guardan los mensajes en un volumen en disco.
+ - Un único nodo, una VPS privada con Ubuntu Server, que ejecuta Docker Engine con los siete contenedores del sistema. La Aplicación web corre en el navegador de la persona.
+ - Cada contenedor se ejecuta en una sola instancia. Docker los reinicia solos si se caen (`restart: unless-stopped`). PostgreSQL y NATS JetStream usan volúmenes en disco. Se hace un backup de PostgreSQL fuera de la VPS.
+- **Alternativas consideradas:**
+ - Varios servidores (por ejemplo, la base de datos en un nodo propio) — descartada: ningún escenario pide escalar ni aislar por hardware, y cada nodo de más es infraestructura que tres personas tendrían que operar.
+ - Varias instancias de cada etapa — descartada: Verificación debe planificar el límite de 100 consultas diarias a BLAST en un solo lugar, y replicar no mejora `EC-05`.
+ - Servicios gestionados en la nube — descartada: no hay presupuesto.
+- **Consecuencias:**
+ - A favor: poca infraestructura que operar; un reinicio de cualquier contenedor, o de la VPS, no pierde candidatos; las etapas siguen aisladas entre sí.
+ - En contra: si la VPS cae, todo el sistema se detiene hasta que vuelva; las etapas comparten procesador y memoria; si se pierde el disco se pierde todo salvo el backup. No hay alta disponibilidad (riesgo 9).
+- **Elementos afectados:** nodos VPS privada y Entorno de ejecución (Docker); los ocho contenedores.
+- **Cómo se verifica:** reiniciar un contenedor y la VPS durante una corrida y comprobar que la corrida continúa sin perder candidatos; restaurar el backup de PostgreSQL en una máquina limpia.
 ---
  
  
@@ -1059,7 +1077,7 @@ Esta tabla permite seguir cada escenario del TP2 hasta la pieza del sistema que 
  
 | Escenario | Atributo (libro) | Tácticas | Estilo o patrón | Decisión | Elemento C4 |
 |---|---|---|---|---|---|
-| `EC-05` **(driver principal)** | Disponibilidad | Detección y manejo de excepciones, reintento, degradación controlada, planificar recursos, usar un intermediario, introducir concurrencia | Tuberías y filtros; broker; hexagonal; cliente-servidor | `DA-01`, `DA-02`, `DA-03`, `DA-04` | Contenedores Verificación de especificidad, Tuberías de mensajes y Base de datos de corridas; componentes Planificación de consultas, Gestión de excepciones, Adaptador de especificidad y Registrador de corridas |
+| `EC-05` **(driver principal)** | Disponibilidad | Detección y manejo de excepciones, reintento, degradación controlada, planificar recursos, usar un intermediario, introducir concurrencia | Tuberías y filtros; broker; hexagonal; cliente-servidor | `DA-01`, `DA-02`, `DA-03`, `DA-04`, `DA-08` | Contenedores Verificación de especificidad, Tuberías de mensajes y Base de datos de corridas; componentes Planificación de consultas, Gestión de excepciones, Adaptador de especificidad y Registrador de corridas; nodos VPS privada y Entorno de ejecución (Docker) |
 | `EC-03` **(driver secundario)** | Modificabilidad | Encapsular, usar un intermediario, restringir dependencias, parametrización | Hexagonal; tuberías y filtros | `DA-05`, `DA-01` | Preparación de datos y Verificación de especificidad: sus puertos y adaptadores |
 | `EC-04` | Interoperabilidad | Adaptar la interfaz, respetar estándares | Hexagonal (adaptador) | `DA-05` | Adaptador NCBI Entrez |
 | `EC-02` | Usabilidad | Mantener el modelo de tarea, validar la entrada antes de actuar *(propia)* | Cliente-servidor; capas; MVVM | `DA-06`, `DA-07` | Reglas de formato, Modelo de vista de ingreso, Validación de entrada |
@@ -1080,6 +1098,7 @@ La trazabilidad de cada historia de usuario hacia contenedores y componentes est
 | 6 | Si la API guarda la corrida pero falla al publicarla, queda una corrida que no avanza | Marcarla como "no iniciada" y volver a publicarla cuando la API se reinicie |
 | 7 | La integración real con BLAST es de una etapa posterior (SRS §2.6) | Definir en qué iteración se hace; mientras tanto, el simulador permite probar `EC-05` simulando rechazos |
 | 8 | Las tecnologías son una propuesta | Confirmarlas con el grupo antes de la defensa |
+| 9 | Con una sola VPS, si cae se detiene todo el sistema y, si se pierde el disco, se pierde todo | Reinicio automático de los contenedores, volúmenes en disco para la base y las tuberías, y backup de PostgreSQL fuera de la VPS (`DA-08`). Si el uso crece, pasar Diseño y Verificación a otra VPS |
  
  
 ---

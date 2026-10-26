@@ -36,7 +36,7 @@ permalink: /
   <a class="pc-card" href="{{ '/architecture/' | relative_url }}">
     <div class="ic">⌬</div><span class="go">→</span>
     <h3>Arquitectura</h3>
-    <p>Diagrama de contexto (DFD nivel 0 y 1) y modelo de dominio, con diagramas que se pueden ampliar.</p>
+    <p>Diagrama de contexto (DFD nivel 0 y 1), modelo de dominio y especificación de arquitectura: drivers, vistas C4 (contenedores, componentes y despliegue) y decisiones.</p>
   </a>
   <a class="pc-card rev" href="{{ '/ui/' | relative_url }}">
     <div class="ic">◉</div><span class="go">→</span>

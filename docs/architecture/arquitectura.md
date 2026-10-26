@@ -1,6 +1,7 @@
 ---
 title: Especificación de arquitectura
 parent: Arquitectura
+nav_order: 3
 ---
  
  

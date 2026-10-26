@@ -48,7 +48,7 @@ La arquitectura se deriva de un problema: NCBI BLAST limita las consultas (100 c
 - **Estilo base: tuberías y filtros.** Una cadena de etapas independientes (Preparación de datos, Diseño de candidatos y Verificación de especificidad) conectadas por tuberías de mensajes que guardan el trabajo en disco, de modo que la espera de BLAST no frena al resto.
 - **Interfaz: cliente-servidor.** Una aplicación web que conversa con una API, que es la única que accede a la base de datos.
 - **Patrones por contenedor:** broker en las tuberías, hexagonal en las etapas con servicios externos (`EC-03`, `EC-04`), capas en la API y MVVM en la web.
-- **Despliegue:** una sola VPS privada con Docker, con reinicio automático de los contenedores, volúmenes en disco y backup de la base fuera de la VPS.
+- **Despliegue:** una sola VPS con Docker, con reinicio automático de los contenedores, volúmenes en disco y backup de la base fuera de la VPS.
 - **Tecnologías propuestas:** TypeScript y React (web), Node.js y Fastify (API), Python (etapas de cálculo), NATS JetStream (tuberías) y PostgreSQL (base de datos).
 
 El detalle está en [`docs/architecture/arquitectura.md`](docs/architecture/arquitectura.md).

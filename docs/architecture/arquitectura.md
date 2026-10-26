@@ -855,7 +855,7 @@ C4Deployment
         Container(web, "Aplicación web", "TypeScript / React", "Pantallas de la persona")
     }
 
-    Deployment_Node(srv, "VPS privada", "Ubuntu Server") {
+    Deployment_Node(srv, "VPS", "Ubuntu Server") {
         Deployment_Node(dk, "Entorno de ejecución", "Docker Engine") {
             ContainerDb(bd, "Base de datos de corridas", "PostgreSQL", "Estado y resultados")
             Container(api, "API", "Node.js / Fastify", "Puerta de entrada y registro")
@@ -887,7 +887,7 @@ C4Deployment
 | Nodo | Tipo o tecnología | Contenedores que ejecuta | Instancias | Escenario o decisión que lo justifica |
 |---|---|---|---|---|
 | Computadora del investigador/a | Navegador web | Aplicación web | Una por usuario | Es el cliente (`DA-06`): no depende de una decisión de infraestructura |
-| VPS privada | Ubuntu Server | (contiene el entorno de ejecución) | 1 | Restricción de la sección 2: sin presupuesto, todo en una sola máquina (`DA-08`) |
+| VPS | Ubuntu Server | (contiene el entorno de ejecución) | 1 | Restricción de la sección 2: sin presupuesto, todo en una sola máquina (`DA-08`) |
 | Entorno de ejecución | Docker Engine, dentro del servidor | API, Base de datos de corridas, Tuberías de mensajes, Preparación de datos, Diseño de candidatos, Verificación de especificidad, Variantes y puntaje | 1 de cada contenedor | `EC-05`: cada etapa es un proceso aislado, así que la espera de BLAST en Verificación no frena a Preparación ni a Diseño (`DA-01`). Las Tuberías guardan los mensajes en un volumen en disco, que sobrevive al reinicio de cualquier contenedor (`DA-02`). `EC-03`: cada etapa se puede reemplazar sin tocar a las demás |
 
 Las flechas son las mismas de la vista de contenedores, con el mismo protocolo. Las relaciones de Preparación y Verificación con NCBI no se dibujan porque NCBI es un sistema externo. "Variantes y puntaje" figura porque es un contenedor de la vista de contenedores, pero queda sin implementar en esta iteración.
@@ -1056,7 +1056,7 @@ Cada decisión importante queda registrada con el escenario que la motiva, lo qu
 - **Contexto:** cada contenedor necesita un lugar donde ejecutarse. Los mensajes guardados en las tuberías y los datos de la base tienen que sobrevivir a un reinicio, y la espera de BLAST en Verificación no puede frenar a las demás etapas.
 - **Decisión:**
  - Tácticas: introducir concurrencia (Desempeño): cada contenedor corre como un proceso aislado; usar un intermediario (Modificabilidad): las tuberías guardan los mensajes en un volumen en disco.
- - Un único nodo, una VPS privada con Ubuntu Server, que ejecuta Docker Engine con los siete contenedores del sistema. La Aplicación web corre en el navegador de la persona.
+ - Un único nodo, una VPS con Ubuntu Server, que ejecuta Docker Engine con los siete contenedores del sistema. La Aplicación web corre en el navegador de la persona.
  - Cada contenedor se ejecuta en una sola instancia. Docker los reinicia solos si se caen (`restart: unless-stopped`). PostgreSQL y NATS JetStream usan volúmenes en disco. Se hace un backup de PostgreSQL fuera de la VPS.
 - **Alternativas consideradas:**
  - Varios servidores (por ejemplo, la base de datos en un nodo propio) — descartada: ningún escenario pide escalar ni aislar por hardware, y cada nodo de más es infraestructura que tres personas tendrían que operar.
@@ -1065,7 +1065,7 @@ Cada decisión importante queda registrada con el escenario que la motiva, lo qu
 - **Consecuencias:**
  - A favor: poca infraestructura que operar; un reinicio de cualquier contenedor, o de la VPS, no pierde candidatos; las etapas siguen aisladas entre sí.
  - En contra: si la VPS cae, todo el sistema se detiene hasta que vuelva; las etapas comparten procesador y memoria; si se pierde el disco se pierde todo salvo el backup. No hay alta disponibilidad (riesgo 9).
-- **Elementos afectados:** nodos VPS privada y Entorno de ejecución (Docker); los ocho contenedores.
+- **Elementos afectados:** nodos VPS y Entorno de ejecución (Docker); los ocho contenedores.
 - **Cómo se verifica:** reiniciar un contenedor y la VPS durante una corrida y comprobar que la corrida continúa sin perder candidatos; restaurar el backup de PostgreSQL en una máquina limpia.
 ---
  
@@ -1078,7 +1078,7 @@ Esta tabla permite seguir cada escenario del TP2 hasta la pieza del sistema que 
  
 | Escenario | Atributo (libro) | Tácticas | Estilo o patrón | Decisión | Elemento C4 |
 |---|---|---|---|---|---|
-| `EC-05` **(driver principal)** | Disponibilidad | Detección y manejo de excepciones, reintento, degradación controlada, planificar recursos, usar un intermediario, introducir concurrencia | Tuberías y filtros; broker; hexagonal; cliente-servidor | `DA-01`, `DA-02`, `DA-03`, `DA-04`, `DA-08` | Contenedores Verificación de especificidad, Tuberías de mensajes y Base de datos de corridas; componentes Planificación de consultas, Gestión de excepciones, Adaptador de especificidad y Registrador de corridas; nodos VPS privada y Entorno de ejecución (Docker) |
+| `EC-05` **(driver principal)** | Disponibilidad | Detección y manejo de excepciones, reintento, degradación controlada, planificar recursos, usar un intermediario, introducir concurrencia | Tuberías y filtros; broker; hexagonal; cliente-servidor | `DA-01`, `DA-02`, `DA-03`, `DA-04`, `DA-08` | Contenedores Verificación de especificidad, Tuberías de mensajes y Base de datos de corridas; componentes Planificación de consultas, Gestión de excepciones, Adaptador de especificidad y Registrador de corridas; nodos VPS y Entorno de ejecución (Docker) |
 | `EC-03` **(driver secundario)** | Modificabilidad | Encapsular, usar un intermediario, restringir dependencias, parametrización | Hexagonal; tuberías y filtros | `DA-05`, `DA-01` | Preparación de datos y Verificación de especificidad: sus puertos y adaptadores |
 | `EC-04` | Interoperabilidad | Adaptar la interfaz, respetar estándares | Hexagonal (adaptador) | `DA-05` | Adaptador NCBI Entrez |
 | `EC-02` | Usabilidad | Mantener el modelo de tarea, validar la entrada antes de actuar *(propia)* | Cliente-servidor; capas; MVVM | `DA-06`, `DA-07` | Reglas de formato, Modelo de vista de ingreso, Validación de entrada |

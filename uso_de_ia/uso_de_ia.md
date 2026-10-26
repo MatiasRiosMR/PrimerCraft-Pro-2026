@@ -317,3 +317,14 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Modificado/descartado** | **1.** Gemini Pro identificó discordancias en la nomenclatura de un componente (mencionado como `NotificationService` en el texto y como `Notifier` en el C4); se unificó a `Notification Engine`.<br>**2.** Kimi k3 revisó que no quedaran referencias a infraestructura no solicitada en las consignas de arquitectura conceptual.<br>**3.** Claude Code automatizó el conteo de palabras y secciones para garantizar el cumplimiento del límite de páginas. |
 | **Error detectado** | Se encontraron dos enlaces rotos a las secciones de anexos del TP2 y figuras en Mermaid que no renderizaban correctamente por caracteres especiales en las etiquetas. |
 
+---
+
+## [TP3] Vista de despliegue, decisión DA-08 y trazabilidad de nodos
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code |
+| **Tarea** | Armar el diagrama de despliegue C4 del entorno de producción (sección 8) con su catálogo de nodos, a partir de la vista de contenedores ya definida por el grupo y de las reglas de las secciones 4.6, 4.7 y 4.8 de la consigna. Registrar la decisión de despliegue, sumar los nodos a la trazabilidad y agregar el riesgo correspondiente. |
+| **Resultado** | Diagrama `C4Deployment` en Mermaid con la computadora del usuario y una VPS con Docker que ejecuta los siete contenedores del sistema; catálogo de nodos con su justificación; decisión `DA-08`; nodos en la tabla de trazabilidad de `EC-05`; riesgo 9 (VPS como punto único de falla); renumeración de las secciones 9 a 12 y del índice. |
+| **Modificado/descartado** | **1.** El grupo indicó que el despliegue sería en una VPS privada, y el nodo "Servidor de producción" se renombró a "VPS privada".<br>**2.** Se descartó dibujar NCBI y las bases de variantes, porque la regla 4.8 excluye los sistemas externos de esta vista.<br>**3.** Se descartó separar la base de datos en un nodo propio, como en el ejemplo del Anexo C, porque ningún escenario lo exige y la restricción es una sola máquina.<br>**4.** Se agregaron al `DA-08` el reinicio automático de contenedores y el backup de PostgreSQL fuera de la VPS, a partir de revisar qué ocurre si se cae un nodo. |
+| **Error detectado** | El primer render de Mermaid tenía flechas que cruzaban cajas y etiquetas superpuestas; se reordenaron los contenedores y se ajustaron las posiciones de las etiquetas. Los nombres de contenedores se tomaron de un borrador y se verificaron contra la sección 6 publicada en `main`. |

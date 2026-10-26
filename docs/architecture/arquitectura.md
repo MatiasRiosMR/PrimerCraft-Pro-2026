@@ -598,7 +598,7 @@ C4Component
        ContainerDb(bd, "Base de datos de corridas", "PostgreSQL", "Estado y resultados")
    }
    Rel(web, ctrl, "Solicita", "JSON/HTTPS")
-   Rel(tub, reg, "Entrega copias", "NATS")
+   Rel(reg, tub, "Consume copias", "NATS")
    Rel(ctrl, serv, "Invoca")
    Rel(reg, serv, "Entrega lo recibido")
    Rel(serv, val, "Valida")
@@ -625,7 +625,7 @@ C4Component
 | Relación | Qué se comunica |
 |---|---|
 | Aplicación web → Controladores | Pedidos JSON por HTTPS |
-| Tuberías → Registrador | Copias de los mensajes de cada tubería (NATS). La flecha sale de las tuberías porque es el intermediario quien entrega los mensajes |
+| Registrador → Tuberías | Toma copias de los mensajes de cada tubería (NATS). La flecha sale del Registrador porque es quien consulta la tubería; no indica el sentido en que viaja el mensaje |
 | Controladores y Registrador → Servicio de corridas | El pedido recibido; el mensaje copiado |
 | Servicio → Validación de entrada | Los datos de la corrida a validar |
 | Servicio → Gestión de excepciones | Los errores, para responder con su causa |
@@ -668,7 +668,7 @@ C4Component
    Boundary(f2, "Sistema externo", "") {
        System_Ext(ncbi, "NCBI Entrez / BLAST", "Secuencias y anotación")
    }
-   Rel(tub, cons, "Entrega corrida.solicitada", "NATS")
+   Rel(cons, tub, "Consume corrida.solicitada", "NATS")
    Rel(cons, obt, "Entrega la corrida")
    Rel(obt, loc, "Pasa la referencia")
    Rel(obt, gex, "Delega errores")
@@ -695,7 +695,7 @@ C4Component
  
 | Relación | Qué se comunica |
 |---|---|
-| Tuberías → Consumidor | El mensaje `corrida.solicitada` (NATS) |
+| Consumidor → Tuberías | Toma el mensaje `corrida.solicitada` (NATS) |
 | Consumidor → Obtención de referencia | Los datos de la corrida |
 | Obtención → Puerto de referencia ← Adaptador NCBI Entrez | El pedido de secuencia y anotación; el adaptador lo resuelve consultando NCBI (HTTPS) |
 | Obtención → Localización de gen | Secuencia y anotación |
@@ -732,7 +732,7 @@ C4Component
            Component(pub, "Publicador de etapa", "Cliente NATS", "Publica candidatos.caracterizados")
        }
    }
-   Rel(tub, cons, "Entrega referencia.localizada", "NATS")
+   Rel(cons, tub, "Consume referencia.localizada", "NATS")
    Rel(cons, gen, "Entrega diseño")
    Rel(cons, ubi, "Entrega validación")
    Rel(cons, gex, "Informa errores")
@@ -759,7 +759,7 @@ C4Component
  
 | Relación | Qué se comunica |
 |---|---|
-| Tuberías → Consumidor | El mensaje `referencia.localizada` (NATS) |
+| Consumidor → Tuberías | Toma el mensaje `referencia.localizada` (NATS) |
 | Consumidor → Generador o Ubicador | La región y los parámetros, según sea diseño o validación |
 | Generador/Ubicador → Caracterización → Estructuras → Amplicón | Los pares, que cada paso va completando |
 | Amplicón → Publicador → Tuberías | Los candidatos caracterizados (NATS) |
@@ -798,7 +798,7 @@ C4Component
    Boundary(f2, "Sistema externo", "") {
        System_Ext(ncbi, "NCBI Entrez / BLAST", "Especificidad")
    }
-   Rel(tub, cons, "Entrega candidatos.caracterizados", "NATS")
+   Rel(cons, tub, "Consume candidatos.caracterizados", "NATS")
    Rel(cons, esp, "Entrega candidatos")
    Rel(esp, plan, "Pide turno")
    Rel(esp, gex, "Delega errores")
@@ -825,7 +825,7 @@ C4Component
  
 | Relación | Qué se comunica |
 |---|---|
-| Tuberías → Consumidor | El mensaje `candidatos.caracterizados` (NATS) |
+| Consumidor → Tuberías | Toma el mensaje `candidatos.caracterizados` (NATS) |
 | Consumidor → Verificación de candidatos | Los candidatos |
 | Verificación → Planificación de consultas | El pedido de turno para consultar |
 | Verificación → Puerto de especificidad ← Adaptador | El candidato a verificar; el adaptador simula o consulta BLAST (HTTPS) |

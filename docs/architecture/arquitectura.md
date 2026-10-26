@@ -861,4 +861,210 @@ Para comprobar que la arquitectura sirve, recorremos cada historia de usuario so
 | `HU-03.3` Hibridación y caracterización | *When* busca los primers en la región, *Then* confirma posición y orientación y caracteriza el par | Tuberías → Diseño → Tuberías → Verificación → Tuberías → API | Consumidor → Ubicador de primers → Caracterización → Estructuras → Amplicón → Publicador; luego Verificación igual que `HU-05`. Si el par no hibrida (CU-03 A1), se informa en `corrida.estado` y UI-5 muestra "No hibrida" |
  
  
-—
+— 
+ 
+## 9. Decisiones de arquitectura
+ 
+Cada decisión importante queda registrada con el escenario que la motiva, lo que se eligió, lo que se descartó y lo que cuesta. Las decisiones siguen el mismo orden que la sección 5: primero las que resuelven el driver principal y después las demás.
+ 
+| Decisión | Tema | Escenario |
+|---|---|---|
+| `DA-01` | Estilo base: tuberías y filtros con tres etapas | `EC-05` |
+| `DA-02` | Tuberías que guardan los mensajes (broker) | `EC-05` |
+| `DA-03` | Clasificación de errores y reintentos | `EC-05` |
+| `DA-04` | Solo la API guarda el estado de la corrida | `EC-05` |
+| `DA-05` | Patrón hexagonal en las etapas con servicios externos | `EC-03` (y `EC-04`) |
+| `DA-06` | Interfaz: cliente-servidor, capas en la API y MVVM en la web | `EC-02` |
+| `DA-07` | API en TypeScript y etapas en Python | Restricciones del equipo |
+ 
+ 
+### DA-01 — Estilo base: tuberías y filtros con tres etapas
+ 
+- **Escenario que la motiva:** `EC-05` (BLAST rechaza por cuota o timeout: 0 % de candidatos perdidos y reintento sin recargar).
+- **Contexto:** el flujo del TP1 es una cadena de transformaciones sobre los mismos datos. Una parte depende de NCBI Entrez, otra es cálculo local y otra depende de BLAST, que puede rechazar pedidos durante horas. Somos tres personas y tenemos un cuatrimestre.
+- **Decisión:**
+ - Tácticas: introducir concurrencia (Desempeño); degradación controlada (Disponibilidad).
+ - Estilo: tuberías y filtros como estilo base, con tres etapas separadas por cómo fallan: Preparación (NCBI Entrez), Diseño (cálculo local) y Verificación (BLAST). El proceso P2 del DFD se reparte en Diseño y Verificación (ver 1.4).
+ - Patrón: ver `DA-02`.
+- **Alternativas consideradas:**
+ - Cliente-servidor solo, con todo el trabajo en la API — descartada: la espera de BLAST quedaría dentro del pedido web y un reinicio perdería la corrida.
+ - Diseño y Verificación en una sola etapa — descartada: una espera de BLAST frenaría el cálculo de todas las corridas y un reintento repetiría todo el cálculo.
+ - Una etapa por cada paso del cálculo — descartada: demasiados contenedores para el equipo, y esos pasos fallan todos de la misma manera.
+ - Microservicios — descartada: complejidad desproporcionada para tres personas.
+- **Consecuencias:**
+ - A favor: la espera de BLAST no frena al resto; la persona ve las métricas mientras la especificidad está pendiente; cada etapa se prueba por separado; P3 y P4 se suman como etapas nuevas.
+ - En contra: más demora de punta a punta; un formato de mensaje común que mantener; el futuro rediseño de P4 se hace con una corrida nueva y no con un retorno.
+- **Elementos afectados:** contenedores Preparación de datos, Diseño de candidatos y Verificación de especificidad.
+
+
+### DA-02 — Tuberías que guardan los mensajes (broker)
+ 
+- **Escenario que la motiva:** `EC-05`.
+- **Contexto:** los candidatos ya calculados tienen que sobrevivir a una espera larga y a un reinicio de cualquier contenedor.
+- **Decisión:**
+ - Tácticas: usar un intermediario (Modificabilidad); reintento (Disponibilidad).
+ - Patrón: broker. Las tuberías son canales de NATS JetStream que guardan los mensajes en disco. Cada etapa confirma su mensaje de entrada **después** de publicar el de salida; si no confirma, el broker se lo vuelve a entregar más tarde. Cada mensaje lleva un identificador único y las etapas descartan los repetidos.
+- **Alternativas consideradas:**
+ - Cola en la memoria de un programa — descartada: se pierde si el programa se reinicia (consigna §4.2).
+ - Cola en una tabla de PostgreSQL — válida y sin contenedor extra, pero habría que programar a mano la confirmación y la demora entre reintentos. Queda como plan B (riesgo 3).
+- **Consecuencias:**
+ - A favor: 0 % de candidatos perdidos aunque se reinicie cualquier etapa; el reintento con demora lo hace el broker.
+ - En contra: un contenedor más que operar; los mensajes tienen un tamaño máximo (riesgo 4).
+- **Elementos afectados:** contenedor Tuberías de mensajes; Consumidor y Publicador de cada etapa; Publicador y Registrador de corridas.
+### DA-03 — Clasificación de errores y reintentos
+ 
+- **Escenario que la motiva:** `EC-05`.
+- **Contexto:** NCBI puede estar caído, saturado o no tener el identificador pedido. Si todos los errores se tratan igual, el sistema le pide a la persona que corrija un dato que estaba bien, o reintenta algo que nunca va a funcionar.
+- **Decisión:**
+ - Tácticas: detección de excepciones, manejo de excepciones y reintento (Disponibilidad); planificar recursos (Desempeño).
+ - Los errores se clasifican en tres tipos:
+   - **No encontrado o no coincide:** definitivo. Se informa y se pide verificar el dato.
+   - **Error de cálculo:** definitivo. Se informa.
+   - **No disponible o límite excedido:** pasajero. Se reintenta.
+ - **BLAST:** se reintenta automáticamente y sin tope de intentos, espaciando las consultas según el límite diario, porque `EC-05` exige que el 100 % se reintente sin intervención de la persona. Mientras tanto, la corrida muestra "especificidad pendiente" y la persona puede, si quiere, apretar "Reintentar ahora".
+ - **NCBI Entrez:** se reintenta cada 15 s hasta 5 veces, como muestra la pantalla UI-2. Si sigue sin responder, se informa "NCBI no disponible" con las opciones "Reintentar ahora" y "Modificar datos".
+- **Alternativas consideradas:**
+ - Reintentar en bucle sin pausa — descartada: agrava la saturación y gasta consultas.
+ - Pedirle a la persona que vuelva a enviar la corrida — descartada: `EC-05` lo prohíbe.
+ - Preguntar periódicamente a NCBI si está disponible — descartada: gasta consultas.
+ - Poner un tope de tiempo a BLAST tras el cual hay que reintentar a mano — descartada: dejaría candidatos sin reintentar.
+- **Consecuencias:**
+ - A favor: nunca se informa "identificador inexistente" por una caída; no se pierden candidatos.
+ - En contra: la especificidad puede llegar mucho más tarde, y la pantalla tiene que explicarlo bien.
+- **Elementos afectados:** Gestión de excepciones (API y las tres etapas); Consumidor de cada etapa; Planificación de consultas; Modelo de vista de corrida.
+### DA-04 — Solo la API guarda el estado de la corrida
+ 
+- **Escenario que la motiva:** `EC-05` (informar de forma clara y mostrar los candidatos mientras la especificidad está pendiente).
+- **Contexto:** en tuberías y filtros las etapas no comparten estado, y las tuberías borran cada mensaje una vez procesado. Pero las pantallas de progreso (UI-2) y de resultados (UI-3) necesitan un estado que se pueda consultar en cualquier momento.
+- **Decisión:**
+ - Tácticas: localizar el estado (Capacidad de prueba): concentrar el estado de las corridas en un único lugar.
+ - Estilo: cliente-servidor en la zona de la interfaz. La API guarda la corrida **antes** de publicarla y el Registrador guarda una copia de lo que sale de cada tubería y de `corrida.estado`.
+ - Patrón: capas en la API (el Repositorio es el único componente que accede a la base).
+- **Alternativas consideradas:**
+ - Que cada etapa escriba en la base — descartada: las etapas compartirían estado (rompe tuberías y filtros) y la estructura de la base quedaría repartida entre Python y TypeScript.
+ - No guardar nada y preguntarles a las etapas — descartada: la web no podría mostrar el progreso, y los resultados se perderían al procesarse los mensajes.
+- **Consecuencias:**
+ - A favor: un solo lugar y un solo lenguaje escriben la base; las etapas no dependen de ella.
+ - En contra: la API cumple dos tareas (atender a la web y guardar resultados); si el Registrador se detiene, el progreso no se actualiza hasta que vuelva, aunque los mensajes siguen guardados en las tuberías.
+- **Elementos afectados:** contenedor Base de datos de corridas; Registrador, Servicio y Repositorio de corridas.
+### DA-05 — Patrón hexagonal en las etapas con servicios externos
+ 
+- **Escenario que la motiva:** `EC-03` (sumar un proveedor sin modificar el motor de diseño). También ayuda a `EC-04` y `EC-05`.
+- **Contexto:** se prevé sumar Ensembl o dbSNP y reemplazar la especificidad simulada del MVP por BLAST (SRS §2.6). Solo Preparación y Verificación se comunican con servicios externos.
+- **Decisión:**
+ - Tácticas: encapsular, usar un intermediario, restringir dependencias y parametrización (Modificabilidad); adaptar la interfaz (Interoperabilidad).
+ - Patrón: hexagonal en Preparación y Verificación. El núcleo define puertos (interfaces) y los adaptadores los cumplen. El adaptador de especificidad se elige por configuración.
+- **Alternativas consideradas:**
+ - Capas en las etapas — descartada: no impide que el cálculo dependa del conector.
+ - Hexagonal también en Diseño — descartada: es cálculo puro, no hay nada externo que aislar.
+ - Llamar a NCBI directamente desde donde haga falta — descartada: es justo lo que `EC-03` quiere evitar.
+- **Consecuencias:**
+ - A favor: un proveedor nuevo es un adaptador nuevo; el núcleo se prueba con adaptadores falsos; pasar de la simulación a BLAST es cambiar la configuración; un cambio de formato de NCBI se resuelve solo en el adaptador (`EC-04`).
+ - En contra: más interfaces en etapas chicas.
+- **Elementos afectados:** puertos y adaptadores de Preparación de datos y de Verificación de especificidad.
+### DA-06 — Interfaz: cliente-servidor, capas en la API y MVVM en la web
+ 
+- **Escenario que la motiva:** `EC-02` (0 consultas a NCBI ante una entrada inválida; 100 % de los demás campos conservados; corrección en < 10 s).
+- **Contexto:** cinco pantallas ya diseñadas en el TP2, con errores por campo y una pantalla de progreso con varios estados.
+- **Decisión:**
+ - Tácticas: mantener el modelo de tarea (Usabilidad); *validar la entrada antes de actuar* (táctica propia, no está en la tabla de la consigna).
+ - Estilo: cliente-servidor en la zona de la interfaz.
+ - Patrones: capas en la API; MVVM en la web. Las reglas de validación se escriben una sola vez en un paquete que usan la web y la API.
+- **Alternativas consideradas:**
+ - Validar solo en la web — descartada: la API no puede confiar en lo que llega del navegador, y una entrada inválida terminaría consultando a NCBI.
+ - Páginas armadas en el servidor — descartada: las pantallas del TP2 son interactivas y validan mientras la persona escribe.
+ - MVC en la web — descartada: ver 5.3.
+- **Consecuencias:**
+ - A favor: los campos correctos se conservan ante un error; las reglas existen en un solo lugar; ningún dato inválido inicia una corrida.
+ - En contra: la API es punto único de falla para la interfaz; el enlace automático de MVVM es más difícil de depurar.
+- **Elementos afectados:** Aplicación web y API; Reglas de formato, Validación de entrada y los modelos de vista.
+### DA-07 — API en TypeScript y etapas en Python
+ 
+- **Escenario que la motiva:** restricciones del equipo (sección 2); ayuda a `EC-02` (reglas compartidas entre web y API).
+- **Contexto:** el cálculo de Tm y ΔG tiene bibliotecas maduras en Python (Biopython, primer3-py) y no en TypeScript. La web y la API, en cambio, ganan si comparten lenguaje y reglas de validación.
+- **Decisión:**
+ - Tácticas: dividir módulos y encapsular (Modificabilidad).
+ - El límite entre lenguajes coincide con el límite entre contenedores y se cruza solo por las tuberías, con un formato JSON común.
+- **Alternativas consideradas:**
+ - Todo en Python — válida si el grupo no domina TypeScript, pero se pierde compartir las reglas entre web y API.
+ - Todo en TypeScript — descartada: habría que reescribir el cálculo termodinámico.
+- **Consecuencias:**
+ - A favor: cada parte usa la herramienta más adecuada.
+ - En contra: dos lenguajes y dos conjuntos de herramientas; el formato de mensaje tiene que coincidir de los dos lados (riesgo 5).
+- **Elementos afectados:** API y las tres etapas.
+---
+ 
+ 
+## 10. Trazabilidad y riesgos
+ 
+### 10.1 Escenario → táctica → estilo o patrón → decisión → elemento C4
+ 
+Esta tabla permite seguir cada escenario del TP2 hasta la pieza del sistema que lo atiende.
+ 
+| Escenario | Atributo (libro) | Tácticas | Estilo o patrón | Decisión | Elemento C4 |
+|---|---|---|---|---|---|
+| `EC-05` **(driver principal)** | Disponibilidad | Detección y manejo de excepciones, reintento, degradación controlada, planificar recursos, usar un intermediario, introducir concurrencia | Tuberías y filtros; broker; hexagonal; cliente-servidor | `DA-01`, `DA-02`, `DA-03`, `DA-04` | Contenedores Verificación de especificidad, Tuberías de mensajes y Base de datos de corridas; componentes Planificación de consultas, Gestión de excepciones, Adaptador de especificidad y Registrador de corridas |
+| `EC-03` **(driver secundario)** | Modificabilidad | Encapsular, usar un intermediario, restringir dependencias, parametrización | Hexagonal; tuberías y filtros | `DA-05`, `DA-01` | Preparación de datos y Verificación de especificidad: sus puertos y adaptadores |
+| `EC-04` | Interoperabilidad | Adaptar la interfaz, respetar estándares | Hexagonal (adaptador) | `DA-05` | Adaptador NCBI Entrez |
+| `EC-02` | Usabilidad | Mantener el modelo de tarea, validar la entrada antes de actuar *(propia)* | Cliente-servidor; capas; MVVM | `DA-06`, `DA-07` | Reglas de formato, Modelo de vista de ingreso, Validación de entrada |
+| `EC-01` | Sin correspondencia (RF-10) | — | — | — | Localización de gen |
+ 
+La trazabilidad de cada historia de usuario hacia contenedores y componentes está en la [sección 8](#8-historias-de-usuario-sobre-las-vistas).
+ 
+ 
+### 10.2 Riesgos
+ 
+| # | Riesgo | Qué hacemos |
+|---|---|---|
+| 1 | El simulador de la maqueta UI-2 cita un "escenario FI-2" (caída de NCBI Entrez) que ya no existe en el TP2 | Corregir esa referencia en la maqueta: el comportamiento se mantiene, pero se rastrea a RF-03, HU-04 y `DA-03` |
+| 2 | UI-2 tiene un botón "Cancelar corrida" que ninguna historia de usuario respalda | Decidir con el grupo: agregar la historia al SRS o quitar el botón. Si se mantiene, no afecta a las etapas: la API marca la corrida como cancelada y las etapas descartan sus mensajes |
+| 3 | NATS JetStream agrega un programa que el grupo nunca operó | Plan B: usar una tabla de PostgreSQL como cola (`DA-02`), sin cambiar el estilo ni los componentes |
+| 4 | Un cromosoma completo puede superar el tamaño máximo de un mensaje | Preparación pide a NCBI solo la región del gen una vez que conoce la anotación, y el mensaje lleva solo esa región. Probar con un gen largo |
+| 5 | La API (TypeScript) y las etapas (Python) tienen que coincidir en el formato de mensaje | Definir el formato JSON con versión y probarlo de los dos lados |
+| 6 | Si la API guarda la corrida pero falla al publicarla, queda una corrida que no avanza | Marcarla como "no iniciada" y volver a publicarla cuando la API se reinicie |
+| 7 | La integración real con BLAST es de una etapa posterior (SRS §2.6) | Definir en qué iteración se hace; mientras tanto, el simulador permite probar `EC-05` simulando rechazos |
+| 8 | Las tecnologías son una propuesta | Confirmarlas con el grupo antes de la defensa |
+ 
+ 
+---
+ 
+ 
+## 11. Glosario y bibliografía
+ 
+| Término o sigla | Significado |
+|---|---|
+| Adaptador | En el patrón hexagonal, la pieza que cumple un puerto usando una tecnología concreta (por ejemplo, el conector con NCBI) |
+| API | Programa que ofrece operaciones que otros programas pueden pedir; aquí, la puerta de entrada al sistema |
+| BLAST | Herramienta del NCBI que busca secuencias parecidas; se usa para verificar la especificidad |
+| Broker | Programa intermediario que recibe, guarda y entrega mensajes entre otros programas |
+| C4 | Modelo para documentar arquitectura en cuatro niveles: contexto, contenedores, componentes y código |
+| Confirmar (un mensaje) | Avisarle a la tubería que el mensaje ya se procesó; recién entonces la tubería lo borra |
+| Corrida | Una ejecución de diseño o de validación (modelo de dominio del TP1) |
+| CU · HU · RF | Caso de uso · historia de usuario · requerimiento funcional |
+| DA · EC | Decisión de arquitectura · escenario de calidad |
+| DFD | Diagrama de flujo de datos |
+| Driver | Escenario de calidad que obliga a darle una forma determinada al sistema |
+| Etapa (filtro) | Contenedor que hace una transformación del flujo de datos |
+| FASTA | Formato de texto para secuencias |
+| HTTP / HTTPS | Protocolo de la web / HTTP sobre una conexión cifrada |
+| IUPAC | Código de nucleótidos, con símbolos para bases ambiguas |
+| JSON | Formato de texto para intercambiar datos |
+| MVC / MVVM | Modelo-Vista-Controlador / Modelo-Vista-Modelo de Vista |
+| MVP | Producto mínimo viable |
+| NATS / JetStream | Sistema de mensajería / su modo que guarda los mensajes en disco y los vuelve a entregar si no se confirman |
+| NCBI | Centro Nacional de Información Biotecnológica (EE. UU.) |
+| Puerto | En el patrón hexagonal, una interfaz fija que define el núcleo (por ejemplo, "dame la secuencia de este gen") |
+| SQL | Lenguaje para consultar y modificar bases de datos |
+| SRS | Especificación de requerimientos del software |
+| Tm · ΔG | Temperatura de *melting* · energía libre de una estructura secundaria |
+| Tubería | Canal que guarda los mensajes y los lleva a la etapa siguiente |
+ 
+**Bibliografía**
+ 
+- Bass, L., Clements, P. y Kazman, R. *Software Architecture in Practice*. Addison-Wesley.
+- ISO/IEC 25010:2023. *Systems and software Quality Requirements and Evaluation (SQuaRE) — Product quality model*.
+- Shaw, M. y Garlan, D. *Software Architecture: Perspectives on an Emerging Discipline*. Prentice Hall.
+- Brown, S. El modelo C4 para visualizar la arquitectura de software.
+- arc42. Plantilla de documentación de arquitectura.
+- NCBI. *Entrez Programming Utilities (E-utilities)* y *BLAST Common URL API*.
+- Cátedra de Ingeniería del Software 2026, FIUNER. Consigna del TP3 — Arquitectura del sistema.

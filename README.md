@@ -46,10 +46,10 @@ Para profundizar más sobre esto, ir a: [`docs/requirements/srs.md`](docs/requir
 La arquitectura se deriva de un problema: NCBI BLAST limita las consultas (100 corridas cada 24 h) y puede rechazar pedidos durante horas, y el sistema no puede perder los candidatos ya calculados (escenario de calidad `EC-05`, driver principal).
 
 - **Estilo base: tuberías y filtros.** Una cadena de etapas independientes (Preparación de datos, Diseño de candidatos y Verificación de especificidad) conectadas por tuberías de mensajes que guardan el trabajo en disco, de modo que la espera de BLAST no frena al resto.
-- **Interfaz: cliente-servidor.** Una aplicación web que conversa con una API, que es la única que accede a la base de datos.
-- **Patrones por contenedor:** broker en las tuberías, hexagonal en las etapas con servicios externos (`EC-03`, `EC-04`), capas en la API y MVVM en la web.
+- **Interfaz: cliente-servidor.** Una aplicación web que conversa con un Servidor de corridas, que es el único que accede a la base de datos.
+- **Patrones por contenedor:** broker en las tuberías, hexagonal en las etapas con servicios externos (`EC-03`, `EC-04`), capas en el Servidor de corridas y MVVM en la web.
 - **Despliegue:** una sola VPS con Docker, con reinicio automático de los contenedores, volúmenes en disco y backup de la base fuera de la VPS.
-- **Tecnologías propuestas:** TypeScript y React (web), Node.js y Fastify (API), Python (etapas de cálculo), NATS JetStream (tuberías) y PostgreSQL (base de datos).
+- **Tecnologías propuestas:** TypeScript y React (web), Node.js y Fastify (Servidor de corridas), Python (etapas de cálculo), NATS JetStream (tuberías) y PostgreSQL (base de datos).
 
 El detalle está en [`docs/architecture/arquitectura.md`](docs/architecture/arquitectura.md).
 

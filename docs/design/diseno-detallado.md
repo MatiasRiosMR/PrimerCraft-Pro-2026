@@ -532,10 +532,10 @@ Los datos que viajan en los mensajes (`DatosDeReferencia`, `Aviso(codigo, mensaj
 
 ### 6.5 Fuera del alcance de esta implementación
 
-- Rechazo por organismo que no coincide y reintento por «NCBI no disponible» (`DA-03`), según el alcance del slice. Ante una falla de red, la pantalla muestra un aviso genérico.
+- Rechazo por organismo que no coincide y reintento por «NCBI no disponible» (`DA-03`), según el alcance del slice. Ante una falla de red, la pantalla muestra un aviso genérico y registra el error en la consola del servidor.
 - Descarte de mensajes repetidos por `idMensaje` (`DA-02`) y publicación de `referencia.localizada` (`HU-02.1`).
 - La pantalla no calcula nada (no hay GC, composición ni mapa de features): `presentacion.py` solo ordena en líneas y bloques lo que devuelve el controlador.
-- Una respuesta de NCBI sin el campo `idlist` (por ejemplo, un JSON de error con estado HTTP 200) se interpreta como «sin resultados» y no como una falla del servicio. Se dejó así porque el estado HTTP de un error real (por ejemplo, 429) sí se propaga como falla, y no se pudo comprobar que NCBI conteste errores con estado 200 para las consultas que arma el adaptador.
+- Una respuesta de NCBI sin la lista de resultados (`idlist`), por ejemplo un JSON de error, se trata como una falla del servicio y no como «sin resultados» (`CP-28`). Llega a la pantalla como el aviso genérico; el reintento (`DA-03`) queda fuera de esta HU.
 
 ### 6.6 La pantalla de demostración
 
@@ -549,7 +549,7 @@ La pantalla (`src/interfaz/`) existe para mostrar `HU-04` funcionando en la defe
 
 ## 7. Pruebas
 
-Pruebas automatizadas con **pytest** (`tests/`). Se ejecutan con `pytest` desde la raíz y no usan internet ni la interfaz gráfica. Resultado de la última ejecución: **27 casos de prueba (29 ejecuciones de pytest, porque `CP-26` se ejecuta una vez por variante), todos pasan**, con **100 %** de cobertura de sentencias y de ramas (sin la interfaz ni el arranque).
+Pruebas automatizadas con **pytest** (`tests/`). Se ejecutan con `pytest` desde la raíz y no usan internet ni la interfaz gráfica. Resultado de la última ejecución: **28 casos de prueba (30 ejecuciones de pytest, porque `CP-26` se ejecuta una vez por variante), todos pasan**, con **100 %** de cobertura de sentencias y de ramas (sin la interfaz ni el arranque).
 
 **Técnicas.** *Caja negra*: se parte del criterio de aceptación o del escenario de calidad, sin mirar el código, con casos de **partición en clases de equivalencia** (una clase de entradas válidas y otra de entradas inválidas) o de **valores límite** (por ejemplo, la secuencia vacía). *Caja blanca*: se parte del código y de su **complejidad ciclomática** (7.3): una prueba por cada camino independiente de las operaciones de la HU. *Integración*: varias clases reales juntas. Las pruebas usan la estructura preparar, ejecutar y verificar; no usan el formato Given-When-Then.
 
@@ -586,6 +586,7 @@ Pruebas automatizadas con **pytest** (`tests/`). Se ejecutan con `pytest` desde 
 | `CP-25` | Caja blanca (camino real) | `EC-04` | `consultar_entrez` con `requests.get` reemplazado; la búsqueda devuelve dos resultados (`123` y `456`) para `NM_1` y *Mus musculus* | La búsqueda es `NM_1[Accession] AND Mus musculus[Organism]` y las descargas piden solo el primer resultado (`123`) | `test_complementarias.py::test_cp25_consultar_entrez_busca_por_codigo_de_acceso_y_organismo_y_pide_el_primer_resultado` |
 | `CP-26` | Caja negra (partición: variantes del formato del FASTA) | `EC-04` | Respuesta con un campo desconocido y FASTA con saltos de línea de Windows, con una línea en blanco al final o con la cabecera vacía (tres variantes de la misma prueba) | Secuencia `ACGTAC` en las tres, sin excepción | `test_complementarias.py::test_cp26_el_adaptador_obtiene_la_secuencia_aunque_cambie_la_forma_del_fasta` |
 | `CP-27` | Caja blanca (camino real) | `EC-04` | `consultar_entrez` con `requests.get` reemplazado y `time.sleep` registrado | Espera dos veces, al menos 0,34 s: NCBI admite 3 pedidos por segundo | `test_complementarias.py::test_cp27_consultar_entrez_espera_entre_pedidos_para_respetar_el_limite_de_ncbi` |
+| `CP-28` | Caja blanca (rama: respuesta de error de NCBI) | `DA-03` | `consultar_entrez` con `requests.get` reemplazado; la búsqueda contesta `{"esearchresult": {"ERROR": ...}}` y no una lista de resultados | Lanza `RuntimeError` (una falla del servicio) y **no** `TargetNoEncontrado`: nunca se informa «inexistente» por un error de NCBI | `test_complementarias.py::test_cp28_consultar_entrez_no_confunde_un_error_de_ncbi_con_un_target_inexistente` |
 
 ### 7.2 Trazabilidad de las pruebas
 
@@ -596,9 +597,9 @@ Pruebas automatizadas con **pytest** (`tests/`). Se ejecutan con `pytest` desde 
 | `EC-04`: «100 % de respuestas con la secuencia se convierten sin excepciones; 0 corridas interrumpidas» | `CP-04` (la medida), con `CP-15`, `CP-16`, `CP-20`, `CP-21`, `CP-22`, `CP-23`, `CP-25`, `CP-26` y `CP-27` |
 | `EC-03`: «0 líneas modificadas en el motor de diseño» | `CP-05` |
 | `DA-02` (confirmar después de publicar) | `CP-13`, `CP-14` |
-| `DA-03` (clasificación definitiva de los errores) | `CP-02`, `CP-03`, `CP-11` |
+| `DA-03` (clasificación definitiva de los errores) | `CP-02`, `CP-03`, `CP-11`, `CP-28` |
 
-`CP-01` a `CP-08` son los casos previstos al diseñar; `CP-09` a `CP-22` se agregaron al revisar el reporte de cobertura y el código, `CP-23` y `CP-24` al calcular la complejidad ciclomática (7.3), y `CP-25` a `CP-27` al comprobar, rompiendo el código a propósito, que las pruebas detectan los errores (ver `cobertura.md`). Cada prueba verifica un solo comportamiento y no depende de otra. Ninguna pasa por la interfaz gráfica.
+`CP-01` a `CP-08` son los casos previstos al diseñar; `CP-09` a `CP-22` se agregaron al revisar el reporte de cobertura y el código, `CP-23` y `CP-24` al calcular la complejidad ciclomática (7.3), y `CP-25` a `CP-27` al comprobar, rompiendo el código a propósito, que las pruebas detectan los errores (ver `cobertura.md`), y `CP-28` al revisar la implementación (un error de NCBI no es un «target inexistente»). Cada prueba verifica un solo comportamiento y no depende de otra. Ninguna pasa por la interfaz gráfica.
 
 ### 7.3 Complejidad ciclomática
 
@@ -611,7 +612,7 @@ La complejidad de una operación es la cantidad de caminos independientes de su 
 | `InformacionGenoma.__init__` | 2 (sin secuencia, caracteres fuera de IUPAC) | 3 | `CP-03` (vacía), `CP-10` (fuera de IUPAC) y `CP-09` (válida) |
 | `AdaptadorNcbiEntrez.obtener_referencia` | 2 (el `si` y el `y` que combina «identificador válido» con «organismo válido») | 3 | `CP-20` (identificador inválido), `CP-21` (organismo inválido) y `CP-22` (ambos válidos) |
 | `AdaptadorNcbiEntrez._leer_campos_conocidos` | 7 (ciclo del FASTA, línea de cabecera, segundo registro, ciclo de GenBank, `FEATURES`, `ORIGIN`, línea dentro de `FEATURES`) | 8 | `CP-23` (FASTA sin líneas), `CP-04` (cabecera, secuencia, `FEATURES`, `ORIGIN` y líneas antes y dentro de `FEATURES`) y `CP-15` (segundo registro, GenBank sin líneas) |
-| `consultar_entrez` | 2 (búsqueda sin resultados, ciclo de pedidos) | 3 | `CP-17` (sin resultados) y `CP-16` (con resultados; `CP-25` y `CP-27` verifican qué pide y cómo espera). El ciclo recorre una tupla fija de dos pedidos, así que su camino sin vueltas no existe |
+| `consultar_entrez` | 3 (respuesta de error sin lista de resultados, búsqueda sin resultados, ciclo de pedidos) | 4 | `CP-28` (respuesta de error), `CP-17` (sin resultados) y `CP-16` (con resultados; `CP-25` y `CP-27` verifican qué pide y cómo espera). El ciclo recorre una tupla fija de dos pedidos, así que su camino sin vueltas no existe |
 | `consultar_grabacion` | 3 (`si`, `y` y `sino si`) | 4 | `CP-18` (`NM_000518` en *Homo sapiens*), `CP-24` (`NM_000518` en otro organismo), `CP-19` (`NM_SIN_SECUENCIA`) y `CP-13` (otro identificador) |
 | `ConsumidorDeEtapa.procesar` | 1 (rechazo o éxito) | 2 | `CP-13` (rechazo, confirma) y `CP-14` (éxito, no confirma) |
 
@@ -619,7 +620,7 @@ La mayor complejidad es 8 (`_leer_campos_conocidos`), por debajo del umbral de 1
 
 ### 7.4 Cobertura
 
-El reporte completo y su análisis están en [`cobertura.md`](cobertura.md). Resumen: 156 sentencias y 32 ramas, todas cubiertas, sin contar la interfaz ni el arranque. La primera corrida fue de 90 % (el adaptador, 69 %, porque nadie ejecutaba el camino real de NCBI); se resolvió con `CP-15` a `CP-17` y `CP-20` a `CP-22`.
+El reporte completo y su análisis están en [`cobertura.md`](cobertura.md). Resumen: 159 sentencias y 34 ramas, todas cubiertas, sin contar la interfaz ni el arranque. La primera corrida fue de 90 % (el adaptador, 69 %, porque nadie ejecutaba el camino real de NCBI); se resolvió con `CP-15` a `CP-17` y `CP-20` a `CP-22`.
 
 ---
 
@@ -633,7 +634,7 @@ Se completa después de implementar (Parte B) y de probar (Parte C), con el cód
 |---|---|---|---|---|---|
 | `HU-04`, criterio 1 | `DA-05` | Obtención de referencia; Puerto de referencia genómica; Adaptador NCBI Entrez | `ControladorObtencionReferencia`, `PuertoReferenciaGenomica`, `AdaptadorNcbiEntrez`, `InformacionGenoma`, `DatosDeReferencia`, `Resultado` | `src/aplicacion/controlador_obtencion_referencia.py`, `src/infraestructura/adaptador_ncbi_entrez.py`, `src/dominio/informacion_genoma.py` | `CP-01`, `CP-09`, `CP-10`, `CP-18` |
 | `HU-04`, criterio 2 | `DA-03` | Obtención de referencia; Gestión de excepciones; Puerto de mensajes; Publicador de etapa | `ControladorObtencionReferencia`, `GestionDeExcepciones`, `PuertoMensajes`, `PublicadorDeEtapa`, `TargetNoEncontrado`, `ReferenciaSinSecuencia`, `Aviso` | `src/aplicacion/gestion_de_excepciones.py`, `src/infraestructura/publicador_de_etapa.py` | `CP-02`, `CP-03`, `CP-11`, `CP-19` |
-| `HU-04` | `EC-04`, `DA-05` | Adaptador NCBI Entrez | `AdaptadorNcbiEntrez` | `src/infraestructura/adaptador_ncbi_entrez.py` | `CP-04`, `CP-15` a `CP-17`, `CP-20` a `CP-27` |
+| `HU-04` | `EC-04`, `DA-05` | Adaptador NCBI Entrez | `AdaptadorNcbiEntrez` | `src/infraestructura/adaptador_ncbi_entrez.py` | `CP-04`, `CP-15` a `CP-17`, `CP-20` a `CP-28` |
 | `HU-04` | `EC-03`, `DA-05` | Puerto de referencia genómica | `PuertoReferenciaGenomica` | `src/aplicacion/puertos.py` | `CP-05` |
 | `HU-04`, criterio 1 (persistencia) | `DA-04` (excepción) | Sin componente en el TP3 | `RepositorioReferencias`, `RepositorioReferenciasSqlite`, `RepositorioReferenciasEnMemoria` | `src/aplicacion/puertos.py`, `src/infraestructura/repositorio_referencias.py` | `CP-06`, `CP-07`, `CP-08` |
 | `HU-04` (entrada y confirmación) | `DA-02` | Consumidor de etapa | `ConsumidorDeEtapa` | `src/infraestructura/consumidor_de_etapa.py` | `CP-12`, `CP-13`, `CP-14` |

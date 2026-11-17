@@ -22,6 +22,7 @@ Se mide el paquete `src/` **sin** la interfaz gráfica ni el arranque (`.coverag
 | Después de revisar el reporte y alinear con el diseño | 22 | 156 | 100 % | 32 de 32 |
 | Después de calcular la complejidad ciclomática | 24 | 156 | 100 % | 32 de 32 |
 | Después de romper el código a propósito | 29 | 156 | 100 % | 32 de 32 |
+| Después de revisar la implementación | 30 | 159 | 100 % | 34 de 34 |
 
 Por archivo, en la ejecución final:
 
@@ -31,11 +32,11 @@ Por archivo, en la ejecución final:
 | `aplicacion/gestion_de_excepciones.py` | 7 | 0 | 2 | 100 % |
 | `aplicacion/puertos.py` | 18 | 0 | 0 | 100 % |
 | `dominio/informacion_genoma.py` | 13 | 0 | 4 | 100 % |
-| `infraestructura/adaptador_ncbi_entrez.py` | 55 | 0 | 24 | 100 % |
+| `infraestructura/adaptador_ncbi_entrez.py` | 58 | 0 | 26 | 100 % |
 | `infraestructura/consumidor_de_etapa.py` | 13 | 0 | 2 | 100 % |
 | `infraestructura/publicador_de_etapa.py` | 6 | 0 | 0 | 100 % |
 | `infraestructura/repositorio_referencias.py` | 19 | 0 | 0 | 100 % |
-| **Total** | **156** | **0** | **32** | **100 %** |
+| **Total** | **159** | **0** | **34** | **100 %** |
 
 ## Qué no estaba cubierto y qué se hizo
 
@@ -47,6 +48,8 @@ La primera corrida dejó dos zonas sin cubrir en `adaptador_ncbi_entrez.py` (69 
 Al revisar el código también se encontró que un identificador como `BRCA1 OR TP53` cambiaba la búsqueda en NCBI. El adaptador, que es el único que conoce la sintaxis de NCBI, ahora lo trata como target no encontrado sin consultar (`CP-20`, `CP-21`) y descarta espacios sobrantes (`CP-22`).
 
 También se agregaron `CP-09` a `CP-14` para las ramas de la entidad, de la gestión de excepciones y del consumidor que las pruebas de los criterios no ejercitaban por sí solas (por ejemplo, el alfabeto IUPAC o el error desconocido).
+
+Al revisar la implementación se encontró que una respuesta de error de NCBI (sin la lista de resultados) se interpretaba como «target no encontrado», lo que `DA-03` prohíbe. Ahora es una falla del servicio y `CP-28` lo verifica.
 
 Al calcular la complejidad ciclomática (ver abajo) apareció algo que el 100 % de ramas no muestra: dos caminos de condición sin una prueba propia. `CP-23` cubre el caso del FASTA ausente en `_leer_campos_conocidos` y `CP-24`, el de `NM_000518` con otro organismo en `consultar_grabacion`. No cambian el porcentaje, porque las ramas ya estaban recorridas por otras pruebas; sí hacen que cada camino tenga su caso.
 
@@ -86,8 +89,8 @@ La tabla completa (cada operación de `HU-04` con sus decisiones, su complejidad
 | Operación | Complejidad |
 |---|---|
 | `AdaptadorNcbiEntrez._leer_campos_conocidos` | 8 |
-| `consultar_grabacion` | 4 |
-| `consultar_entrez`, `AdaptadorNcbiEntrez.obtener_referencia`, `InformacionGenoma.__init__` | 3 |
+| `consultar_grabacion`, `consultar_entrez` | 4 |
+| `AdaptadorNcbiEntrez.obtener_referencia`, `InformacionGenoma.__init__` | 3 |
 | `ControladorObtencionReferencia.obtener`, `GestionDeExcepciones.clasificar`, `ConsumidorDeEtapa.procesar` | 2 |
 
-Ninguna llega a 10, el umbral a partir del cual conviene dividir una operación. La cobertura de ramas del reporte de arriba (32 de 32) confirma que no queda ninguna decisión sin recorrer. `consultar_entrez` tiene un camino que no existe: su ciclo recorre una tupla fija de dos pedidos y nunca queda sin vueltas.
+Ninguna llega a 10, el umbral a partir del cual conviene dividir una operación. La cobertura de ramas del reporte de arriba (34 de 34) confirma que no queda ninguna decisión sin recorrer. `consultar_entrez` tiene un camino que no existe: su ciclo recorre una tupla fija de dos pedidos y nunca queda sin vueltas.

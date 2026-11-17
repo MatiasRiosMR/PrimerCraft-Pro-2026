@@ -1,5 +1,5 @@
 """Casos agregados al revisar la cobertura, el código, la complejidad ciclomática y si las pruebas detectan cambios
-en el código (CP-09 a CP-27): entidad, gestión de excepciones, consumidor, adaptador (camino real, registros
+en el código (CP-09 a CP-28): entidad, gestión de excepciones, consumidor, adaptador (camino real, registros
 múltiples, respuesta vacía, variantes del FASTA) y flujo con las respuestas grabadas de NCBI."""
 import pytest
 
@@ -109,6 +109,8 @@ def falso_ncbi(monkeypatch, ids, pedidos=None):
         if pedidos is not None:
             pedidos.append(params)
         if "esearch" in url:
+            if ids is None:  # NCBI contesta un error y no una lista de resultados
+                return RespuestaFalsa(json={"esearchresult": {"ERROR": "Invalid db name specified"}})
             return RespuestaFalsa(json={"esearchresult": {"idlist": ids}})
         texto = ">NM_1\nACGT\n" if params["rettype"] == "fasta" else "FEATURES\n"
         return RespuestaFalsa(texto=texto)
@@ -176,6 +178,12 @@ def test_cp25_consultar_entrez_busca_por_codigo_de_acceso_y_organismo_y_pide_el_
     busqueda, descargas = pedidos[0], pedidos[1:]
     assert busqueda["term"] == "NM_1[Accession] AND Mus musculus[Organism]"
     assert {pedido["id"] for pedido in descargas} == {"123"}
+
+
+def test_cp28_consultar_entrez_no_confunde_un_error_de_ncbi_con_un_target_inexistente(monkeypatch):
+    falso_ncbi(monkeypatch, ids=None)
+    with pytest.raises(RuntimeError):  # una falla del servicio, no TargetNoEncontrado (DA-03)
+        consultar_entrez("NM_1", "Homo sapiens")
 
 
 def test_cp27_consultar_entrez_espera_entre_pedidos_para_respetar_el_limite_de_ncbi(monkeypatch):

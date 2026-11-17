@@ -167,34 +167,44 @@ Hay atributos de calidad que condicionan decisiones de diseño: `EC-04` hace que
 
 ### 3.4 Diagrama de robustez
 
-Leyenda: borde punteado = actor externo; rectángulo redondeado azul = *boundary*; círculo naranja = *controller*; rectángulo con barras verde = *entity*. Una línea sin flecha une un actor externo con su frontera.
+Leyenda: borde punteado gris = actor externo; rectángulo redondeado verde azulado = *boundary*; círculo violeta = *controller*; rectángulo con barras azul = *entity*. Una línea sin flecha une un actor externo con su frontera. La tubería de mensajes aparece dos veces para no cruzar el diagrama (`corrida.solicitada` a la izquierda y `corrida.estado` a la derecha): es el mismo actor.
 
 ```mermaid
+---
+config:
+  theme: base
+  flowchart:
+    curve: basis
+    nodeSpacing: 34
+    rankSpacing: 70
+    padding: 14
+---
 flowchart LR
-    brk["Tuberías de mensajes<br/>(actor externo)"]
-    ncbi["NCBI Entrez<br/>(actor externo)"]
-    con(["«boundary»<br/>ConsumidorDeEtapa"])
-    ad(["«boundary»<br/>AdaptadorNcbiEntrez"])
-    pub(["«boundary»<br/>PublicadorDeEtapa"])
-    co(("«controller»<br/>ControladorObtencionReferencia"))
-    ge(("«controller»<br/>GestionDeExcepciones"))
-    ig[["«entity»<br/>InformacionGenoma"]]
-    rep(("«controller»<br/>RepositorioReferencias"))
-    brk --- con
+    brk_in["<b>Tuberías de mensajes</b><br/><small>corrida.solicitada</small><br/><small>(actor externo)</small>"]
+    brk_out["<b>Tuberías de mensajes</b><br/><small>corrida.estado</small><br/><small>(actor externo)</small>"]
+    ncbi["<b>NCBI Entrez</b><br/><small>(actor externo)</small>"]
+    con(["<small>«boundary»</small><br/><b>ConsumidorDeEtapa</b>"])
+    co(("<small>«controller»</small><br/><b>Controlador<br/>ObtencionReferencia</b>"))
+    ad(["<small>«boundary»</small><br/><b>AdaptadorNcbiEntrez</b>"])
+    pub(["<small>«boundary»</small><br/><b>PublicadorDeEtapa</b>"])
+    ge(("<small>«controller»</small><br/><b>Gestion<br/>DeExcepciones</b>"))
+    rep(("<small>«controller»</small><br/><b>Repositorio<br/>Referencias</b>"))
+    ig[["<small>«entity»</small><br/><b>InformacionGenoma</b>"]]
+    brk_in --- con
     con --> co
     co --> ad
     ad --- ncbi
     co --> ge
     co --> pub
-    pub --- brk
+    pub --- brk_out
     co --> ig
     co --> rep
     rep --> ig
-    classDef actor fill:#f3f4f6,stroke:#4b5563,color:#111827,stroke-dasharray: 4 3
-    classDef boundary fill:#dbeafe,stroke:#1d4ed8,color:#0f172a
-    classDef controller fill:#ffedd5,stroke:#c2410c,color:#0f172a
-    classDef entity fill:#dcfce7,stroke:#15803d,color:#0f172a
-    class brk,ncbi actor
+    classDef actor fill:#f3f4f6,stroke:#64748b,color:#334155,stroke-dasharray:4 3
+    classDef boundary fill:#e6f2f1,stroke:#0e6660,stroke-width:2px,color:#12324a
+    classDef controller fill:#f1edfd,stroke:#7c3aed,stroke-width:2px,color:#12324a
+    classDef entity fill:#e3ecf6,stroke:#12324a,stroke-width:2px,color:#12324a
+    class brk_in,brk_out,ncbi actor
     class con,ad,pub boundary
     class co,ge,rep controller
     class ig entity
@@ -231,19 +241,51 @@ Ninguna regla vive en una frontera que decida: el adaptador traduce y el consumi
 
 ### 3.5 Diagramas de secuencia
 
-Se dibuja un diagrama por camino, con los mismos participantes que la robustez, más los dos actores externos. La primera secuencia cubre el criterio 1 y la segunda el criterio 2. Cada participante es una clase y cada mensaje, una operación con el mismo nombre en el código (ver 6.4); la consulta a NCBI y la publicación en la tubería son mensajes con los actores externos y se escriben como frases.
+Se dibuja un diagrama por camino, con los mismos participantes que la robustez, más los dos actores externos. Los participantes se agrupan en tres cajas (entrada, núcleo y salida) con los colores de la robustez, y los mensajes están numerados. En la secuencia B la tubería de mensajes aparece dos veces, como en la robustez: a la izquierda recibe `corrida.solicitada` y a la derecha recibe el aviso en `corrida.estado`. La primera secuencia cubre el criterio 1 y la segunda el criterio 2. Cada participante es una clase y cada mensaje, una operación con el mismo nombre en el código (ver 6.4); la consulta a NCBI y la publicación en la tubería son mensajes con los actores externos y se escriben como frases.
 
 **Secuencia A: consulta exitosa (criterio 1)**
 
 ```mermaid
+---
+config:
+  theme: base
+  themeVariables:
+    actorBkg: "#e6f2f1"
+    actorBorder: "#0e6660"
+    actorTextColor: "#12324a"
+    actorLineColor: "#9db4ba"
+    signalColor: "#12324a"
+    signalTextColor: "#12324a"
+    sequenceNumberColor: "#ffffff"
+    noteBkgColor: "#fff7e0"
+    noteBorderColor: "#b45309"
+    noteTextColor: "#12324a"
+    labelBoxBkgColor: "#f1edfd"
+    labelBoxBorderColor: "#7c3aed"
+    labelTextColor: "#12324a"
+    loopTextColor: "#12324a"
+  sequence:
+    actorMargin: 28
+    boxMargin: 6
+    boxTextMargin: 8
+    messageMargin: 30
+    noteMargin: 8
+---
 sequenceDiagram
-    participant Brk as Tuberías de mensajes
-    participant Con as ConsumidorDeEtapa
-    participant CO as ControladorObtencionReferencia
-    participant AD as AdaptadorNcbiEntrez
-    participant NCBI as NCBI Entrez
-    participant IG as InformacionGenoma
-    participant REP as RepositorioReferencias
+    autonumber
+    box rgb(230,242,241) Entrada
+        participant Brk as Tuberías de<br/>mensajes
+        participant Con as Consumidor<br/>DeEtapa
+    end
+    box rgb(241,237,253) Núcleo
+        participant CO as Controlador<br/>ObtencionReferencia
+        participant IG as Informacion<br/>Genoma
+        participant REP as Repositorio<br/>Referencias
+    end
+    box rgb(230,242,241) Salida
+        participant AD as Adaptador<br/>NcbiEntrez
+        participant NCBI as NCBI Entrez
+    end
     Brk->>Con: procesar(corrida.solicitada)
     Con->>CO: obtener(corrida_id, identificador, organismo)
     CO->>AD: obtener_referencia(identificador, organismo)
@@ -254,6 +296,7 @@ sequenceDiagram
     CO->>IG: InformacionGenoma(secuencia, anotacion)
     CO->>REP: guardar(corrida_id, identificador, organismo, referencia)
     CO-->>Con: Resultado(obtenida, referencia)
+    Note over Con,CO: Aquí termina HU-04: la referencia pasa a HU-02.1
 ```
 
 Aquí termina `HU-04`. La referencia pasa a Localización de gen (`HU-02.1`), que publica `referencia.localizada` y recién entonces el consumidor confirma el mensaje de entrada (`DA-02`).
@@ -261,15 +304,48 @@ Aquí termina `HU-04`. La referencia pasa a Localización de gen (`HU-02.1`), qu
 **Secuencia B: identificador inexistente o sin resultados (criterio 2)**
 
 ```mermaid
+---
+config:
+  theme: base
+  themeVariables:
+    actorBkg: "#e6f2f1"
+    actorBorder: "#0e6660"
+    actorTextColor: "#12324a"
+    actorLineColor: "#9db4ba"
+    signalColor: "#12324a"
+    signalTextColor: "#12324a"
+    sequenceNumberColor: "#ffffff"
+    noteBkgColor: "#fff7e0"
+    noteBorderColor: "#b45309"
+    noteTextColor: "#12324a"
+    labelBoxBkgColor: "#f1edfd"
+    labelBoxBorderColor: "#7c3aed"
+    labelTextColor: "#12324a"
+    loopTextColor: "#12324a"
+  sequence:
+    actorMargin: 24
+    boxMargin: 6
+    boxTextMargin: 8
+    messageMargin: 32
+    noteMargin: 14
+---
 sequenceDiagram
-    participant Brk as Tuberías de mensajes
-    participant Con as ConsumidorDeEtapa
-    participant CO as ControladorObtencionReferencia
-    participant AD as AdaptadorNcbiEntrez
-    participant NCBI as NCBI Entrez
-    participant IG as InformacionGenoma
-    participant GE as GestionDeExcepciones
-    participant PUB as PublicadorDeEtapa
+    autonumber
+    box rgb(230,242,241) Entrada
+        participant Brk as Tuberías de<br/>mensajes
+        participant Con as Consumidor<br/>DeEtapa
+    end
+    box rgb(241,237,253) Núcleo
+        participant CO as Controlador<br/>ObtencionReferencia
+        participant GE as Gestion<br/>DeExcepciones
+        participant IG as Informacion<br/>Genoma
+    end
+    box rgb(230,242,241) Salida
+        participant AD as Adaptador<br/>NcbiEntrez
+        participant NCBI as NCBI Entrez
+        participant PUB as Publicador<br/>DeEtapa
+        participant Est as Tuberías de<br/>mensajes
+    end
     Brk->>Con: procesar(corrida.solicitada)
     Con->>CO: obtener(corrida_id, identificador, organismo)
     CO->>AD: obtener_referencia(identificador, organismo)
@@ -287,12 +363,15 @@ sequenceDiagram
         CO->>IG: InformacionGenoma(secuencia vacia, anotacion)
         IG-->>CO: error ReferenciaSinSecuencia
     end
-    CO->>GE: clasificar(error, identificador)
-    GE-->>CO: Aviso(TARGET_NO_ENCONTRADO, verificá el identificador, reintentable=false)
-    CO->>PUB: publicar_aviso(corrida_id, aviso)
-    PUB->>Brk: corrida.estado(aviso)
-    CO-->>Con: Resultado(rechazado, aviso)
-    Con->>Con: confirmar(mensaje)
+    rect rgb(253,242,246)
+        CO->>GE: clasificar(error, identificador)
+        GE-->>CO: Aviso(TARGET_NO_ENCONTRADO, verificá el identificador, reintentable=false)
+        CO->>PUB: publicar_aviso(corrida_id, aviso)
+        PUB->>Est: corrida.estado(aviso)
+        CO-->>Con: Resultado(rechazado, aviso)
+        Con->>Con: confirmar(mensaje)
+    end
+    Note over Con,CO: El mensaje se confirma después de publicar el aviso
 ```
 
 El mensaje de entrada se confirma **después** de publicar el aviso. Así, si la etapa se reinicia antes de publicarlo, el broker vuelve a entregar el mensaje y el aviso no se pierde. `confirmar` es una operación del consumidor: con las tuberías simuladas registra el mensaje confirmado y, con NATS, enviaría la confirmación al broker.
@@ -327,74 +406,87 @@ Se obtuvo del código implementado (Parte B, carpeta `src/`) en dos pasos:
 2. Se completó lo que la herramienta no infiere: las operaciones y atributos privados (`-leer_campos_conocidos`, `-controlador`, `-transporte`...) y las dependencias de uso, creación y lanzamiento de errores. Una comparación automática (un script que lee este diagrama y el código) comprueba que clases, estereotipos, operaciones, parámetros, atributos y realizaciones coinciden con el código: 16 clases en el diagrama y 16 en el código, sin diferencias.
 
 ```mermaid
+---
+config:
+  theme: base
+  class:
+    hideEmptyMembersBox: true
+---
 classDiagram
-    class ConsumidorDeEtapa {
-        -controlador: ControladorObtencionReferencia
-        +confirmados: list
-        +procesar(mensaje) Resultado
-        +confirmar(mensaje)
+    direction LR
+    namespace aplicacion {
+        class ControladorObtencionReferencia:::capaAplicacion {
+            -referencias: PuertoReferenciaGenomica
+            -excepciones: GestionDeExcepciones
+            -mensajes: PuertoMensajes
+            -repositorio: RepositorioReferencias
+            +obtener(corrida_id, identificador, organismo) Resultado
+        }
+        class GestionDeExcepciones:::capaAplicacion {
+            +clasificar(error, identificador) Aviso
+        }
+        class PuertoReferenciaGenomica:::capaAplicacion {
+            <<interface>>
+            +obtener_referencia(identificador, organismo) DatosDeReferencia
+        }
+        class PuertoMensajes:::capaAplicacion {
+            <<interface>>
+            +publicar_aviso(corrida_id, aviso)
+        }
+        class RepositorioReferencias:::capaAplicacion {
+            <<interface>>
+            +guardar(corrida_id, identificador, organismo, referencia)
+        }
+        class Resultado:::capaAplicacion {
+            +obtenida: bool
+            +referencia: InformacionGenoma
+            +aviso: Aviso
+        }
+        class Aviso:::capaAplicacion {
+            +codigo: str
+            +mensaje: str
+            +reintentable: bool
+        }
+        class DatosDeReferencia:::capaAplicacion {
+            +secuencia: str
+            +anotacion: str
+        }
+        class TargetNoEncontrado:::capaAplicacion {
+            <<exception>>
+        }
     }
-    class ControladorObtencionReferencia {
-        -referencias: PuertoReferenciaGenomica
-        -excepciones: GestionDeExcepciones
-        -mensajes: PuertoMensajes
-        -repositorio: RepositorioReferencias
-        +obtener(corrida_id, identificador, organismo) Resultado
+    namespace dominio {
+        class InformacionGenoma:::capaDominio {
+            +secuencia: str
+            +anotacion: str
+        }
+        class ReferenciaSinSecuencia:::capaDominio {
+            <<exception>>
+        }
     }
-    class PuertoReferenciaGenomica {
-        <<interface>>
-        +obtener_referencia(identificador, organismo) DatosDeReferencia
-    }
-    class PuertoMensajes {
-        <<interface>>
-        +publicar_aviso(corrida_id, aviso)
-    }
-    class RepositorioReferencias {
-        <<interface>>
-        +guardar(corrida_id, identificador, organismo, referencia)
-    }
-    class RepositorioReferenciasSqlite {
-        +guardar(corrida_id, identificador, organismo, referencia)
-    }
-    class RepositorioReferenciasEnMemoria {
-        +guardadas: list
-        +guardar(corrida_id, identificador, organismo, referencia)
-    }
-    class AdaptadorNcbiEntrez {
-        -transporte: function
-        +obtener_referencia(identificador, organismo) DatosDeReferencia
-        -leer_campos_conocidos(respuesta) DatosDeReferencia
-    }
-    class PublicadorDeEtapa {
-        +avisos: list
-        +publicar_aviso(corrida_id, aviso)
-    }
-    class GestionDeExcepciones {
-        +clasificar(error, identificador) Aviso
-    }
-    class InformacionGenoma {
-        +secuencia: str
-        +anotacion: str
-    }
-    class DatosDeReferencia {
-        +secuencia: str
-        +anotacion: str
-    }
-    class Aviso {
-        +codigo: str
-        +mensaje: str
-        +reintentable: bool
-    }
-    class Resultado {
-        +obtenida: bool
-        +referencia: InformacionGenoma
-        +aviso: Aviso
-    }
-    class TargetNoEncontrado {
-        <<exception>>
-    }
-    class ReferenciaSinSecuencia {
-        <<exception>>
+    namespace infraestructura {
+        class ConsumidorDeEtapa:::capaInfra {
+            -controlador: ControladorObtencionReferencia
+            +confirmados: list
+            +procesar(mensaje) Resultado
+            +confirmar(mensaje)
+        }
+        class AdaptadorNcbiEntrez:::capaInfra {
+            -transporte: function
+            +obtener_referencia(identificador, organismo) DatosDeReferencia
+            -leer_campos_conocidos(respuesta) DatosDeReferencia
+        }
+        class PublicadorDeEtapa:::capaInfra {
+            +avisos: list
+            +publicar_aviso(corrida_id, aviso)
+        }
+        class RepositorioReferenciasSqlite:::capaInfra {
+            +guardar(corrida_id, identificador, organismo, referencia)
+        }
+        class RepositorioReferenciasEnMemoria:::capaInfra {
+            +guardadas: list
+            +guardar(corrida_id, identificador, organismo, referencia)
+        }
     }
     ConsumidorDeEtapa --> ControladorObtencionReferencia
     ControladorObtencionReferencia --> PuertoReferenciaGenomica
@@ -420,7 +512,12 @@ classDiagram
     GestionDeExcepciones ..> Aviso : arma
     GestionDeExcepciones ..> TargetNoEncontrado : clasifica
     GestionDeExcepciones ..> ReferenciaSinSecuencia : clasifica
+    classDef capaDominio fill:#e3ecf6,stroke:#12324a,stroke-width:1.5px,color:#12324a
+    classDef capaAplicacion fill:#f1edfd,stroke:#7c3aed,stroke-width:1.5px,color:#12324a
+    classDef capaInfra fill:#e6f2f1,stroke:#0e6660,stroke-width:1.5px,color:#12324a
 ```
+
+Las clases se agrupan por capa (`infraestructura`, `aplicacion` y `dominio`), de izquierda a derecha como van las dependencias, y llevan el color de su capa, el mismo de la robustez: verde azulado para infraestructura (las fronteras), violeta para la aplicación (los controladores y los puertos) y azul para el dominio (la entidad).
 
 Notas sobre el diagrama:
 

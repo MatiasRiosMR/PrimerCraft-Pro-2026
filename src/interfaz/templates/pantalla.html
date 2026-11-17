@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if falla %}No se pudo completar la consulta{% elif resultado and not resultado.obtenida %}Referencia no obtenida{% elif resultado %}Referencia obtenida{% else %}Obtener referencia{% endif %} · PrimerCraft Pro</title>
+<link rel="icon" type="image/svg+xml" href="/static/isotipo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* Identidad PrimerCraft Pro: colores y tipografias de docs/marca; componentes de las maquetas del TP2.
+   Contrastes verificados para WCAG 2.2 AA (texto 4.5:1, bordes de controles 3:1). */
+:root{
+  --bg:#f3f6fa; --surface:#fff; --surface-2:#f8fafc; --ink:#0f172a; --ink-2:#334155; --muted:#475569;
+  --line:#e2e8f0; --line-2:#cbd5e1; --ctrl:#64748b;
+  --primary:#0e6660; --primary-2:#0b524d; --primary-soft:#ccfbf1; --primary-ghost:#f0fdfa; --deep:#12324a;
+  --fwd:#0d9488; --rev:#7c3aed; --rev-soft:#ede9fe;
+  --ok:#166534; --ok-soft:#dcfce7; --warn:#92400e; --warn-soft:#fef3c7; --err:#b91c1c; --err-soft:#fee2e2;
+  --bA:#15803d; --bC:#2563eb; --bG:#92400e; --bT:#dc2626;
+  --radius:12px; --shadow:0 1px 2px rgba(15,23,42,.05),0 4px 14px rgba(15,23,42,.05);
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --sans:"Instrument Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{background:radial-gradient(1000px 360px at 78% -140px,#dcf3ee 0,transparent 70%),radial-gradient(800px 320px at 0 0,#ede9fe70 0,transparent 60%),var(--bg);
+  color:var(--ink);font:15px/1.45 var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+.mono{font-family:var(--mono)}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:12px;top:-60px;z-index:10;background:var(--primary);color:#fff;padding:8px 14px;border-radius:9px;font-weight:600;text-decoration:none}
+.skip:focus{top:10px}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+[tabindex="-1"]:focus{outline:none}
+.shell{height:100vh;display:grid;grid-template-columns:60px 1fr}
+.A{color:var(--bA)}.C{color:var(--bC)}.G{color:var(--bG)}.T,.U{color:var(--bT)}
+
+/* Riel decorativo */
+.rail{background:#ffffffd9;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:12px 0}
+.rail img{width:30px;height:auto}
+.rail-seq{margin-top:auto;writing-mode:vertical-rl;font:700 12px var(--mono);letter-spacing:.35em;opacity:.55;user-select:none}
+
+/* Marco */
+.frame{display:grid;grid-template-rows:auto 1fr;gap:10px;padding:12px 20px 14px;min-width:0;min-height:0}
+.head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:12px}
+.wm{font:700 23px/1 var(--serif);color:#0f172a;letter-spacing:-.01em}
+.wm b{color:var(--primary);font-weight:700}
+.tag{font-size:12.5px;color:var(--muted);border-left:1.5px solid var(--line-2);padding-left:12px}
+.head-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+ol.stepper{list-style:none;margin:0;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.stepper li{display:flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
+.stepper b{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11.5px;background:var(--line);color:var(--ink-2)}
+.stepper .done b{background:var(--ok);color:#fff}
+.stepper .cur{background:var(--primary-ghost);color:var(--primary)} .stepper .cur b{background:var(--primary);color:#fff}
+.stepper .stop{background:var(--err-soft);color:var(--err)} .stepper .stop b{background:var(--err);color:#fff}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:650;white-space:nowrap}
+.b-ok{background:var(--ok-soft);color:var(--ok)} .b-warn{background:var(--warn-soft);color:var(--warn)}
+.b-mute{background:var(--line);color:var(--ink-2)} .b-info{background:var(--primary-ghost);color:var(--primary)}
+
+/* Zona principal: titulo arriba, dos columnas abajo */
+.main{display:grid;grid-template-rows:auto 1fr;gap:12px;min-height:0;min-width:0}
+.eyebrow{margin:0;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--primary)}
+h1{font:700 28px/1.1 var(--serif);margin:2px 0 0;color:var(--deep);letter-spacing:-.01em}
+.body{display:grid;grid-template-columns:320px minmax(0,1fr);gap:14px;min-height:0}
+.col{display:flex;flex-direction:column;gap:12px;min-height:0;min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:13px 15px;min-width:0}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+h2{font-size:12px;margin:0;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.grow{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+
+/* Botones y formulario */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;padding:10px 16px;font:600 14.5px/1 var(--sans);border:1.5px solid var(--ctrl);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn-p{background:var(--primary);border-color:var(--primary);color:#fff;width:100%;padding:12px 16px;font-size:15px} .btn-p:hover{background:var(--primary-2);border-color:var(--primary-2)}
+.btn[aria-disabled="true"]{background:var(--primary-2);border-color:var(--primary-2);cursor:progress}
+.sp{width:15px;height:15px;border:2.5px solid #ffffff66;border-top-color:#fff;border-radius:50%;animation:g .8s linear infinite}
+@keyframes g{to{transform:rotate(1turn)}}
+label.l{display:block;font-weight:650;font-size:13.5px;margin-bottom:4px}
+label.l .req{color:var(--err)}
+.ayuda{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+.input{width:100%;background:var(--surface);color:var(--ink);border:1.5px solid var(--ctrl);border-radius:9px;padding:9px 11px;font:inherit;transition:border-color .15s,box-shadow .15s}
+.input:focus{outline:2px solid var(--primary);outline-offset:1px;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-soft)}
+.input[aria-invalid="true"]{border-color:var(--err);animation:temblor .45s ease-in-out}
+.input.mono{font-size:15px;letter-spacing:.03em}
+.field+.field{margin-top:12px} .field.fin{margin-top:14px}
+.ejemplos{margin-top:12px;font-size:13px;color:var(--muted)}
+.ejemplos .lista{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+.chip{border:1.5px solid var(--ctrl);background:var(--surface);border-radius:999px;min-height:28px;padding:4px 11px;font:550 13px var(--sans);color:var(--ink-2);cursor:pointer}
+.chip:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-ghost)}
+
+/* Avisos */
+.callout{display:flex;gap:11px;border-radius:11px;padding:11px 14px;border:1px solid;font-size:14px}
+.callout .ic{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;font-size:13px}
+.callout strong{display:block;margin-bottom:1px}
+.callout .codigo{display:inline-block;margin-top:4px;font:600 12px var(--mono);background:#ffffffb0;border-radius:6px;padding:1px 7px}
+.c-err{background:var(--err-soft);border-color:color-mix(in srgb,var(--err) 30%,transparent)} .c-err .ic{background:var(--err)}
+.c-warn{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 30%,transparent)} .c-warn .ic{background:var(--warn)}
+.c-ok{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 30%,transparent)} .c-ok .ic{background:var(--ok)}
+
+/* Resultado */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:9px 14px;border-left:3px solid var(--fwd)}
+.stat:nth-child(2){border-left-color:var(--rev)}
+.stat .k{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.stat .v{font:700 24px/1.15 var(--sans);color:var(--deep);letter-spacing:-.02em}
+.stat .v small{font-size:13px;font-weight:600;color:var(--muted);margin-left:3px}
+.stat .s{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.medio{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;flex:1;min-height:0}
+.visor{font-family:var(--mono);font-size:14px;font-weight:500;line-height:1.7;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:8px 11px;flex:1;min-height:0;overflow:auto}
+.fila{display:flex;gap:12px;white-space:nowrap}
+.pos{width:44px;text-align:right;color:var(--muted);font-weight:400;user-select:none;flex:none}
+.bloque{margin-right:8px;letter-spacing:.05em} .bloque span{font-weight:700}
+.trunc{color:var(--muted);margin:2px 0 0;font-size:13px}
+.anot{margin:0;flex:1;min-height:0;overflow:auto;font:12.5px/1.55 var(--mono);color:var(--ink-2);white-space:pre;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:8px 11px}
+.vacio-h{color:var(--muted);font-size:13px;margin:0}
+
+/* Estados sin resultado: inicial, consultando, rechazo, falla */
+.vacio{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;color:var(--ink-2);padding:10px}
+.vacio h2.t{margin:0;font:700 23px var(--serif);color:var(--deep);letter-spacing:0;text-transform:none}
+.vacio p{margin:0;max-width:480px;color:var(--ink-2);font-size:15.5px}
+.siguiente{background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-radius:10px;padding:10px 16px;color:var(--ink);font-size:15.5px;max-width:480px}
+.flujo{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;justify-content:center}
+.flujo .nodo{border:1.5px solid var(--line-2);background:var(--surface);border-radius:10px;padding:8px 12px;font-size:13.5px;font-weight:600;color:var(--ink-2);text-align:left}
+.flujo .nodo small{display:block;font:500 12px var(--mono);color:var(--muted)}
+.flujo .nodo.on{border-color:var(--primary);background:var(--primary-ghost);color:var(--primary)}
+.flujo .flecha{color:var(--fwd);font-weight:800}
+.sp-grande{width:34px;height:34px;border:4px solid var(--primary-soft);border-top-color:var(--primary);border-radius:50%;animation:g .9s linear infinite}
+
+/* Toque bioinformatico: todo es presentacion (decorativo o de entrada); no representa datos ni calcula nada */
+.helice{display:flex;gap:9px;align-items:center;height:64px}
+.helice span{position:relative;display:block;width:8px;height:64px}
+.helice span::before,.helice span::after{content:"";position:absolute;left:0;width:8px;height:8px;border-radius:50%}
+.helice span::before{background:var(--primary);animation:h-a 1.8s ease-in-out infinite;animation-delay:calc(var(--i) * -.14s)}
+.helice span::after{background:var(--rev);animation:h-b 1.8s ease-in-out infinite;animation-delay:calc(var(--i) * -.14s)}
+.helice i{position:absolute;left:3px;top:4px;bottom:4px;width:2px;background:var(--line-2);transform-origin:center;animation:h-r 1.8s ease-in-out infinite;animation-delay:calc(var(--i) * -.14s)}
+@keyframes h-a{0%,100%{top:0}50%{top:56px}}
+@keyframes h-b{0%,100%{top:56px}50%{top:0}}
+@keyframes h-r{0%,50%,100%{transform:scaleY(1)}25%,75%{transform:scaleY(.04)}}
+.vacio .sp-grande{display:none}
+
+/* El secuenciador "lee" la secuencia: los bloques aparecen en cascada, de arriba hacia abajo */
+.bloque{animation:leer .55s ease-out both;animation-delay:calc(var(--n) * 26ms)}
+@keyframes leer{0%{opacity:0;background:var(--primary-soft)}40%{opacity:1;background:var(--primary-soft)}100%{opacity:1;background:transparent}}
+.aparece{animation:aparece .6s ease-out both;animation-delay:.25s}
+@keyframes aparece{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.leyenda{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:0;text-transform:none}
+.leyenda b{font-family:var(--mono);font-weight:700}
+
+/* Anotacion GenBank con colores por tipo de texto */
+.anot .h{color:var(--muted);font-weight:700}
+.anot .k{color:var(--primary);font-weight:700}
+.anot .loc{color:var(--deep);font-weight:600}
+.anot .q{color:#6d28d9}
+.anot .v{color:var(--ink-2)}
+
+/* Rechazo: la doble hebra se separa una vez y el campo tiembla suave */
+.cortada .ha{animation:corta-a .9s ease-out .15s both}
+.cortada .hb{animation:corta-b .9s ease-out .15s both}
+.cortada .equis{transform-box:fill-box;transform-origin:center;animation:pop .5s ease-out .7s both}
+@keyframes corta-a{to{transform:translateY(-9px)}}
+@keyframes corta-b{to{transform:translateY(9px)}}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes temblor{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+
+/* Pasos del flujo y riel */
+.stepper .done b{animation:pop .5s ease-out both}
+.stepper .cur b{animation:pulso 1.8s ease-out infinite}
+@keyframes pulso{0%{box-shadow:0 0 0 0 #0e666055}70%{box-shadow:0 0 0 7px #0e666000}100%{box-shadow:0 0 0 0 #0e666000}}
+.rail-seq span{animation:lee-riel 4.2s ease-in-out infinite;animation-delay:calc(var(--k) * .3s)}
+@keyframes lee-riel{0%,70%,100%{opacity:1}35%{opacity:.25}}
+
+/* Poca altura (proyector con barras del navegador): se mantienen las dos columnas y la pagina pasa a scrollear */
+@media (max-height:660px){
+  body{overflow:auto}.shell{height:auto;min-height:100vh}
+  .medio{min-height:400px}.visor,.anot{max-height:360px}
+}
+/* Poco ancho: una sola columna */
+@media (max-width:1100px){
+  body{overflow:auto}.shell{height:auto;min-height:100vh}
+  .body{grid-template-columns:minmax(0,1fr)}.medio{grid-template-columns:minmax(0,1fr)}
+  .visor,.anot{max-height:360px}
+}
+@media (max-width:760px){
+  .shell{grid-template-columns:minmax(0,1fr)}.rail{display:none}.frame{padding:12px}.tag{display:none}
+  ol.stepper{flex-wrap:wrap;border-radius:16px;justify-content:flex-start}.stepper li{padding:3px 8px}
+  .head-r{width:100%}h1{font-size:24px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.helice{display:none}.vacio .sp-grande{display:block}}
+</style>
+</head>
+<body>
+<a class="skip" href="#identificador">Saltar al formulario</a>
+<div class="shell">
+  <div class="rail" aria-hidden="true">
+    <img src="/static/isotipo.svg" alt="">
+    <div class="rail-seq"><span class="A" style="--k:0">A</span><span class="C" style="--k:1">C</span><span class="G" style="--k:2">G</span><span class="T" style="--k:3">T</span> · <span class="G" style="--k:4">G</span><span class="A" style="--k:5">A</span><span class="T" style="--k:6">T</span><span class="C" style="--k:7">C</span></div>
+  </div>
+
+  <div class="frame">
+    <header class="head">
+      <div class="brand"><span class="wm">PrimerCraft <b>Pro</b></span><span class="tag">Diseño y puntuación de primers para PCR/qPCR</span></div>
+      <div class="head-r">
+        <span class="badge {{ 'b-warn' if modo == 'simulado' else 'b-ok' }}"><span aria-hidden="true">●</span> Origen de los datos: NCBI {{ modo }}</span>
+        <ol class="stepper" aria-label="Pasos del flujo">
+          {% if resultado and not resultado.obtenida or falla %}
+          <li class="done"><b aria-hidden="true">✓</b>Target<span class="sr-only"> (completado)</span></li>
+          <li class="stop" aria-current="step"><b aria-hidden="true">!</b>Referencia<span class="sr-only"> (detenido)</span></li>
+          {% elif resultado %}
+          <li class="done"><b aria-hidden="true">✓</b>Target<span class="sr-only"> (completado)</span></li>
+          <li class="done"><b aria-hidden="true">✓</b>Referencia<span class="sr-only"> (completado)</span></li>
+          {% else %}
+          <li class="cur" aria-current="step"><b aria-hidden="true">1</b>Target<span class="sr-only"> (paso actual)</span></li>
+          <li><b aria-hidden="true">2</b>Referencia<span class="sr-only"> (pendiente)</span></li>
+          {% endif %}
+          <li><b aria-hidden="true">3</b>Gen<span class="sr-only"> (pendiente)</span></li>
+          <li><b aria-hidden="true">4</b>Candidatos<span class="sr-only"> (pendiente)</span></li>
+          <li><b aria-hidden="true">5</b>Especificidad<span class="sr-only"> (pendiente)</span></li>
+        </ol>
+      </div>
+    </header>
+
+    <main class="main" id="principal" aria-busy="false">
+      <div>
+        <p class="eyebrow">{% if falla %}No se pudo completar{% elif resultado and not resultado.obtenida %}Corrida detenida{% elif resultado %}Referencia disponible{% else %}Nueva corrida · Preparación de datos{% endif %}</p>
+        <h1>Obtener la secuencia de referencia</h1>
+      </div>
+
+      <div class="body">
+        <!-- Izquierda: entrada y estado -->
+        <section class="col" aria-labelledby="h-target">
+          <form method="post" class="card" id="formulario">
+            <div class="card-h"><h2 id="h-target">Target</h2><span class="badge b-info">HU-04</span></div>
+            <div class="field">
+              <label class="l" for="identificador">Identificador NCBI <span class="req" aria-hidden="true">*</span></label>
+              <input class="input mono" id="identificador" name="identificador" value="{{ identificador }}" required aria-required="true" autocomplete="off" spellcheck="false"
+                     aria-describedby="ayuda-id{% if resultado and not resultado.obtenida %} resultado{% endif %}"{% if resultado and not resultado.obtenida %} aria-invalid="true"{% endif %}>
+              <span class="ayuda" id="ayuda-id">Código de acceso de NCBI, por ejemplo NM_000518.</span>
+            </div>
+            <div class="field">
+              <label class="l" for="organismo">Organismo <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="organismo" name="organismo" value="{{ organismo }}" required aria-required="true" aria-describedby="ayuda-org">
+              <span class="ayuda" id="ayuda-org">Nombre científico, por ejemplo Homo sapiens.</span>
+            </div>
+            <div class="field fin"><button class="btn btn-p" type="submit" id="enviar"><span class="sp" hidden id="spinner" aria-hidden="true"></span><span class="txt">Obtener referencia</span><span aria-hidden="true" class="flecha-b">→</span></button></div>
+            <div class="ejemplos">
+              <span id="lbl-ej">Probá con un ejemplo:</span>
+              <div class="lista" role="group" aria-labelledby="lbl-ej">
+                <button type="button" class="chip" data-id="NM_000518" data-org="Homo sapiens" aria-label="Cargar el ejemplo NM_000518, que existe en NCBI">NM_000518 · éxito</button>
+                <button type="button" class="chip" data-id="NM_999999" data-org="Homo sapiens" aria-label="Cargar el ejemplo NM_999999, que no existe en NCBI">NM_999999 · rechazo</button>
+              </div>
+            </div>
+            <p class="sr-only" id="estado-envio" role="status"></p>
+          </form>
+
+          {% if resultado and resultado.obtenida %}
+          <div class="callout c-ok" id="resultado" role="status" tabindex="-1"><div class="ic" aria-hidden="true">✓</div><div><strong>Referencia obtenida</strong>Secuencia FASTA y anotación recuperadas de NCBI Entrez.</div></div>
+          {% elif resultado %}
+          <div class="callout c-err" id="resultado" role="alert" tabindex="-1"><div class="ic" aria-hidden="true">!</div><div><strong>Referencia no obtenida</strong>{{ resultado.aviso.mensaje }}<span class="codigo">{{ resultado.aviso.codigo }}</span></div></div>
+          {% elif falla %}
+          <div class="callout c-warn" id="resultado" role="alert" tabindex="-1"><div class="ic" aria-hidden="true">!</div><div><strong>No se pudo completar la consulta</strong>No es un problema de tus datos. Revisá tu conexión y probá de nuevo en unos minutos.</div></div>
+          {% endif %}
+        </section>
+
+        <!-- Derecha: resultado -->
+        <section class="col" aria-labelledby="h-res">
+          <h2 class="sr-only" id="h-res">Resultado</h2>
+
+          <div class="vacio card grow" id="cargando" hidden>
+            <div class="helice" aria-hidden="true"><span style="--i:0"><i></i></span><span style="--i:1"><i></i></span><span style="--i:2"><i></i></span><span style="--i:3"><i></i></span><span style="--i:4"><i></i></span><span style="--i:5"><i></i></span><span style="--i:6"><i></i></span><span style="--i:7"><i></i></span><span style="--i:8"><i></i></span><span style="--i:9"><i></i></span><span style="--i:10"><i></i></span><span style="--i:11"><i></i></span><span style="--i:12"><i></i></span><span style="--i:13"><i></i></span></div>
+            <div class="sp-grande" aria-hidden="true"></div>
+            <h2 class="t">Consultando NCBI Entrez…</h2>
+            <p>Estamos buscando la secuencia y la anotación. Suele tardar un par de segundos.</p>
+          </div>
+
+          <div class="col grow" id="resultado-contenido" style="min-height:0">
+          {% if vista %}
+          <div class="stats">
+            <div class="stat"><div class="k">Longitud</div><div class="v">{{ vista.longitud }}<small>nt</small></div><div class="s mono">{{ identificador }}</div></div>
+            <div class="stat"><div class="k">Organismo</div><div class="v" style="font:italic 700 18px/1.4 var(--serif);padding-top:4px">{{ organismo }}</div><div class="s">&nbsp;</div></div>
+          </div>
+
+          <div class="medio">
+            <section class="card grow" aria-labelledby="h-seq">
+              <div class="card-h"><h2 id="h-seq">Secuencia de referencia · FASTA</h2><span class="leyenda"><b class="A">A</b> adenina · <b class="C">C</b> citosina · <b class="G">G</b> guanina · <b class="T">T</b> timina</span></div>
+              <div class="visor" tabindex="0" role="group" aria-label="Secuencia de referencia, {{ vista.longitud }} nucleótidos">
+                <div aria-hidden="true">{% for pos, bloques in vista.lineas %}{% set li = loop.index0 %}<div class="fila"><span class="pos">{{ pos }}</span><span>{% for b in bloques %}<span class="bloque" style="--n:{{ li * 6 + loop.index0 }}">{% for base in b %}<span class="{{ base }}">{{ base }}</span>{% endfor %}</span>{% endfor %}</span></div>{% endfor %}</div>
+                <p class="sr-only">{{ vista.mostrada }}</p>
+                {% if vista.truncada %}<p class="trunc">… {{ vista.longitud }} nt en total (se muestran los primeros {{ vista.mostrada | length }})</p>{% endif %}
+              </div>
+            </section>
+
+            <section class="card grow aparece" aria-labelledby="h-anot">
+              <div class="card-h"><h2 id="h-anot">Anotación GenBank</h2></div>
+              {% if vista.anotacion %}<pre class="anot" tabindex="0" role="region" aria-label="Anotación GenBank, texto desplazable">{% for l in vista.anotacion_lineas %}{% for c, t in l %}<span class="{{ c }}">{{ t }}</span>{% endfor %}{{ "\n" }}{% endfor %}</pre>{% else %}<p class="vacio-h">Sin anotación disponible.</p>{% endif %}
+            </section>
+          </div>
+
+          {% elif resultado %}
+          <div class="card grow"><div class="vacio">
+            <svg class="cortada" viewBox="0 0 160 100" width="150" aria-hidden="true"><path class="ha" d="M10 50 Q40 10 70 50 T130 50" fill="none" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/><path class="hb" d="M10 50 Q40 90 70 50 T130 50" fill="none" stroke="#fecaca" stroke-width="5" stroke-linecap="round"/><g class="equis"><circle cx="135" cy="50" r="15" fill="#fee2e2" stroke="#b91c1c" stroke-width="3"/><path d="M129 44l12 12M141 44l-12 12" stroke="#b91c1c" stroke-width="3" stroke-linecap="round"/></g></svg>
+            <h2 class="t">NCBI no encontró <span class="mono" style="font-size:20px">{{ identificador }}</span></h2>
+            <p>No hay ningún registro con ese identificador para <i>{{ organismo }}</i>. Puede haber un dígito cambiado o una versión que ya no existe.</p>
+            <p class="siguiente"><strong>Qué hacer:</strong> corregí el identificador (por ejemplo, NM_000518) y volvé a obtener la referencia.</p>
+          </div></div>
+
+          {% elif falla %}
+          <div class="card grow"><div class="vacio">
+            <svg viewBox="0 0 160 100" width="150" aria-hidden="true"><path d="M10 50 Q40 10 70 50 T130 50" fill="none" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/><path d="M10 50 Q40 90 70 50 T130 50" fill="none" stroke="#fde68a" stroke-width="5" stroke-linecap="round"/><circle cx="135" cy="50" r="15" fill="#fef3c7" stroke="#92400e" stroke-width="3"/><path d="M135 41v12M135 58v2" stroke="#92400e" stroke-width="3" stroke-linecap="round"/></svg>
+            <h2 class="t">No se pudo completar la consulta</h2>
+            <p>Tus datos están bien: el problema fue al consultar. Revisá tu conexión y volvé a intentar en unos minutos.</p>
+          </div></div>
+
+          {% else %}
+          <div class="card grow"><div class="vacio">
+            <svg viewBox="0 0 160 100" width="170" aria-hidden="true"><path d="M10 50 Q40 10 70 50 T130 50" fill="none" stroke="#0e6660" stroke-width="5" stroke-linecap="round"/><path d="M10 50 Q40 90 70 50 T130 50" fill="none" stroke="#7c3aed" stroke-width="5" stroke-linecap="round" opacity=".7"/><g stroke="#cbd5e1" stroke-width="2.5"><path d="M25 34v32M55 28v44M85 34v32M115 40v20"/></g></svg>
+            <h2 class="t">Obtené la secuencia de referencia</h2>
+            <p>Ingresá el identificador y el organismo. El sistema consulta NCBI Entrez y trae la secuencia FASTA y la anotación que usan el diseño y la validación de primers.</p>
+            <div class="flujo" aria-label="Recorrido del flujo">
+              <div class="nodo on">Identificador + organismo</div><span class="flecha" aria-hidden="true">→</span>
+              <div class="nodo on">NCBI Entrez</div><span class="flecha" aria-hidden="true">→</span>
+              <div class="nodo on">Secuencia + anotación</div><span class="flecha" aria-hidden="true">→</span>
+              <div class="nodo">Localizar gen<small>próximo paso</small></div><span class="flecha" aria-hidden="true">→</span>
+              <div class="nodo">Candidatos<small>próximo paso</small></div>
+            </div>
+          </div></div>
+          {% endif %}
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+  // Solo presentacion: ejemplos, estado de envio y foco en el resultado.
+  (function () {
+    var $id = document.getElementById('identificador'), $org = document.getElementById('organismo');
+    document.querySelectorAll('.chip').forEach(function (el) {
+      el.addEventListener('click', function () { $id.value = el.dataset.id; $org.value = el.dataset.org; $id.focus(); });
+    });
+    var enviando = false;
+    document.getElementById('formulario').addEventListener('submit', function (e) {
+      if (enviando) { e.preventDefault(); return; }
+      enviando = true;
+      var b = document.getElementById('enviar');
+      b.setAttribute('aria-disabled', 'true');
+      document.getElementById('spinner').hidden = false;
+      b.querySelector('.txt').textContent = 'Consultando NCBI…';
+      b.querySelector('.flecha-b').hidden = true;
+      document.getElementById('estado-envio').textContent = 'Consultando NCBI Entrez, esperá un momento.';
+      document.getElementById('principal').setAttribute('aria-busy', 'true');
+      document.getElementById('resultado-contenido').hidden = true;
+      document.getElementById('cargando').hidden = false;
+    });
+    window.addEventListener('pageshow', function (ev) { if (ev.persisted) { location.reload(); } });
+    var r = document.getElementById('resultado');
+    if (r) { r.focus(); }
+  })();
+</script>
+</body>
+</html>

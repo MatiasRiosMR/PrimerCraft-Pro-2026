@@ -72,6 +72,7 @@ Se elige el ciclo de vida **Iterativo e Incremental** porque permite construir l
 | Arquitectura | [`docs/architecture/contexto_inicial.md`](docs/architecture/contexto_inicial.md) | Diagrama de contexto (DFD nivel 0 y nivel 1) |
 | | [`docs/architecture/modelo-dominio-inicial.md`](docs/architecture/modelo-dominio-inicial.md) | Modelo de dominio |
 | | [`docs/architecture/arquitectura.md`](docs/architecture/arquitectura.md) | Documento de especificación de arquitectura: drivers, estrategia de solución (tácticas, estilos y patrones), vistas C4 de contenedores, componentes y despliegue, historias de usuario sobre las vistas, decisiones `DA-xx`, trazabilidad y riesgos |
+| Diseño detallado | [`docs/design/diseno-detallado.md`](docs/design/diseno-detallado.md) | TP4, Parte A: diseño detallado de `HU-04` (ficha, análisis tridimensional, robustez, secuencias, modelo de clases obtenido del código, pruebas y trazabilidad) |
 | UX | [`docs/ui/README.md`](docs/ui/README.md) | Índice del diseño de experiencia de usuario |
 | | [`docs/ui/user-profiles/perfil-investigador.md`](docs/ui/user-profiles/perfil-investigador.md) | Perfil de usuario, escenarios de uso y flujos de navegación |
 | | [`docs/ui/criterios_generacion.md`](docs/ui/criterios_generacion.md) | Criterios de generación de las maquetas |

@@ -495,9 +495,6 @@ classDiagram
     ControladorObtencionReferencia --> GestionDeExcepciones
     ControladorObtencionReferencia ..> InformacionGenoma : crea
     ControladorObtencionReferencia ..> Resultado : devuelve
-    ControladorObtencionReferencia ..> TargetNoEncontrado : recibe
-    ControladorObtencionReferencia ..> ReferenciaSinSecuencia : recibe
-    ConsumidorDeEtapa ..> Resultado : usa
     Resultado --> InformacionGenoma
     Resultado --> Aviso
     PuertoReferenciaGenomica ..> DatosDeReferencia : devuelve
@@ -505,11 +502,8 @@ classDiagram
     PublicadorDeEtapa ..|> PuertoMensajes
     RepositorioReferenciasSqlite ..|> RepositorioReferencias
     RepositorioReferenciasEnMemoria ..|> RepositorioReferencias
-    RepositorioReferencias ..> InformacionGenoma : recibe
-    AdaptadorNcbiEntrez ..> DatosDeReferencia : devuelve
     AdaptadorNcbiEntrez ..> TargetNoEncontrado : lanza
     InformacionGenoma ..> ReferenciaSinSecuencia : lanza
-    GestionDeExcepciones ..> Aviso : arma
     GestionDeExcepciones ..> TargetNoEncontrado : clasifica
     GestionDeExcepciones ..> ReferenciaSinSecuencia : clasifica
     classDef capaDominio fill:#e3ecf6,stroke:#12324a,stroke-width:1.5px,color:#12324a
@@ -527,6 +521,7 @@ Notas sobre el diagrama:
 - `Aviso` sigue el formato del mensaje `corrida.estado` definido en el TP3 (sección 5.2): `codigo` y `mensaje` son los mismos campos, y un error definitivo es `reintentable = false`. Del mismo modo, `corrida_id`, `identificador` y `organismo` corresponden a `idCorrida`, `identificadorNcbi` y `organismo` del mensaje; el consumidor traduce entre el JSON y estas clases.
 - `PuertoMensajes` tiene solo `publicar_aviso`. `publicar_referencia` aparece cuando se diseñe `HU-02.1`, que es quien publica la región.
 - `-transporte` es la función que consigue la respuesta cruda de NCBI: `consultar_entrez` (real) o `consultar_grabacion` (respuestas grabadas). Son funciones y no clases, por eso no se dibujan.
+- Para que el diagrama se lea, no se dibujan las líneas de uso de tipos que ya se ven en las firmas y atributos (por ejemplo, que `ConsumidorDeEtapa.procesar` devuelve un `Resultado` o que `GestionDeExcepciones.clasificar` devuelve un `Aviso`). Sí se dibujan las que las firmas no muestran: quién crea la entidad, quién lanza cada error y quién lo clasifica.
 
 ### 4.2 Validación contra la robustez y las secuencias
 

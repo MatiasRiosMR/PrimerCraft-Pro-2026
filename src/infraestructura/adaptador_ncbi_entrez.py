@@ -31,7 +31,10 @@ def consultar_entrez(identificador: str, organismo: str) -> dict:
         timeout=15,
     )
     busqueda.raise_for_status()
-    ids = busqueda.json().get("esearchresult", {}).get("idlist", [])
+    resultado = busqueda.json().get("esearchresult", {})
+    if "idlist" not in resultado:  # NCBI contestó otra cosa (un error): no es lo mismo que «sin resultados»
+        raise RuntimeError("respuesta inesperada de NCBI Entrez: no trae la lista de resultados")
+    ids = resultado["idlist"]
     if not ids:
         raise TargetNoEncontrado(identificador)
     respuesta = {}

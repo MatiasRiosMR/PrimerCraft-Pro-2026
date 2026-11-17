@@ -537,6 +537,66 @@ El diagrama obtenido del código se contrastó con el diagrama de robustez (3.4)
 
 Con esas correcciones, todo lo que aparece en el diagrama se usa en alguna secuencia y viceversa, salvo los datos (`DatosDeReferencia`, `Aviso`, `Resultado`), las excepciones y las implementaciones simuladas, que se explican en las notas de 4.1. Las entidades no son anémicas: `InformacionGenoma` valida en su constructor que haya una secuencia con alfabeto IUPAC. No se encontraron diferencias con el TP3 ni con el modelo de dominio del TP1 distintas de las ya documentadas en 5.3 y 8.2.
 
+### 4.3 Resumen para la presentación
+
+Versión reducida del diagrama de 4.1: deja solo las clases que explican el diseño y las operaciones clave. Se lee de izquierda a derecha: la entrada (`ConsumidorDeEtapa`), el controlador, las interfaces que el controlador conoce (los puertos y el repositorio) y, a la derecha, las clases concretas que las implementan. Los colores son los de siempre: verde azulado para infraestructura, violeta para la aplicación y azul para el dominio.
+
+```mermaid
+---
+config:
+  theme: base
+---
+classDiagram
+    direction LR
+    class ConsumidorDeEtapa:::infra
+    class ControladorObtencionReferencia:::app {
+        +obtener(corrida_id, identificador, organismo) Resultado
+    }
+    class GestionDeExcepciones:::app {
+        +clasificar(error, identificador) Aviso
+    }
+    class InformacionGenoma:::dominio {
+        +secuencia: str
+        +anotacion: str
+    }
+    class PuertoReferenciaGenomica:::app {
+        <<interface>>
+        +obtener_referencia(identificador, organismo)
+    }
+    class PuertoMensajes:::app {
+        <<interface>>
+        +publicar_aviso(corrida_id, aviso)
+    }
+    class RepositorioReferencias:::app {
+        <<interface>>
+        +guardar(corrida_id, identificador, organismo, referencia)
+    }
+    class AdaptadorNcbiEntrez:::infra
+    class PublicadorDeEtapa:::infra
+    class RepositorioReferenciasSqlite:::infra
+    class RepositorioReferenciasEnMemoria:::infra
+    ConsumidorDeEtapa --> ControladorObtencionReferencia
+    ControladorObtencionReferencia --> GestionDeExcepciones
+    ControladorObtencionReferencia ..> InformacionGenoma : crea
+    ControladorObtencionReferencia --> PuertoReferenciaGenomica
+    ControladorObtencionReferencia --> PuertoMensajes
+    ControladorObtencionReferencia --> RepositorioReferencias
+    PuertoReferenciaGenomica <|.. AdaptadorNcbiEntrez
+    PuertoMensajes <|.. PublicadorDeEtapa
+    RepositorioReferencias <|.. RepositorioReferenciasSqlite
+    RepositorioReferencias <|.. RepositorioReferenciasEnMemoria
+    classDef dominio fill:#e3ecf6,stroke:#12324a,stroke-width:2px,color:#12324a
+    classDef app fill:#f1edfd,stroke:#7c3aed,stroke-width:2px,color:#12324a
+    classDef infra fill:#e6f2f1,stroke:#0e6660,stroke-width:2px,color:#12324a
+```
+
+Cómo se lee:
+
+- **El controlador solo conoce interfaces.** `ControladorObtencionReferencia` depende de `PuertoReferenciaGenomica`, `PuertoMensajes` y `RepositorioReferencias`, nunca de NCBI, de NATS ni de SQLite (`DA-05`, `EC-03`).
+- **Cambiar una implementación no toca el controlador.** Para otro proveedor genómico se escribe otra clase a la derecha de `PuertoReferenciaGenomica`; para otra base, otra clase a la derecha de `RepositorioReferencias`.
+- **La regla de negocio está en el dominio.** El controlador crea `InformacionGenoma`, que valida que haya una secuencia con alfabeto IUPAC; `GestionDeExcepciones` decide si un error es definitivo o pasajero (`DA-03`).
+- Quedan fuera de este resumen `Resultado`, `Aviso`, `DatosDeReferencia` y las dos excepciones, que están en 4.1.
+
 ---
 
 ## 5. Justificación del diseño

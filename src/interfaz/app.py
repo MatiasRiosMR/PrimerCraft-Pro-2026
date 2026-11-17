@@ -4,6 +4,7 @@ Representa la frontera hacia la persona. En el TP3 esa pieza es la Aplicación w
 Servidor de corridas; en esta demostración de HU-04 es una pantalla mínima que llama directo al controlador.
 El formato de lo que se muestra está en presentacion.py.
 """
+import logging
 import uuid
 from pathlib import Path
 
@@ -13,6 +14,9 @@ from fastapi.templating import Jinja2Templates
 
 from src.arranque import MODO, armar_controlador
 from src.interfaz.presentacion import vista_de_referencia
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+registro = logging.getLogger("primercraft")
 
 AQUI = Path(__file__).parent
 app = FastAPI(title="PrimerCraft Pro · HU-04")
@@ -36,6 +40,7 @@ def consultar(request: Request, identificador: str = Form(...), organismo: str =
     try:
         resultado = controlador.obtener(uuid.uuid4().hex, identificador, organismo)
     except Exception:  # falla inesperada (p. ej. sin conexion): el reintento (DA-03) queda fuera de HU-04
+        registro.exception("Falla inesperada al obtener la referencia de %r", identificador)
         return _pantalla(request, identificador, organismo, falla=True)
     vista = vista_de_referencia(resultado.referencia) if resultado.obtenida else None
     return _pantalla(request, identificador, organismo, resultado=resultado, vista=vista)

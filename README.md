@@ -258,5 +258,5 @@ Solo se guarda cuando la referencia se obtuvo; ante un rechazo no se guarda nada
 
 - Cubre los dos criterios de aceptación de HU-04. Quedan fuera, como se documenta en el diseño: el rechazo por
   organismo que no coincide y el reintento por «NCBI no disponible» (`DA-03`). Ante cualquier falla inesperada (por
-  ejemplo, sin conexión a NCBI), la pantalla muestra un aviso genérico.
+  ejemplo, sin conexión a NCBI), la pantalla muestra un aviso genérico y registra el error en la consola donde corre `uvicorn`.
 - Los servicios externos (NCBI, broker) están detrás de interfaces y tienen implementación simulada.

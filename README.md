@@ -175,7 +175,6 @@ La pantalla indica arriba a la derecha si está en modo `real` o `simulado`.
 - **Target** (formulario con dos ejemplos para recorrer los dos caminos).
 - **Resultado:** longitud, secuencia FASTA en bloques de 10 nt con posiciones (con la leyenda de las bases A, C, G y T) y el texto de la anotación GenBank con colores por tipo de texto.
 - **Animaciones decorativas:** una doble hélice mientras se consulta a NCBI, la secuencia que aparece «leída» en cascada, y la hebra que se corta en el rechazo. No representan datos y se apagan si el sistema pide «reducir movimiento».
-- **Acciones:** copiar la secuencia en FASTA y descargarla como `.fasta`.
 - **Rechazo:** panel con el motivo y el paso «Referencia» del flujo marcado en rojo.
 
 La pantalla no calcula nada: `src/interfaz/presentacion.py` solo ordena en líneas y bloques lo que devuelve el controlador.

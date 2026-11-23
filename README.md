@@ -143,6 +143,8 @@ pip install -r requirements.txt
 
 ### Ejecutar la interfaz
 
+En Windows alcanza con hacer doble clic en `iniciar.bat` (o `iniciar.bat real` para consultar NCBI por internet): crea el entorno la primera vez, levanta el servidor y abre el navegador. Por defecto usa el modo simulado. A mano:
+
 ```bash
 uvicorn src.interfaz.app:app
 ```

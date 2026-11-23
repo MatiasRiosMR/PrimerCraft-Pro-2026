@@ -11,6 +11,7 @@ permalink: /
   <div class="pc-actions">
     <a class="pc-primary" href="{{ '/ui/' | relative_url }}#pantallas">Ver las maquetas →</a>
     <a class="pc-ghost" href="{{ '/requirements/srs.html' | relative_url }}">Leer el SRS</a>
+    <a class="pc-ghost" href="{{ '/design/' | relative_url }}">Diseño de HU-04</a>
     <a class="pc-ghost" href="https://github.com/MatiasRiosMR/PrimerCraft-Pro-2026" target="_blank" rel="noopener">Repositorio</a>
   </div>
   <div class="pc-strand" aria-hidden="true"><span class="f">5' ━━━━━━━━━━━━▶</span><span>· · · · · · · · · · · · · · · · · · · · · ·</span><span class="r">◀━━━━━━━━━━━━ 5'</span></div>
@@ -42,6 +43,11 @@ permalink: /
     <div class="ic">◉</div><span class="go">→</span>
     <h3>Experiencia de usuario</h3>
     <p>Perfil, criterios de generación, maquetas interactivas y evaluación heurística con revisión crítica.</p>
+  </a>
+  <a class="pc-card" href="{{ '/design/' | relative_url }}">
+    <div class="ic">⚙</div><span class="go">→</span>
+    <h3>Diseño detallado e implementación</h3>
+    <p>HU-04 (obtener la secuencia de referencia): diagramas de robustez, secuencia y clases, código, pruebas y cobertura.</p>
   </a>
 </div>
 

@@ -70,8 +70,6 @@ Se documenta para no perderlo:
 
 | Sigla | Significado |
 |---|---|
-| HU, CU, RF | Historia de usuario, caso de uso, requerimiento funcional |
-| `EC-xx`, `DA-xx` | Escenario de calidad, decisión de arquitectura |
 | `CP-xx` | Caso de prueba |
 | GRASP | Patrones generales para asignar responsabilidades (*General Responsibility Assignment Software Patterns*) |
 | FASTA | Formato de texto para secuencias biológicas |

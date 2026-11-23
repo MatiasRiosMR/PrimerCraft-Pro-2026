@@ -1,0 +1,8 @@
+[run]
+source = src
+omit =
+    src/interfaz/*
+    src/arranque.py
+
+[report]
+show_missing = True

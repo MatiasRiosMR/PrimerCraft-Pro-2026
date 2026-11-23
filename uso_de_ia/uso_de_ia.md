@@ -328,3 +328,151 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Resultado** | Diagrama `C4Deployment` en Mermaid con la computadora del usuario y una VPS con Docker que ejecuta los siete contenedores del sistema; catálogo de nodos con su justificación; decisión `DA-08`; nodos en la tabla de trazabilidad de `EC-05`; riesgo 9 (VPS como punto único de falla); renumeración de las secciones 9 a 12 y del índice. |
 | **Modificado/descartado** | **1.** El grupo indicó que el despliegue sería en una VPS, y el nodo "Servidor de producción" se renombró a "VPS".<br>**2.** Se descartó dibujar NCBI y las bases de variantes, porque la regla 4.8 excluye los sistemas externos de esta vista.<br>**3.** Se descartó separar la base de datos en un nodo propio, como en el ejemplo del Anexo C, porque ningún escenario lo exige y la restricción es una sola máquina.<br>**4.** Se agregaron al `DA-08` el reinicio automático de contenedores y el backup de PostgreSQL fuera de la VPS, a partir de revisar qué ocurre si se cae un nodo. |
 | **Error detectado** | El primer render de Mermaid tenía flechas que cruzaban cajas y etiquetas superpuestas; se reordenaron los contenedores y se ajustaron las posiciones de las etiquetas. Los nombres de contenedores se tomaron de un borrador y se verificaron contra la sección 6 publicada en `main`. |
+
+---
+
+> **Nota sobre el TP4.** A diferencia de los TP anteriores, en el TP4 la IA participó también en el diseño, la implementación y las pruebas, no solo en borradores y chequeos. Las entradas de abajo corresponden a sesiones de **Claude Code** con el modelo **Claude Sonnet 5.5** (`claude-sonnet-5-5`), que es el único modelo que aparece en los registros de esas sesiones. Las decisiones de alcance y de diseño las tomó el grupo; cada entrada indica qué se aceptó, qué se cambió y qué se descartó.
+
+---
+
+## [TP4] Revisión del repositorio de la cátedra y etiquetas de las entregas anteriores
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 9/11 |
+| **Tarea** | Leer el repositorio de la cátedra para preparar el TP4 y resolver cómo etiquetar las entregas 2 y 3, que faltaban. |
+| **Resultado** | Un resumen de lo corregido hasta el TP2 y los comandos para crear los tags `v2.0.0` y `v3.0.0` sobre los commits de cada entrega. |
+| **Modificado/descartado** | **1.** Se pidió que los commits salieran con la cuenta institucional de Matías, y se configuró la identidad de git solo para este repositorio.<br>**2.** Se pidió que no quedara ninguna marca de coautoría de la herramienta en los commits. |
+| **Error detectado** | Ninguno. |
+
+---
+
+## [TP4] Elección de la historia de usuario
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 10/11 |
+| **Tarea** | Decidir entre `HU-01` y `HU-04` para el diseño detallado, mirando cuál daba un diagrama de secuencia más completo sobre la arquitectura del TP3. |
+| **Resultado** | Recomendó `HU-04` (obtener la secuencia de referencia): cumple las tres condiciones de la consigna (escenarios `EC-04` y `EC-03`, recorrido por varios componentes de la etapa 1 y decisiones `DA-03` y `DA-05`) y tiene más para diseñar: un puerto con tipos de error, un adaptador que ignora los campos desconocidos y la distinción entre error definitivo y pasajero. |
+| **Modificado/descartado** | Se aceptó la recomendación. La justificación de la sección 1.2 se escribió con esos argumentos y se contrastó con las tres condiciones de la consigna. |
+| **Error detectado** | Ninguno. |
+
+---
+
+## [TP4] Parte A: diseño detallado de HU-04
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 10/11 y 11/11 |
+| **Tarea** | Elaborar la ficha de la HU, la tabla de entidades, el análisis tridimensional, el diagrama de robustez, las secuencias y el modelo de clases con la asignación de responsabilidades (GRASP), a partir del SRS, los escenarios de calidad y la arquitectura del TP3. |
+| **Resultado** | El documento `docs/design/diseno-detallado.md` con todas las secciones del anexo, cinco decisiones de diseño justificadas y las tablas de trazabilidad. |
+| **Modificado/descartado** | **1.** Se descartó la entidad `Target` porque quedaría anémica: el identificador y el organismo viajan como datos del mensaje. La única entidad es `InformacionGenoma`.<br>**2.** Se descartó que el adaptador cree la entidad: devuelve `DatosDeReferencia` y la crea el controlador, porque una frontera no accede a una entidad.<br>**3.** El equipo corrigió la Parte A: los gráficos de las secuencias y las relaciones de clases, el formato, la estructura según el anexo de la consigna y los campos de `Aviso`, que se alinearon con el JSON de `corrida.estado` del TP3.<br>**4.** El criterio de aceptación 2 se había sacado de la ficha; se restauró el 17/11 porque el SRS lo incluye y la consigna pide los criterios tal como están en el TP1. |
+| **Error detectado** | Al bajar al diseño se vio que el catálogo de relaciones del TP3 no tenía el mensaje de Obtención de referencia al Puerto de mensajes, necesario para publicar el aviso de error, ni la confirmación del consumidor; se corrigió el TP3. Los gráficos de las secuencias y las relaciones de clases de la primera versión tenían errores que corrigió el equipo. |
+
+---
+
+## [TP4] Elección de las tecnologías de la Parte B
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 10/11 |
+| **Tarea** | Elegir el lenguaje y el framework para implementar `HU-04` y mostrarla en una pantalla con el estilo de las maquetas del TP2. |
+| **Resultado** | Recomendó Python para todo (no TypeScript ni React) y, para la pantalla, Streamlit. Cuando el grupo preguntó si se podía reproducir el diseño del TP2 y si había algo más moderno, comparó Streamlit, NiceGUI, Reflex, React con Vite y FastAPI con HTMX y Tailwind, y recomendó FastAPI con las plantillas de las maquetas. |
+| **Modificado/descartado** | Se aceptó Python porque las etapas del TP3 son Python (`DA-07`). Se descartó Streamlit porque no reproduce el diseño del TP2 al detalle, y NiceGUI, Reflex y React por costo y beneficio: la consigna dice que los estilos no se evalúan. La pantalla se hizo con FastAPI y HTML propio, con el estilo de las maquetas y sin HTMX. |
+| **Error detectado** | Ninguno. |
+
+---
+
+## [TP4] Parte B: implementación y pantalla
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 10/11 y 11/11 |
+| **Tarea** | Implementar las clases del diseño (entidad, controlador, gestión de excepciones, puertos, adaptador de NCBI Entrez, publicador, consumidor y repositorio) y una pantalla para ejecutar la HU con su rechazo. |
+| **Resultado** | Código Python por capas (`dominio`, `aplicacion`, `infraestructura`, `interfaz`), un adaptador con transporte real o con respuestas grabadas de NCBI, un repositorio SQLite y otro en memoria, y una pantalla con FastAPI. |
+| **Modificado/descartado** | **1.** Se cortó el alcance cuando la implementación crecía («no quiero sobreingeniería»): solo las clases del diseño, un formulario y nada de historial; se quitaron `historial`, `ultimas` y `ResumenReferencia`.<br>**2.** La pantalla calculaba GC, composición y mapa de features; se quitó porque la consigna dice que la interfaz no calcula ni decide.<br>**3.** El profesor pidió que el código refleje la arquitectura del TP3: se cerraron las brechas que entran en la HU (consumidor que traduce el JSON de `corrida.solicitada`, confirmación después de publicar) y el resto se documentó como fuera de alcance (reintento de `DA-03`, descarte de mensajes repetidos de `DA-02`, localización de gen).<br>**4.** La persistencia contradecía `DA-04`; se eligió documentarla como excepción acotada (diseño 5.2, decisión 7) y no quitarla.<br>**5.** Se descartó agrupar el código por contenedor del TP3: la consigna sugiere capas y el ejemplo de la cátedra usa esa estructura. |
+| **Error detectado** | La primera versión contradecía `DA-04` y calculaba datos en la pantalla; las dos cosas se corrigieron como se indica arriba. |
+
+---
+
+## [TP4] Parte C: pruebas y cobertura
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 11/11 |
+| **Tarea** | Diseñar los casos de prueba de caja negra y de caja blanca, automatizarlos con pytest y medir la cobertura. |
+| **Resultado** | 22 pruebas (`CP-01` a `CP-22`) con 100 % de cobertura de sentencias y de ramas sin la interfaz ni el arranque, la tabla de casos y el reporte con su análisis. |
+| **Modificado/descartado** | La primera corrida dio 90 % (el adaptador, 69 %, porque nadie ejecutaba el camino real de NCBI); se agregaron casos que reemplazan `requests.get` por respuestas armadas a mano. Se aceptó dejar la pantalla fuera de la cobertura y se documentó en el reporte. |
+| **Error detectado** | Al revisar el código se vio que un identificador como `BRCA1 OR TP53` cambiaba la búsqueda en NCBI; el adaptador ahora lo rechaza sin consultar (`CP-20` a `CP-22`). |
+
+---
+
+## [TP4] Revisión de la pantalla: accesibilidad y diseño
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 11/11 |
+| **Tarea** | Revisar la pantalla con criterios de experiencia de usuario y de accesibilidad (contrastes, lector de pantalla, ancho de ventana) y probarla en el navegador. |
+| **Resultado** | Una lista de mejoras y una auditoría automática de accesibilidad (axe, WCAG 2.2 AA) sin violaciones en los estados inicial, éxito y rechazo. |
+| **Modificado/descartado** | **1.** La revisión de accesibilidad propuso `role="img"` con etiqueta para el visor de la secuencia; se descartó y se usó un grupo con el texto completo oculto, para que un lector de pantalla lea la secuencia real.<br>**2.** La revisión de la interfaz propuso mostrar solo el mensaje del controlador; se agregó además el código del aviso, porque la consigna pide mostrar el rechazo con su motivo. |
+| **Error detectado** | Ninguno. |
+
+---
+
+## [TP4] Ajuste a la consigna actualizada: diagrama de clases del código y complejidad ciclomática
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 17/11 |
+| **Tarea** | Aplicar los cambios que la cátedra publicó el 16/11: obtener el diagrama de clases del código implementado y validarlo contra la robustez y las secuencias, calcular la complejidad ciclomática de las operaciones de la HU y sacar la tabla de coherencia (el paso 6). |
+| **Resultado** | El diagrama de clases obtenido con `pyreverse`, la tabla de validación (sección 4.2), la tabla de complejidad de ocho operaciones (sección 7.3, confirmada con `radon`) y un verificador que compara el diagrama con el código. |
+| **Modificado/descartado** | Se aceptó el cálculo y se agregaron `CP-23` y `CP-24` para dos caminos que no tenían prueba. Queda para confirmar con la cátedra si una prueba por camino exige ocho pruebas separadas en `_leer_campos_conocidos` (hoy tres pruebas recorren los ocho caminos). |
+| **Error detectado** | La secuencia B del diseño no coincidía con el código: faltaba el rechazo por sintaxis de búsqueda y `confirmar` estaba dibujado hacia la tubería, cuando es una operación del consumidor. Se corrigió el diagrama. |
+
+---
+
+## [TP4] Pruebas de mutación manuales
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 17/11 |
+| **Tarea** | Comprobar que las pruebas detectan errores y no solo recorren líneas: se rompió el código a propósito de 15 maneras, una por vez y en una copia temporal. |
+| **Resultado** | Con las 24 pruebas de entonces, cinco cambios pasaban sin que ninguna prueba fallara: la búsqueda por `[Accession]` y por organismo, tomar el primer resultado, la espera entre pedidos a NCBI y el orden de las columnas de SQLite. |
+| **Modificado/descartado** | Se agregaron `CP-25`, `CP-26` (variantes del formato del FASTA, para la medida de `EC-04`) y `CP-27`, y se reforzaron `CP-08` y `CP-13`. Con las pruebas actuales se detectan los 15 cambios. El resultado se documentó en el reporte de cobertura. |
+| **Error detectado** | `CP-13` decía verificar que el aviso se publica antes de confirmar el mensaje (`DA-02`), pero solo comprobaba la confirmación; ahora verifica el orden. |
+
+---
+
+## [TP4] Diagramas de Mermaid: rediseño y resumen para la presentación
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 17/11 |
+| **Tarea** | Mejorar el aspecto de los cuatro diagramas del diseño con los colores del proyecto, ordenar el diagrama de clases, que quedaba cruzado, y armar una versión resumida para exponer. |
+| **Resultado** | Diagramas con cajas por capa, mensajes numerados y un color por capa; el diagrama de clases agrupado de izquierda a derecha, y un resumen de 11 clases (sección 4.3). Se probaron en el navegador con la misma versión de Mermaid que usa el sitio. |
+| **Modificado/descartado** | **1.** Se descartó enmarcar la etapa en el diagrama de robustez porque rompía el orden de los actores.<br>**2.** Se probaron dos direcciones para el diagrama de clases y se eligió la horizontal.<br>**3.** Se sacaron las líneas de uso de tipos que ya figuran en las firmas.<br>**4.** En el resumen se invirtieron las flechas de realización para que se lea de izquierda a derecha, sin cruces. |
+| **Error detectado** | Los colores por capa no se aplicaban con la sintaxis elegida en un primer momento y el validador de diagramas fallaba con las cajas de las secuencias; se cambió la sintaxis y se corrigió el validador. |
+
+---
+
+## [TP4] Revisión crítica del TP4 y detección de sobreingeniería
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 17/11 y 18/11 |
+| **Tarea** | Revisar todo el trabajo contra la consigna y la rúbrica, buscar lo que faltaba o estaba desactualizado y señalar lo que sobraba. |
+| **Resultado** | Una lista de correcciones y de sobreingeniería: la pantalla (361 líneas, más que toda la lógica en Python), la persistencia SQLite, que obligó a documentar una excepción a `DA-04` aunque la consigna no exige una base real, y el consumidor, que la demostración no usa. |
+| **Modificado/descartado** | **1.** Se aceptó corregir todo lo que se detectó (ver abajo).<br>**2.** La persistencia SQLite se señaló como lo más cercano a sobreingeniería; queda como decisión documentada del grupo (diseño 5.2, decisión 7).<br>**3.** Se dejaron el consumidor, que ata la HU a `DA-02`, y el modo simulado, que permite la demostración sin internet. |
+| **Error detectado** | **1.** El README, escrito con ayuda de la IA, decía que la pantalla permite copiar y descargar la secuencia, y no existe: se quitó la línea.<br>**2.** Una respuesta de error de NCBI sin la lista de resultados se informaba como «target no encontrado», lo que `DA-03` prohíbe; ahora es una falla del servicio (`CP-28`).<br>**3.** Los archivos `src/README.md` y `tests/README.md` decían «carpeta vacía». |
+
+---
+
+## [TP4] Mensajes de commit y publicación en GitHub
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 17/11 y 18/11 |
+| **Tarea** | Redactar los mensajes de commit y subir los cambios del TP4 a la rama `tp4-hu04`, en commits separados. |
+| **Resultado** | Commits por cambio, con mensajes descriptivos y autoría de Matías, y la verificación de la cuenta de GitHub antes de cada push. |
+| **Modificado/descartado** | Se pidió que los commits no llevaran coautoría ni marcas de la herramienta; los mensajes se redactaron sin esas líneas y se revisaron antes de subir. Un mensaje prometía más de lo que cambiaba el commit y se rehízo antes de pushearlo. |
+| **Error detectado** | Ninguno. |

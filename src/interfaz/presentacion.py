@@ -26,7 +26,13 @@ def _colorear(linea: str) -> list[tuple[str, str]]:
     return [("v", linea)]
 
 
-def vista_de_referencia(referencia) -> dict:
+def _en_fasta(identificador: str, organismo: str, secuencia: str) -> str:
+    """Texto FASTA completo (cabecera y líneas de 70) para copiar o descargar; solo formato."""
+    cuerpo = "\n".join(secuencia[i:i + 70] for i in range(0, len(secuencia), 70))
+    return f">{identificador} {organismo}\n{cuerpo}\n"
+
+
+def vista_de_referencia(referencia, identificador: str = "", organismo: str = "") -> dict:
     secuencia, anotacion = referencia.secuencia, referencia.anotacion
     mostrada = secuencia[:ANCHO_LINEA * MAX_LINEAS]
     lineas = []
@@ -38,6 +44,7 @@ def vista_de_referencia(referencia) -> dict:
         "lineas": lineas,
         "mostrada": mostrada,  # el mismo texto del visor, para lectores de pantalla
         "truncada": len(mostrada) < len(secuencia),
+        "fasta": _en_fasta(identificador, organismo, secuencia),  # completa, aunque el visor muestre solo una parte
         "anotacion": anotacion,
         "anotacion_lineas": [_colorear(linea) for linea in anotacion.splitlines()],
     }

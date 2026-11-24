@@ -72,6 +72,7 @@ h2{font-size:12px;margin:0;letter-spacing:.08em;text-transform:uppercase;color:v
 
 /* Botones y formulario */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;padding:10px 16px;font:600 14.5px/1 var(--sans);border:1.5px solid var(--ctrl);background:var(--surface);color:var(--ink);cursor:pointer}
+.acciones{display:flex;gap:8px}.btn-s{padding:6px 12px;font-size:13px;min-height:32px}.btn-s.ok{border-color:var(--primary);color:var(--primary);background:var(--primary-ghost)}
 .btn-p{background:var(--primary);border-color:var(--primary);color:#fff;width:100%;padding:12px 16px;font-size:15px} .btn-p:hover{background:var(--primary-2);border-color:var(--primary-2)}
 .btn[aria-disabled="true"]{background:var(--primary-2);border-color:var(--primary-2);cursor:progress}
 .sp{width:15px;height:15px;border:2.5px solid #ffffff66;border-top-color:#fff;border-radius:50%;animation:g .8s linear infinite}
@@ -283,6 +284,7 @@ label.l .req{color:var(--err)}
           <div class="medio">
             <section class="card grow" aria-labelledby="h-seq">
               <div class="card-h"><h2 id="h-seq">Secuencia de referencia · FASTA</h2><span class="leyenda"><b class="A">A</b> adenina · <b class="C">C</b> citosina · <b class="G">G</b> guanina · <b class="T">T</b> timina</span></div>
+              <div class="acciones" style="margin-bottom:10px"><button type="button" class="btn btn-s" data-copiar="texto-fasta">Copiar secuencia</button><button type="button" class="btn btn-s" data-descargar="texto-fasta" data-archivo="{{ identificador }}.fasta">Descargar .fasta</button></div>
               <div class="visor" tabindex="0" role="group" aria-label="Secuencia de referencia, {{ vista.longitud }} nucleótidos">
                 <div aria-hidden="true">{% for pos, bloques in vista.lineas %}{% set li = loop.index0 %}<div class="fila"><span class="pos">{{ pos }}</span><span>{% for b in bloques %}<span class="bloque" style="--n:{{ li * 6 + loop.index0 }}">{% for base in b %}<span class="{{ base }}">{{ base }}</span>{% endfor %}</span>{% endfor %}</span></div>{% endfor %}</div>
                 <p class="sr-only">{{ vista.mostrada }}</p>
@@ -292,9 +294,12 @@ label.l .req{color:var(--err)}
 
             <section class="card grow aparece" aria-labelledby="h-anot">
               <div class="card-h"><h2 id="h-anot">Anotación GenBank</h2></div>
-              {% if vista.anotacion %}<pre class="anot" tabindex="0" role="region" aria-label="Anotación GenBank, texto desplazable">{% for l in vista.anotacion_lineas %}{% for c, t in l %}<span class="{{ c }}">{{ t }}</span>{% endfor %}{{ "\n" }}{% endfor %}</pre>{% else %}<p class="vacio-h">Sin anotación disponible.</p>{% endif %}
+              {% if vista.anotacion %}<div class="acciones" style="margin-bottom:10px"><button type="button" class="btn btn-s" data-copiar="texto-anot">Copiar anotación</button><button type="button" class="btn btn-s" data-descargar="texto-anot" data-archivo="{{ identificador }}_anotacion.txt">Descargar .txt</button></div><pre class="anot" tabindex="0" role="region" aria-label="Anotación GenBank, texto desplazable">{% for l in vista.anotacion_lineas %}{% for c, t in l %}<span class="{{ c }}">{{ t }}</span>{% endfor %}{{ "\n" }}{% endfor %}</pre>{% else %}<p class="vacio-h">Sin anotación disponible.</p>{% endif %}
             </section>
           </div>
+
+          <textarea id="texto-fasta" hidden readonly>{{ vista.fasta }}</textarea><textarea id="texto-anot" hidden readonly>{{ vista.anotacion }}</textarea>
+          <p class="sr-only" id="estado-copia" role="status"></p>
 
           {% elif resultado %}
           <div class="card grow"><div class="vacio">
@@ -351,6 +356,22 @@ label.l .req{color:var(--err)}
       document.getElementById('principal').setAttribute('aria-busy', 'true');
       document.getElementById('resultado-contenido').hidden = true;
       document.getElementById('cargando').hidden = false;
+    });
+    function texto(id) { return document.getElementById(id).value; }
+    document.querySelectorAll('[data-copiar]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var antes = b.textContent, t = texto(b.dataset.copiar);
+        function listo() { b.textContent = '✓ Copiado'; b.classList.add('ok'); document.getElementById('estado-copia').textContent = 'Copiado al portapapeles.';
+          setTimeout(function () { b.textContent = antes; b.classList.remove('ok'); }, 1800); }
+        if (navigator.clipboard) { navigator.clipboard.writeText(t).then(listo); }
+        else { var a = document.getElementById(b.dataset.copiar); a.hidden = false; a.select(); document.execCommand('copy'); a.hidden = true; listo(); }
+      });
+    });
+    document.querySelectorAll('[data-descargar]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var u = URL.createObjectURL(new Blob([texto(b.dataset.descargar)], { type: 'text/plain;charset=utf-8' }));
+        var a = document.createElement('a'); a.href = u; a.download = b.dataset.archivo; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u);
+      });
     });
     window.addEventListener('pageshow', function (ev) { if (ev.persisted) { location.reload(); } });
     var r = document.getElementById('resultado');

@@ -476,3 +476,15 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Resultado** | Commits por cambio, con mensajes descriptivos y autoría de Matías, y la verificación de la cuenta de GitHub antes de cada push. |
 | **Modificado/descartado** | Se pidió que los commits no llevaran coautoría ni marcas de la herramienta; los mensajes se redactaron sin esas líneas y se revisaron antes de subir. Un mensaje prometía más de lo que cambiaba el commit y se rehízo antes de pushearlo. |
 | **Error detectado** | Ninguno. |
+
+---
+
+## [TP4] Botones de copiar y descargar en la pantalla
+
+| | |
+|---|---|
+| **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 24/11 |
+| **Tarea** | Agregar a la pantalla de HU-04 botones para copiar y descargar la secuencia (FASTA) y la anotación, y un script de consola para ver lo que guarda la base. |
+| **Resultado** | Cuatro botones en la pantalla que trabajan en el navegador, sin rutas nuevas ni cambios en el controlador, y la función `_en_fasta` en `presentacion.py` para dar formato al texto. El script de consola quedó fuera del repositorio. |
+| **Modificado/descartado** | Se probó primero en una copia aparte y se aplicó al repositorio al confirmarlo el equipo. Se descartó una pantalla de bienvenida nueva para no sumar código de interfaz. El visor muestra solo los primeros 480 nt, así que los botones usan la secuencia completa, no la mostrada. |
+| **Error detectado** | Al escribir `_en_fasta` con un script se perdieron los saltos de línea y la interfaz no arrancaba, aunque las 30 pruebas pasaban porque la interfaz queda fuera de la cobertura; se corrigió y se verificó levantando la interfaz y simulando los clics. |

@@ -42,5 +42,5 @@ def consultar(request: Request, identificador: str = Form(...), organismo: str =
     except Exception:  # falla inesperada (p. ej. sin conexion): el reintento (DA-03) queda fuera de HU-04
         registro.exception("Falla inesperada al obtener la referencia de %r", identificador)
         return _pantalla(request, identificador, organismo, falla=True)
-    vista = vista_de_referencia(resultado.referencia) if resultado.obtenida else None
+    vista = vista_de_referencia(resultado.referencia, identificador, organismo) if resultado.obtenida else None
     return _pantalla(request, identificador, organismo, resultado=resultado, vista=vista)

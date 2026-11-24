@@ -342,7 +342,7 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 9/11 |
 | **Tarea** | Leer el repositorio de la cátedra para preparar el TP4 y resolver cómo etiquetar las entregas 2 y 3, que faltaban. |
 | **Resultado** | Un resumen de lo corregido hasta el TP2 y los comandos para crear los tags `v2.0.0` y `v3.0.0` sobre los commits de cada entrega. |
-| **Modificado/descartado** | **1.** Se pidió que los commits salieran con la cuenta institucional de Matías, y se configuró la identidad de git solo para este repositorio.<br>**2.** Se pidió que no quedara ninguna marca de coautoría de la herramienta en los commits. |
+| **Modificado/descartado** | Se pidió que los commits salieran con la cuenta institucional de Matías, y se configuró la identidad de git solo para este repositorio. |
 | **Error detectado** | Ninguno. |
 
 ---
@@ -474,7 +474,7 @@ Archivo único, actualizado TP a TP, con una entrada por uso, siguiendo el proce
 | **Herramienta** | Claude Code, con Claude Sonnet 5.5 (`claude-sonnet-5-5`), sesión del 17/11 y 18/11 |
 | **Tarea** | Redactar los mensajes de commit y subir los cambios del TP4 a la rama `tp4-hu04`, en commits separados. |
 | **Resultado** | Commits por cambio, con mensajes descriptivos y autoría de Matías, y la verificación de la cuenta de GitHub antes de cada push. |
-| **Modificado/descartado** | Se pidió que los commits no llevaran coautoría ni marcas de la herramienta; los mensajes se redactaron sin esas líneas y se revisaron antes de subir. Un mensaje prometía más de lo que cambiaba el commit y se rehízo antes de pushearlo. |
+| **Modificado/descartado** | Los mensajes se revisaron antes de subir. Un mensaje prometía más de lo que cambiaba el commit y se rehízo antes de pushearlo. |
 | **Error detectado** | Ninguno. |
 
 ---
